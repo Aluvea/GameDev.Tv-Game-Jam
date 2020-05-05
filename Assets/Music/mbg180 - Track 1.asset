@@ -17,7 +17,10 @@ MonoBehaviour:
   introEndTimestamp: 25.593
   trimOutroFromLoop: 1
   outroStartTimestamp: 63.984
+  saveTrimmedAudioClipsToDisc: 0
   beatTimestamps:
+  - 0.002
+  - 0.801
   - 1.659000039100647
   - 2.4149999618530273
   - 3.1710000038146973
