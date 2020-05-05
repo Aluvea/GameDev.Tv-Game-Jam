@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] string lookYAxis;
     [SerializeField] bool invertYAxis;
     [SerializeField] string jump;
-
+    [SerializeField] bool lockMouseCursorToScreenOnStartup = true;
 
     /// <summary>
     /// The player's velocity
@@ -43,7 +43,10 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         // Set the mouse curser so it's locked
-        Cursor.lockState = CursorLockMode.Locked;
+        if (lockMouseCursorToScreenOnStartup)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         // Cache the player's initial camera rotation
         playerCameraRotation = playerCamera.transform.localEulerAngles;
     }
@@ -104,7 +107,6 @@ public class PlayerController : MonoBehaviour
         // If the player is grounded, then allow the player the jump or reset the velocity
         if (isGrounded)
         {
-            Debug.Log("Grounded");
             // Allow the player to jump
             Jump();
             // If the player didn't jump, then keep reseting the velocity to -3
@@ -116,7 +118,6 @@ public class PlayerController : MonoBehaviour
         // If the player is airborne, then keep applying the gravity to the player's velocity
         else
         {
-            Debug.Log("Airborne");
             playerVelocity.y += gravity * Time.deltaTime;
         }
         // Apply the player's velocity
