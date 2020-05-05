@@ -83,12 +83,12 @@ public class BeatMapPlayer : MonoBehaviour
         }
 
         bool loopedOnce = false;
-
+        Coroutine beatPlayCoroutine = null;
         // If the song is still looping, keep creating a beatmap syncs for the given loop
         while (loopTrack)
         {
             // Generate beat syncs for the scheduled audioclip
-            GenerateBeatSyncForScheduledAudioClip(loopEndTimestamp, currentBeatMap.IntroTrackDuration, currentBeatMap.LoopTrackDuration);
+            beatPlayCoroutine = StartCoroutine(GenerateBeatSyncForScheduledAudioClipCoroutine(loopEndTimestamp, currentBeatMap.IntroTrackDuration, currentBeatMap.LoopTrackDuration));
             // Wait until the loop ends - the beatmap preview time - 1
             waitUntilDSPtime = loopEndTimestamp - beatMapPreviewTime - 1;
             // Wait until the loop is almost done before checking to create another beat map
@@ -105,7 +105,10 @@ public class BeatMapPlayer : MonoBehaviour
         if(currentBeatMap.CustomOutroTrackExists)
         {
             // If our loop was played at least once, decrement the loopend timestamp by the loop track duration
-            if(loopedOnce) loopEndTimestamp -= currentBeatMap.LoopTrackDuration;
+            if (loopedOnce) {
+                loopEndTimestamp -= currentBeatMap.LoopTrackDuration;
+                StopCoroutine(beatPlayCoroutine);
+            } 
             // Play the outro at the end of the currently playing loop
             outroAudiosource.PlayScheduled(loopEndTimestamp);
             // Generate a beatmap for the outro
@@ -141,7 +144,7 @@ public class BeatMapPlayer : MonoBehaviour
             {
                 // Create the beat timestamp to add
                 // This will be the start time of the audio clip playback + the beat timestamp - the clip start offset time 
-                double beatStampToAdd = clipStartRef + beatTimestamp - clipStartOffsetTimestamp - beatMapPreviewTime;
+                double beatStampToAdd = clipStartRef + beatTimestamp - clipStartOffsetTimestamp;
                 // Add the beat sync timestamp to our list
                 beatSyncTimeStamps.Add(beatStampToAdd);
             }
@@ -150,13 +153,12 @@ public class BeatMapPlayer : MonoBehaviour
         foreach (double beatSyncTimeStamp in beatSyncTimeStamps)
         {
             // While the audio time is less than the beat sync time stamp, wait
-            while(AudioSettings.dspTime < beatSyncTimeStamp + beatMapPreviewTime)
+            while(AudioSettings.dspTime < beatSyncTimeStamp - beatMapPreviewTime)
             {
                 yield return null;
             }
-            // Log the beat
-            Debug.Log("Beat!");
 
+            BeatSyncReceiver.BeatReceiver.QueueBeat(new BeatSyncData(beatSyncTimeStamp));
         }
 
     }
@@ -202,8 +204,7 @@ public class BeatMapPlayer : MonoBehaviour
     /// <returns></returns>
     IEnumerator FadeSongPlayBackInSeconds(float seconds)
     {
-        // Cache the timestamp this song is stopping
-        float stopPlaybackTimestamp = Time.time;
+        
         // Cache a lerp amount
         float lerpAMT = 0.0f;
         // Cache the mixer starting attenuation value
@@ -212,6 +213,10 @@ public class BeatMapPlayer : MonoBehaviour
         audioMixerChannel.GetFloat(mixerAttenuationParameterName, out mixerStartingValue);
         // Cache a mixer value to store
         float mixerValue = mixerStartingValue;
+        yield return null;
+        // Cache the timestamp this song is stopping
+        float stopPlaybackTimestamp = Time.time;
+
         // While we're interpolating the volume, keep lerping the value
         while (lerpAMT <= 1.0f)
         {
