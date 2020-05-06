@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BeatSyncReceiver : MonoBehaviour
 {
+    [SerializeField] BeatSampleUIManager beatSampleUIManager;
 
     float lastTargetBeatQueued = float.MinValue;
     
@@ -50,7 +51,8 @@ public class BeatSyncReceiver : MonoBehaviour
     IEnumerator ProcessBeat(BeatSyncData beat)
     {
         Debug.Log("Preview Beat!");
-        while(AudioSettings.dspTime < beat.BeatTargetDSPTime)
+        if(beatSampleUIManager != null) beatSampleUIManager.DisplayBeat(beat);
+        while (AudioSettings.dspTime < beat.BeatTargetDSPTime)
         {
             yield return null;
         }

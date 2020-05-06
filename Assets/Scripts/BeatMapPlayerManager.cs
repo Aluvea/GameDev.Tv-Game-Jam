@@ -48,35 +48,4 @@ public class BeatMapPlayerManager : MonoBehaviour
 
 
 
-/// <summary>
-/// Data container for beat map sync data
-/// </summary>
-public class BeatMapSyncData
-{
-    /// <summary>
-    /// The music track beat timestamp (Music Track Time)
-    /// </summary>
-    public float MusicTrackBeatTimestamp
-    {
-        private set;
-        get;
-    }
-    /// <summary>
-    /// The target beat timestamp (In-Game Time)
-    /// </summary>
-    public float TargetBeatTimestamp
-    {
-        private set;
-        get;
-    }
-
-    public BeatMapSyncData(float musicTrackBeatTimestamp, float targetBeatTimestamp)
-    {
-        MusicTrackBeatTimestamp = musicTrackBeatTimestamp;
-        TargetBeatTimestamp = targetBeatTimestamp;
-    }
-}
-
-
-
 
