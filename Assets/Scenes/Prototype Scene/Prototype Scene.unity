@@ -120,7 +120,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 2e7d4f8388e55cd4da53b1c0c6335741, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 5797566142e89eb4fb2803843fe0250a, type: 2}
 --- !u!4 &111370582 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7405250992623852446, guid: 7b136c25ed44f254cb797c1cb324b625,
@@ -347,7 +347,7 @@ PrefabInstance:
     - target: {fileID: 7407542538038672540, guid: 7b136c25ed44f254cb797c1cb324b625,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7407545428984754216, guid: 7b136c25ed44f254cb797c1cb324b625,
         type: 3}
@@ -2055,6 +2055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482d190a8162f2c4eaf51906ed6920e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatSampleUIManager: {fileID: 0}
 --- !u!4 &1628952618
 Transform:
   m_ObjectHideFlags: 0
@@ -2693,7 +2694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1846310312
 Transform:
   m_ObjectHideFlags: 0
@@ -2871,7 +2872,7 @@ PrefabInstance:
     - target: {fileID: 2751066006016353511, guid: 9c5c7a290149d4c42895acd7167ecbf5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.068
+      value: 5.82
       objectReference: {fileID: 0}
     - target: {fileID: 2751066006016353511, guid: 9c5c7a290149d4c42895acd7167ecbf5,
         type: 3}
@@ -2881,7 +2882,7 @@ PrefabInstance:
     - target: {fileID: 2751066006016353511, guid: 9c5c7a290149d4c42895acd7167ecbf5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.988
+      value: 13.69
       objectReference: {fileID: 0}
     - target: {fileID: 2751066006016353511, guid: 9c5c7a290149d4c42895acd7167ecbf5,
         type: 3}
@@ -3494,17 +3495,17 @@ PrefabInstance:
     - target: {fileID: 2186336984705126964, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.31
+      value: -1.48
       objectReference: {fileID: 0}
     - target: {fileID: 2186336984705126964, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.11
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 2186336984705126964, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.05
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2186336984705126964, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}
@@ -4144,7 +4145,7 @@ PrefabInstance:
     - target: {fileID: 8744986161632993158, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}
       propertyPath: m_StoppingDistance
-      value: 1
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 8744986161632993159, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}
@@ -4159,7 +4160,7 @@ PrefabInstance:
     - target: {fileID: 8744986161632993159, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}
       propertyPath: chaseRange
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8744986162479274948, guid: 93635b5124e47c94f806f0bb7587a09a,
         type: 3}

@@ -45,7 +45,7 @@ public class EnemyAI : MonoBehaviour
             ChaseTarget();
         }
 
-        if (distanceToTarget == navMeshAgent.stoppingDistance)
+        if (distanceToTarget <= navMeshAgent.stoppingDistance)
         {
             AttackTarget();
         }
@@ -53,11 +53,16 @@ public class EnemyAI : MonoBehaviour
 
     private void ChaseTarget()
     {
+        //We want to trigger the transition between Ilde to Move here
+        GetComponent<Animator>().SetTrigger("Move");
+        GetComponent<Animator>().SetBool("Attack", false);
+
         navMeshAgent.SetDestination(target.position);
     }
 
     private void AttackTarget()
     {
-        Debug.Log("Gotchu!");
+        //We want to trigger the transition between Move and Attack here
+        GetComponent<Animator>().SetBool("Attack", true);
     }
 }
