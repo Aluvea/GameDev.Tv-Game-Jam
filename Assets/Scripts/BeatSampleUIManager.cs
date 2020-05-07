@@ -12,4 +12,19 @@ public abstract class BeatSampleUIManager : MonoBehaviour
     /// </summary>
     /// <param name="beatSyncData">The beat sync data</param>
     public abstract void DisplayBeat(BeatSyncData beatSyncData);
+
+    /// <summary>
+    /// Displays when the user inputs an action but misses a beat completely
+    /// </summary>
+    public abstract void DisplayInputMissedBeat();
+
+
+    /// <summary>
+    /// Updates the sync state of a beat sample UI
+    /// </summary>
+    /// <param name="beatHit">The beat hit</param>
+    /// <param name="beatInput">The hit sync type</param>
+    public abstract void UpdateBeatSyncUIState(BeatSyncData beatHit, BeatInputSync beatInput);
 }
+
+

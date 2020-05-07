@@ -228,6 +228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d792935ab05334b89efd0a12abf432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  innerCircle: {fileID: 1385936214960780575}
+  outerCircle: {fileID: 2250915560681339860}
   timeToLiveAfterBeatTargetTime: 2
 --- !u!1 &6363570757937785764
 GameObject:

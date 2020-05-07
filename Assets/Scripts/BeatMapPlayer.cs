@@ -128,13 +128,34 @@ public class BeatMapPlayer : MonoBehaviour
     IEnumerator GenerateBeatSyncForScheduledAudioClipCoroutine(double clipStartRef, double clipStartOffsetTimestamp, double clipLength)
     {
         // Create a list of beat sync time stamps
-        List<double> beatSyncTimeStamps = new List<double>();
+        List<BeatSyncQueueData> beatSynceQueueDataList = new List<BeatSyncQueueData>();
 
         // Get the starting timestamp of the audio clip
         double minTimeStamp = clipStartOffsetTimestamp;
         // Get the ending timestamp of the audio clip
         double maxTimeStamp = clipStartOffsetTimestamp + clipLength;
 
+        // Iterate through our list of beat map timestamps
+        for (int i = 0; i < currentBeatMap.BeatTimeStamps.Count; i++)
+        {
+            double beatTimestamp = currentBeatMap.BeatTimeStamps[i];
+
+            // If the timestamp is within the range of our audio clip, then add the beat map timestamp
+            // to our beat sync timestamps
+            if (beatTimestamp >= clipStartOffsetTimestamp && beatTimestamp < maxTimeStamp)
+            {
+                // Create the beat timestamp to add
+                // This will be the start time of the audio clip playback + the beat timestamp - the clip start offset time 
+                double beatStampToAdd = clipStartRef + beatTimestamp - clipStartOffsetTimestamp;
+                BeatSyncQueueData beatToQueue = new BeatSyncQueueData();
+                beatToQueue.beatTimestampAudioDSPTime = beatStampToAdd;
+                beatToQueue.beatTimestamp = beatTimestamp;
+                beatToQueue.beatTimestampIndex = i;
+                // Add the beat sync timestamp to our list
+                beatSynceQueueDataList.Add(beatToQueue);
+            }
+        }
+        /* Original Code before implementing BeatQueueSyncData structs
         // Iterate through our list of beat map timestamps
         foreach (double beatTimestamp in currentBeatMap.BeatTimeStamps)
         {
@@ -149,18 +170,28 @@ public class BeatMapPlayer : MonoBehaviour
                 beatSyncTimeStamps.Add(beatStampToAdd);
             }
         }
+        */
+
+
         // Iterate through each of the beat sync time stamps
-        foreach (double beatSyncTimeStamp in beatSyncTimeStamps)
+        foreach (BeatSyncQueueData beatSyncQueue in beatSynceQueueDataList)
         {
             // While the audio time is less than the beat sync time stamp, wait
-            while(AudioSettings.dspTime < beatSyncTimeStamp - beatMapPreviewTime)
+            while(AudioSettings.dspTime < beatSyncQueue.beatTimestampAudioDSPTime - beatMapPreviewTime)
             {
                 yield return null;
             }
 
-            BeatSyncReceiver.BeatReceiver.QueueBeat(new BeatSyncData(beatSyncTimeStamp));
+            BeatSyncReceiver.BeatReceiver.QueueBeat(new BeatSyncData(beatSyncQueue.beatTimestampAudioDSPTime, beatSyncQueue.beatTimestamp, beatSyncQueue.beatTimestampIndex));
         }
 
+    }
+
+    private struct BeatSyncQueueData
+    {
+        public double beatTimestamp;
+        public int beatTimestampIndex;
+        public double beatTimestampAudioDSPTime;
     }
 
     /// <summary>
