@@ -127,12 +127,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 375435840}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &223733516 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5388293799895892178, guid: 9c5c7a290149d4c42895acd7167ecbf5,
-    type: 3}
-  m_PrefabInstance: {fileID: 2751066005087312162}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &375435840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2860,10 +2854,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 887835819, guid: 9c5c7a290149d4c42895acd7167ecbf5, type: 3}
-      propertyPath: muzzleFlash
-      value: 
-      objectReference: {fileID: 223733516}
     - target: {fileID: 2751066006016353506, guid: 9c5c7a290149d4c42895acd7167ecbf5,
         type: 3}
       propertyPath: m_Name

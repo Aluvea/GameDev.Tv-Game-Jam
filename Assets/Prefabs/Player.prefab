@@ -322,7 +322,7 @@ MonoBehaviour:
   FPCamera: {fileID: 2751066004427174993}
   range: 100
   damage: 30
-  muzzleFlash: {fileID: 0}
+  muzzleFlash: {fileID: 5388293799895892178}
 --- !u!1001 &2751066004335007115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1595,3 +1595,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a60d8477aafac045a1f56d3a60c7813, type: 3}
+--- !u!198 &5388293799895892178 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3614249443508621660, guid: 4a60d8477aafac045a1f56d3a60c7813,
+    type: 3}
+  m_PrefabInstance: {fileID: 8714311424135926158}
+  m_PrefabAsset: {fileID: 0}
