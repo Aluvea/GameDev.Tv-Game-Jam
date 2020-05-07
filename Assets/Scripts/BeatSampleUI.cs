@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class BeatSampleUI : MonoBehaviour
 {
-    
     private CanvasGroup uiCanvasGroup;
+
+    [SerializeField] UnityEngine.UI.RawImage innerCircle;
+    [SerializeField] UnityEngine.UI.RawImage outerCircle;
+
+
 
     public bool PlayingBeat
     {
@@ -13,8 +17,19 @@ public class BeatSampleUI : MonoBehaviour
         get;
     } = false;
 
+    /// <summary>
+    /// The beat sync that this beat sample UI is playing
+    /// </summary>
+    public BeatSyncData PlayingBeatSync
+    {
+        private set;
+        get;
+    }
+
     [Range(0.0f,5.0f)]
     public float timeToLiveAfterBeatTargetTime = 0.0f;
+    
+
 
     private void Awake()
     {
@@ -23,7 +38,7 @@ public class BeatSampleUI : MonoBehaviour
     
     public void AnimateBeatData(BeatSyncData beatData, Vector3 destination)
     {
-        if(uiCanvasGroup == null) uiCanvasGroup = GetComponent<CanvasGroup>();
+        if (uiCanvasGroup == null) uiCanvasGroup = GetComponent<CanvasGroup>();
 
         if (PlayingBeat)
         {
@@ -31,6 +46,7 @@ public class BeatSampleUI : MonoBehaviour
             return;
         }
 
+        PlayingBeatSync = beatData;
         uiCanvasGroup.alpha = 0.0f;
         this.gameObject.SetActive(true);
         StartCoroutine(AnimateBeatCoroutine(beatData, destination));
@@ -73,6 +89,14 @@ public class BeatSampleUI : MonoBehaviour
         PlayingBeat = false;
 
         BeatSampleUIManager_Version01.OnBeatSampleUIAnimationEnded(this);
+        
+    }
+
+
+    public void SetBeatSampleColor(Color innerCircleColor, Color outerCircleColor)
+    {
+        innerCircle.color = innerCircleColor;
+        outerCircle.color = outerCircleColor;
     }
 
 

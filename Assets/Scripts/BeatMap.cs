@@ -20,11 +20,19 @@ public class BeatMap : ScriptableObject
     [SerializeField] double outroStartTimestamp = 0;
     [Tooltip("Whether or not the trimmed audio clips should be saved to the disc (Intro / Loop / Outro). We should use pre-trimmed audio subclips prior to releasing our game instead of relying on trimming audio clips in during runtime. Leave this unchecked while we're in development though.")]
     [SerializeField] bool saveTrimmedAudioClipsToDisc = false;
-    [Header("Beat Timestamps / Data")]
+    [Header("Beat Timestamps")]
     [Tooltip("The audio track beat timestamps in seconds")]
     [SerializeField] List<double> beatTimestamps;
-    [Tooltip("The audio track's beats per minute")]
-    [SerializeField] float BPM;
+
+    [Header("BPM Setting Data")]
+    [Tooltip("The audio track's beats per minute (BPM)")]
+    [SerializeField] double BPM = 60.0d;
+    [Tooltip("The first beat timestamp ")]
+    [SerializeField] double firstBeatTimestamp = 0.0d;
+    [Tooltip("Whether or not the BPM beatmap should be limited to a last beat timestamp")]
+    [SerializeField] bool useLastBeatTimestamp = false;
+    [Tooltip("The last beat timestamp")]
+    [SerializeField] double lastBeatTimestamp;
     
 
     /// <summary>
@@ -55,13 +63,62 @@ public class BeatMap : ScriptableObject
     } = null;
 
     /// <summary>
-    /// Returns the beat map timestamps
+    /// Returns the beat map timestamps (from a list of preset timestamps)
     /// </summary>
     public List<double> BeatTimeStamps
     {
         get { return beatTimestamps; }
     }
 
+    /// <summary>
+    /// Returns the timestamps from BPM settings
+    /// </summary>
+    public List<double> BPMBeatTimestamps
+    {
+        get
+        {
+            if (BPM <= 0) throw new System.Exception("BPM BEAT TIMESTAMPS ATTEMPTED TO BE ACCESSED BUT BPMS ARE SET TO 0 IN BEATMAP FOR TRACK " + musicTrack.name);
+            // create a list of double timestamps
+            List<double> bpmBeats = new List<double>();
+            // Cache a variable for the last recorded timestamp
+            double lastRecordedTimestamp = firstBeatTimestamp;
+            // Add the first beat timestamp
+            bpmBeats.Add(lastRecordedTimestamp);
+            // Set a timestamp to record beats up to
+            double recordUpToTimestamp = GetAudioClipDuration(musicTrack);
+            // If we're supposed to use the last beat time stamp, and 
+            // the last beat timestamp is less than the duration of the actual music track
+            // then set the record up to timestamp to the last beat timestamp
+            if(useLastBeatTimestamp && recordUpToTimestamp > lastBeatTimestamp + 0.01d)
+            {
+                recordUpToTimestamp = lastBeatTimestamp + 0.01d;
+            }
+
+            // Get the beat interval (60 seconds / BPM)
+            double beatInterval = 60.0d / BPM;
+
+            // While the last recorded time stamp is less than the recordUptoTimestamp,
+            // Keep adding the beat interval to the timestamp
+            while (lastRecordedTimestamp < recordUpToTimestamp)
+            {
+                lastRecordedTimestamp += beatInterval;
+                bpmBeats.Add(lastRecordedTimestamp);
+            }
+
+            return bpmBeats;
+        }
+    }
+
+    /// <summary>
+    /// The beats per minute of this song
+    /// </summary>
+    public double BeatsPerMinute
+    {
+        get
+        {
+            return BPM;
+        }
+    }
 
     /// <summary>
     /// The loopable music track's duration

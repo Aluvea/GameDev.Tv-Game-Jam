@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Imported Packages/Snaps Sci-Fi Environment Pack/SciFi_Industrial/SampleScenes/SciFi_Industrial_SampleLayout.unity
+    guid: b2fa8882363c4644b93046de18bcbf19
   m_configObjects: {}
