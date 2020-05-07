@@ -13,6 +13,11 @@ public class BeatSyncReceiver : MonoBehaviour
     [Range(0.0f, 3.0f)]
     [SerializeField] float maxTimeToLandOKSync = 0.1f;
 
+    [Header("Singular Beat Queue Options")]
+    [Tooltip("Limits the beat queue to only one beat at a time between the current beat's preview time to the audible time")]
+    [SerializeField] bool limitConsecutiveBeatQueueToOne = false;
+    [Range(0.0f,5.0f)]
+    [SerializeField] float optionalConsecutiveBeatQueueOffset = 0.0f;
     [Header("Debug Receiver Settings")]
     [SerializeField] bool debugReceiver = false;
     [SerializeField] string debugInputName = "Fire1";
@@ -69,6 +74,14 @@ public class BeatSyncReceiver : MonoBehaviour
             {
                 Debug.LogError("You cannot queue a beat that will be audible before the last beat queued. Last beat queued playback time = " + lastTargetBeatQueued.BeatMapTimestamp + "; attempted beat queue beatmap timestamp = " + beatData.BeatMapTimestamp + ", index = " + beatData.BeatMapTimestampIndex);
                 return;
+            }
+            if (limitConsecutiveBeatQueueToOne)
+            {
+                if(lastTargetBeatQueued.BeatTargetTime + optionalConsecutiveBeatQueueOffset > Time.time)
+                {
+                    Debug.LogWarning("Skipping beat because the last beat hasn't been played yet UPCOMING BEAT: " + lastTargetBeatQueued.ToString() + "; ATTEMPTED QUEUED BEAT: " + beatData.ToString());
+                    return;
+                }
             }
         }
         
