@@ -7,6 +7,7 @@ public class WeaponShooting : MonoBehaviour
 
     [SerializeField] Camera FPCamera;
     [SerializeField] float range = 100f;
+    // Damage will be dictated by the accuracy of landing the hit on beat as determined in a different script by ForeverAFK
     [SerializeField] float damage = 30f;
     [SerializeField] ParticleSystem muzzleFlash;
 
@@ -26,7 +27,6 @@ public class WeaponShooting : MonoBehaviour
                 Shoot();
             }
         }
-
     }
 
     bool CanShoot()
@@ -48,21 +48,20 @@ public class WeaponShooting : MonoBehaviour
     private void ProcessRayCast()
     {
         RaycastHit hit;
-        Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range);
-        Debug.Log("I hit the " + hit.transform.name + "!");
-
-        /*EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
-
-        if (target == null)
+        if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
         {
-            return;
-        }
+            Debug.Log("I hit the " + hit.transform.name + "!");
+            // TO DO: Add some hit effect for visual players
 
-        target.TakeDamage(damage);
+            EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
+            // Call a method on enemy health that decreases the enemy health
+            if (target == null) return;
+            target.TakeDamage(damage);
+        }
 
         else
         {
             return;
-        }*/
+        }
     }
 }
