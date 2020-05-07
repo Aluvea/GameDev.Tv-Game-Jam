@@ -246,4 +246,7 @@ MonoBehaviour:
   - 121.667
   - 121.944
   - 122.5
-  BPM: 0
+  BPM: 104.6236
+  firstBeatTimestamp: 0
+  useLastBeatTimestamp: 0
+  lastBeatTimestamp: 0

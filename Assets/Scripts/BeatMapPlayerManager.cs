@@ -16,7 +16,11 @@ public class BeatMapPlayerManager : MonoBehaviour
     [SerializeField] double beatMapPreviewTime = 3.0f;
     [Tooltip("How much time in seconds an audio track shoud take before transitioning into the next song")]
     [SerializeField] float transitionFadeDuration = 3.0f;
-
+    [Header("BPM Settings")]
+    [Tooltip("Whether or not BeatMapPlayers should use BPM lists instead of beatmap timestamps")]
+    [SerializeField] bool beatMapPlayersShouldPlayBPMList = false;
+    [Tooltip("Whether or not the BPM should be used as the beat preview time")]
+    [SerializeField] bool useBPMAsPreviewTime = false;
     [Header("Testing Parameters")]
     [SerializeField] bool debugPlayer = false;
     [SerializeField] BeatMap beatMapToTest;
@@ -24,8 +28,14 @@ public class BeatMapPlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        trackA.SetBeatMapPreviewTime(this);
-        trackB.SetBeatMapPreviewTime(this);
+
+        if (useBPMAsPreviewTime)
+        {
+            beatMapPreviewTime = 60.0d / beatMapToTest.BeatsPerMinute;
+        }
+
+        trackA.SetBeatMapPlayer(this);
+        trackB.SetBeatMapPlayer(this);
     }
 
     private void Start()
@@ -42,6 +52,17 @@ public class BeatMapPlayerManager : MonoBehaviour
     public double BeatMapPreviewTime
     {
         get { return beatMapPreviewTime; }
+    }
+
+    /// <summary>
+    /// Use beat per minute
+    /// </summary>
+    public bool UseBeatPerMinute
+    {
+        get
+        {
+            return beatMapPlayersShouldPlayBPMList;
+        }
     }
 
 }

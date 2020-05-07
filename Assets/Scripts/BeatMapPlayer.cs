@@ -17,7 +17,16 @@ public class BeatMapPlayer : MonoBehaviour
     BeatMap currentBeatMap = null;
     private bool loopTrack = false;
 
-    
+    /// <summary>
+    /// How early beat map syncs should be generated before they are audible
+    /// </summary>
+    private double beatMapPreviewTime;
+
+    /// <summary>
+    /// Whether or not the BPM should be used on a given track instead of the beat map timestamps
+    /// </summary>
+    private bool useBPM;
+
     /// <summary>
     /// Plays a beatmap audio track
     /// </summary>
@@ -135,10 +144,12 @@ public class BeatMapPlayer : MonoBehaviour
         // Get the ending timestamp of the audio clip
         double maxTimeStamp = clipStartOffsetTimestamp + clipLength;
 
+        List<double> beatMapListToUse = useBPM ? currentBeatMap.BPMBeatTimestamps : currentBeatMap.BeatTimeStamps;
+
         // Iterate through our list of beat map timestamps
-        for (int i = 0; i < currentBeatMap.BeatTimeStamps.Count; i++)
+        for (int i = 0; i < beatMapListToUse.Count; i++)
         {
-            double beatTimestamp = currentBeatMap.BeatTimeStamps[i];
+            double beatTimestamp = beatMapListToUse[i];
 
             // If the timestamp is within the range of our audio clip, then add the beat map timestamp
             // to our beat sync timestamps
@@ -182,7 +193,7 @@ public class BeatMapPlayer : MonoBehaviour
                 yield return null;
             }
 
-            BeatSyncReceiver.BeatReceiver.QueueBeat(new BeatSyncData(beatSyncQueue.beatTimestampAudioDSPTime, beatSyncQueue.beatTimestamp, beatSyncQueue.beatTimestampIndex));
+            BeatSyncReceiver.BeatReceiver.QueueBeat(new BeatSyncData(beatSyncQueue.beatTimestampAudioDSPTime, beatSyncQueue.beatTimestamp, beatSyncQueue.beatTimestampIndex, useBPM));
         }
 
     }
@@ -271,18 +282,16 @@ public class BeatMapPlayer : MonoBehaviour
         audioMixerChannel.SetFloat(mixerAttenuationParameterName, 0.0f);
     }
 
-    /// <summary>
-    /// How early beat map syncs should be generated before they are audible
-    /// </summary>
-    private double beatMapPreviewTime;
+    
 
     /// <summary>
     /// Sets the beatmap preview time with a given beatmap player
     /// </summary>
     /// <param name="player"></param>
-    public void SetBeatMapPreviewTime(BeatMapPlayerManager player)
+    public void SetBeatMapPlayer(BeatMapPlayerManager player)
     {
         this.beatMapPreviewTime = player.BeatMapPreviewTime;
+        this.useBPM = player.UseBeatPerMinute;
     }
 
 }

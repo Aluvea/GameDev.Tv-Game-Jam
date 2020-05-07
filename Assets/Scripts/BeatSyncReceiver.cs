@@ -103,6 +103,16 @@ public class BeatSyncReceiver : MonoBehaviour
         }
         // Add the beat to the list of catchable beats
         catchableBeats.Add(beat);
+
+        if (debugReceiver)
+        {
+            while(Time.time < beat.BeatTargetTime)
+            {
+                yield return null;
+            }
+            beat.DebugBeatInConsole();
+        }
+
         // Wait until the beat is no longer catchable
         while(Time.time <= maxCatchTime)
         {
@@ -332,11 +342,17 @@ public class BeatSyncData
         get;
     }
 
+    public bool UsingBPM
+    {
+        private set;
+        get;
+    }
+
     /// <summary>
     /// Method called to construct a beat sync data class (Note: Creation timestamps are cached upon construction)
     /// </summary>
     /// <param name="beatTargetTimeAudioDSP"></param>
-    public BeatSyncData(double beatTargetTimeAudioDSP, double listedBeatTimestamp, int listedBeatIndex)
+    public BeatSyncData(double beatTargetTimeAudioDSP, double listedBeatTimestamp, int listedBeatIndex, bool isBPM)
     {
         // Cache the beat target dsp time
         this.BeatTargetDSPTime = beatTargetTimeAudioDSP;
@@ -349,6 +365,25 @@ public class BeatSyncData
         BeatTargetTime = BeatCreationTimeScale + (float) (BeatTargetDSPTime - BeatCreationAudioDSPScale);
         BeatMapTimestamp = listedBeatTimestamp;
         BeatMapTimestampIndex = listedBeatIndex;
+        // Assign the is BPM variable
+        this.UsingBPM = isBPM;
+    }
+
+    /// <summary>
+    /// Returns a string with this beatmap's timestamp value, timestamp list index, and BPM generated info
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return "Beatmap Timestamp = " + BeatMapTimestamp + "; Beatmap Index = " + BeatMapTimestampIndex + "; BPM Generated = " + UsingBPM.ToString();
+    }
+
+    /// <summary>
+    /// Logs this beat sync data into the console
+    /// </summary>
+    public void DebugBeatInConsole()
+    {
+        Debug.Log(this.ToString());
     }
 }
 
