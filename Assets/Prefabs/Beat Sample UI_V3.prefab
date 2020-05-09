@@ -321,4 +321,4 @@ MonoBehaviour:
   innerCircle: {fileID: 5651715246336645178}
   outerCircle: {fileID: 4785606152427099889}
   timeToLiveAfterBeatTargetTime: 3
-  moveSpeedAfterBeatTargetTime: 35
+  moveSpeedAfterBeatTargetTime: 54

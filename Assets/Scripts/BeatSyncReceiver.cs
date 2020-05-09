@@ -21,6 +21,13 @@ public class BeatSyncReceiver : MonoBehaviour
     [Tooltip("Optional additional time to include to the one-beat-to-queue time window")]
     [Range(0.0f,5.0f)]
     [SerializeField] float optionalConsecutiveBeatQueueOffset = 0.0f;
+
+    [Header("Consecutive Beat Limit")]
+    [SerializeField] bool limitConsecutiveBeatToTimeWindow = false;
+    [Range(0.0f, 5.0f)]
+    [SerializeField] float limitedConsecutiveBeatTimeWindow = 1.0f;
+
+
     [Header("Debug Receiver Settings")]
     [Tooltip("Whether or not you want to debug this beat sync receiver to respond to player input")]
     [SerializeField] bool debugReceiver = false;
@@ -104,6 +111,14 @@ public class BeatSyncReceiver : MonoBehaviour
                 if(lastTargetBeatQueued.BeatTargetTime + optionalConsecutiveBeatQueueOffset > Time.time)
                 {
                     Debug.LogWarning("Skipping beat because the last beat hasn't been played yet UPCOMING BEAT: " + lastTargetBeatQueued.ToString() + "; ATTEMPTED QUEUED BEAT: " + beatData.ToString());
+                    return;
+                }
+            }
+            if (limitConsecutiveBeatToTimeWindow)
+            {
+                if(beatData.BeatTargetTime - lastTargetBeatQueued.BeatTargetTime < limitedConsecutiveBeatTimeWindow)
+                {
+                    Debug.LogWarning("Skipping beat because there is a limited time window for consecutive beats. UPCOMING BEAT:" + lastTargetBeatQueued.ToString() + "; ATTEMPTED QUEUED BEAT: " + beatData.ToString());
                     return;
                 }
             }
