@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BeatSyncReceiver : MonoBehaviour
 {
+    [Header("UI Game Objects")]
     [SerializeField] BeatSampleUIManager beatSampleUIManager;
     [SerializeField] ComboUI comboUIDisplay;
+    [Header("Beat Sync Type Synchronization Settings")]
     [Range(0.0f,3.0f)]
     [SerializeField] float maxTimeToLandPerfectSync = 0.1f;
     [Range(0.0f, 3.0f)]
@@ -16,21 +18,50 @@ public class BeatSyncReceiver : MonoBehaviour
     [Header("Singular Beat Queue Options")]
     [Tooltip("Limits the beat queue to only one beat at a time between the current beat's preview time to the audible time")]
     [SerializeField] bool limitConsecutiveBeatQueueToOne = false;
+    [Tooltip("Optional additional time to include to the one-beat-to-queue time window")]
     [Range(0.0f,5.0f)]
     [SerializeField] float optionalConsecutiveBeatQueueOffset = 0.0f;
-    [Header("Debug Receiver Settings")]
-    [SerializeField] bool debugReceiver = false;
-    [SerializeField] string debugInputName = "Fire1";
 
+    [Header("Consecutive Beat Limit")]
+    [SerializeField] bool limitConsecutiveBeatToTimeWindow = false;
+    [Range(0.0f, 5.0f)]
+    [SerializeField] float limitedConsecutiveBeatTimeWindow = 1.0f;
+
+
+    [Header("Debug Receiver Settings")]
+    [Tooltip("Whether or not you want to debug this beat sync receiver to respond to player input")]
+    [SerializeField] bool debugReceiver = false;
+    [Tooltip("The Unity Input button name to debug player input")]
+    [SerializeField] string debugInputName = "Fire1";
+    [Tooltip("Whether or not beats should be debugged in the console")]
+    [SerializeField] bool debugBeatsInConsole;
+
+    /// <summary>
+    /// The last target beat queued
+    /// </summary>
     BeatSyncData lastTargetBeatQueued = null;
 
     private int comboCount;
 
+    /// <summary>
+    /// The player's current beat sync combo count
+    /// </summary>
     public int ComboCount
     {
         get
         {
             return comboCount;
+        }
+    }
+
+    /// <summary>
+    /// The last beat sync queued (If you want to observe beats when they're audible, please subscribe to the PlayedBeatToSync event)
+    /// </summary>
+    public BeatSyncData LastBeatQueued
+    {
+        get
+        {
+            return lastTargetBeatQueued;
         }
     }
     
@@ -83,14 +114,27 @@ public class BeatSyncReceiver : MonoBehaviour
                     return;
                 }
             }
+            if (limitConsecutiveBeatToTimeWindow)
+            {
+                if(beatData.BeatTargetTime - lastTargetBeatQueued.BeatTargetTime < limitedConsecutiveBeatTimeWindow)
+                {
+                    Debug.LogWarning("Skipping beat because there is a limited time window for consecutive beats. UPCOMING BEAT:" + lastTargetBeatQueued.ToString() + "; ATTEMPTED QUEUED BEAT: " + beatData.ToString());
+                    return;
+                }
+            }
         }
         
         // Assign the beat data's target time to the last target beat queued variable
         lastTargetBeatQueued = beatData;
         // Display the beat
         if (beatSampleUIManager != null) beatSampleUIManager.DisplayBeat(beatData);
+        RaiseBeatReceiverQueuedEvent(beatData);
         // Start a coroutine to monitor input for the beat
         StartCoroutine(MonitorBeatForCatching(beatData));
+        if (debugBeatsInConsole)
+        {
+            Debug.Log("QUEUED BEAT " + beatData.ToString());
+        }
     }
 
     /// <summary>
@@ -117,13 +161,20 @@ public class BeatSyncReceiver : MonoBehaviour
         // Add the beat to the list of catchable beats
         catchableBeats.Add(beat);
 
-        if (debugReceiver)
+        if (debugBeatsInConsole || PlayedBeatToSync != null)
         {
             while(Time.time < beat.BeatTargetTime)
             {
                 yield return null;
             }
-            beat.DebugBeatInConsole();
+
+            if (debugBeatsInConsole)
+            {
+                Debug.Log("BEAT PLAYED " + beat.ToString());
+            }
+
+            RaiseBeatPlayedEvent(beat);
+            
         }
 
         // Wait until the beat is no longer catchable
@@ -263,7 +314,7 @@ public class BeatSyncReceiver : MonoBehaviour
     private void ResetComboCount()
     {
         comboCount = 0;
-        UpdateComboCountUI();
+        comboUIDisplay.UpdateComboCount(comboCount);
     }
 
     /// <summary>
@@ -272,21 +323,19 @@ public class BeatSyncReceiver : MonoBehaviour
     private void IncrementComboCount()
     {
         comboCount++;
-        UpdateComboCountUI();
-    }
-
-    /// <summary>
-    /// Updates the combo count UI
-    /// </summary>
-    private void UpdateComboCountUI()
-    {
         comboUIDisplay.UpdateComboCount(comboCount);
     }
+    
 
+    /// <summary>
+    /// Coroutine used to debug the beat receiver to the player's input
+    /// </summary>
+    /// <returns></returns>
     IEnumerator DebugReceiverCoroutine()
     {
         while (true)
         {
+            // If the player is pressing the debug input button, then request an input action
             if (Input.GetButtonDown(debugInputName))
             {
                 RequestInputAction();
@@ -294,7 +343,62 @@ public class BeatSyncReceiver : MonoBehaviour
             yield return null;
         }
     }
+
+    /// <summary>
+    /// Event raised on the first frame the player is warned about a beat
+    /// </summary>
+    public event BeatQueued QueuedBeatToSync;
+
+    /// <summary>
+    /// Event raised on the first frame a beat is audible / played
+    /// </summary>
+    public event BeatPlayed PlayedBeatToSync;
+
+    private void RaiseBeatReceiverQueuedEvent(BeatSyncData beatQueued)
+    {
+        if(QueuedBeatToSync != null)
+        {
+            try
+            {
+                QueuedBeatToSync.Invoke(beatQueued);
+            }
+            catch(System.Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+            
+        }
+    }
+
+    private void RaiseBeatPlayedEvent(BeatSyncData beatPlayed)
+    {
+        if(PlayedBeatToSync != null)
+        {
+            try
+            {
+                PlayedBeatToSync.Invoke(beatPlayed);
+            }
+            catch(System.Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+            
+        }
+    }
+    
 }
+/// <summary>
+/// Delegate used for handling beat queueing (this is when the player is informed about a beat to respond to)
+/// </summary>
+/// <param name="beatQueued">The beat queued</param>
+public delegate void BeatQueued (BeatSyncData beatQueued);
+
+/// <summary>
+/// Delegate used for handling beat playing (this is the first frame when a beat is audible / played)
+/// </summary>
+/// <param name="beatPlayed">The beat data played</param>
+public delegate void BeatPlayed(BeatSyncData beatPlayed);
+
 
 /// <summary>
 /// Class used to store timing data of a beat

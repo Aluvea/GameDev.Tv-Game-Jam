@@ -93,7 +93,7 @@ public class BeatSampleUI : MonoBehaviour
     }
 
 
-    public void SetBeatSampleColor(Color innerCircleColor, Color outerCircleColor)
+    public virtual void SetBeatSampleColor(Color innerCircleColor, Color outerCircleColor)
     {
         innerCircle.color = innerCircleColor;
         outerCircle.color = outerCircleColor;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ComboUI : MonoBehaviour
 {
 
-    [SerializeField] UnityEngine.UI.Text comboUI;
+    [SerializeField] TMPro.TextMeshProUGUI comboUI;
 
     /// <summary>
     /// Updates the combo count displayed
