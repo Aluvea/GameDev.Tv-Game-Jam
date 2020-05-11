@@ -2359,6 +2359,8 @@ MonoBehaviour:
   maxTimeToLandPerfectSync: 0.1
   maxTimeToLandGoodSync: 0.1
   maxTimeToLandOKSync: 0.1
+  limitConsecutiveBeatQueueToOne: 0
+  optionalConsecutiveBeatQueueOffset: 0
   debugReceiver: 0
   debugInputName: Fire1
 --- !u!4 &1628952618
@@ -4079,6 +4081,7 @@ MonoBehaviour:
   range: 100
   damage: 30
   muzzleFlash: {fileID: 7848278114929859056}
+  hitEffect: {fileID: 100006, guid: 0438351a6e6422d43a09930e9be00ee9, type: 3}
 --- !u!1 &2825065384380969557
 GameObject:
   m_ObjectHideFlags: 0
@@ -5868,7 +5871,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0

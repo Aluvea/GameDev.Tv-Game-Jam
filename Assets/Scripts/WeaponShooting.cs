@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class WeaponShooting : MonoBehaviour
     // Damage will be dictated by the accuracy of landing the hit on beat as determined in a different script by ForeverAFK
     [SerializeField] float damage = 30f;
     [SerializeField] ParticleSystem muzzleFlash;
+    [SerializeField] GameObject hitEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -50,8 +52,7 @@ public class WeaponShooting : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
         {
-            Debug.Log("I hit the " + hit.transform.name + "!");
-            // TO DO: Add some hit effect for visual players
+            CreateHitImpact(hit);
 
             EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
             // Call a method on enemy health that decreases the enemy health
@@ -63,5 +64,12 @@ public class WeaponShooting : MonoBehaviour
         {
             return;
         }
+    }
+
+    private void CreateHitImpact(RaycastHit hit)
+    {
+        GameObject impact = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(impact, 1);
+
     }
 }
