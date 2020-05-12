@@ -9,6 +9,7 @@ using UnityEditor.SceneManagement;
 using UnityEditorInternal;
 using UnityEngine.AI;
 using UnityEngine;
+using UnityEditor;
 
 namespace UnityEditor.AI
 {
