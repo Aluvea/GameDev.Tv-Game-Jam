@@ -8,8 +8,7 @@ public class WeaponShooting : MonoBehaviour
 
     [SerializeField] Camera FPCamera;
     [SerializeField] float range = 100f;
-    // Damage will be dictated by the accuracy of landing the hit on beat as determined in a different script by ForeverAFK
-    [SerializeField] float damage = 30f;
+    private float damage;
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] GameObject hitEffect;
     private AudioSource mAudioSource;
@@ -23,20 +22,31 @@ public class WeaponShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (CanShoot())
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (BeatSyncReceiver.BeatReceiver.RequestInputAction(out BeatInputSync playerSync))
             {
+                if (playerSync == BeatInputSync.PERFECT)
+                {
+                    damage = 3f;
+                }
+                else if (playerSync == BeatInputSync.GOOD)
+                {
+                    damage = 2f;
+                }
+                else if (playerSync == BeatInputSync.OK)
+                {
+                    damage = 1f;
+                }
+                else
+                {
+                    damage = 0f;
+                }
+
                 Shoot();
                 mAudioSource.Play();
             }
         }
-    }
-
-    bool CanShoot()
-    {
-        return true;
     }
 
     private void Shoot()
@@ -60,6 +70,7 @@ public class WeaponShooting : MonoBehaviour
             EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
             if (target == null) return;
             target.TakeDamage(damage);
+            Debug.Log("Damage is " + damage);
         }
         else
         {

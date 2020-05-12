@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] float hitPoints = 3f;
     [SerializeField] float damage;
+    [SerializeField] EnemyAI enemyAIRef;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (hitPoints > 0)
         {
+            enemyAIRef.Provoke();
             hitPoints -= damage;
         }
         else if (hitPoints <= 0)

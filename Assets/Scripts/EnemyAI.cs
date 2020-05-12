@@ -66,4 +66,9 @@ public class EnemyAI : MonoBehaviour
         //We want to trigger the transition between Move and Attack here
         GetComponent<Animator>().SetBool("Attack", true);
     }
+
+    public void Provoke()
+    {
+        isProvoked = true;
+    }
 }
