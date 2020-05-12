@@ -12,6 +12,7 @@ public class EnemyAI : MonoBehaviour
     float distanceToTarget = Mathf.Infinity;
     bool isProvoked = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +30,7 @@ public class EnemyAI : MonoBehaviour
         else if (distanceToTarget <= chaseRange)
         {
             isProvoked = true;
-        }      
+        }
     }
 
     private void OnDrawGizmosSelected()

@@ -12,21 +12,24 @@ public class WeaponShooting : MonoBehaviour
     [SerializeField] float damage = 30f;
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] GameObject hitEffect;
+    private AudioSource mAudioSource;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        mAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (CanShoot())
         {
             if (Input.GetButtonDown("Fire1"))
             {
                 Shoot();
+                mAudioSource.Play();
             }
         }
     }
@@ -55,11 +58,9 @@ public class WeaponShooting : MonoBehaviour
             CreateHitImpact(hit);
 
             EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
-            // Call a method on enemy health that decreases the enemy health
             if (target == null) return;
             target.TakeDamage(damage);
         }
-
         else
         {
             return;
@@ -70,6 +71,5 @@ public class WeaponShooting : MonoBehaviour
     {
         GameObject impact = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impact, 1);
-
     }
 }

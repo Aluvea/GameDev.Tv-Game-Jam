@@ -7,9 +7,6 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] float hitPoints = 3f;
     [SerializeField] float damage;
 
-    // Create a PUBLIC method that reduces hitpoints by the amount of damage
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +16,7 @@ public class EnemyHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void TakeDamage(float damage)
