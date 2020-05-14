@@ -469,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0fb341da2862c4780221c0d2897a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatSamplePrefab: {fileID: 2805465846471607034, guid: 32d305e903959d24fbb891b95eef4c2d,
+  beatSamplePrefab: {fileID: 6607481139063980444, guid: 9bddbaa5ef7107c4a834fc61f7459262,
     type: 3}
   beatUIParent: {fileID: 8037474457415606341}
   startingBeatUIPosition: {fileID: 8037474456784460713}
