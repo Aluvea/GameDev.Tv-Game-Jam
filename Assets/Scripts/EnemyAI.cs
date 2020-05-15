@@ -55,8 +55,7 @@ public class EnemyAI : MonoBehaviour
     private void ChaseTarget()
     {
         //We want to trigger the transition between Ilde to Move here
-        GetComponent<Animator>().SetTrigger("Move");
-        GetComponent<Animator>().SetBool("Attack", false);
+        GetComponent<Animator>().SetBool("attack", false);
 
         navMeshAgent.SetDestination(target.position);
     }
@@ -64,7 +63,7 @@ public class EnemyAI : MonoBehaviour
     private void AttackTarget()
     {
         //We want to trigger the transition between Move and Attack here
-        GetComponent<Animator>().SetBool("Attack", true);
+        GetComponent<Animator>().SetBool("attack", true);
     }
 
     public void Provoke()
