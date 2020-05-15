@@ -9,9 +9,6 @@ public class GrooveUI : MonoBehaviour
     [SerializeField] string grooveParameterName = "visible";
 
 
-    private bool lastToggle = false;
-
-
     private void Start()
     {
         grooveCanvasGroup.alpha = 0.0f;
@@ -23,11 +20,9 @@ public class GrooveUI : MonoBehaviour
     /// Method called to toggle the groove UI
     /// </summary>
     /// <param name="toggle"></param>
-    public void ToggleGroove(bool toggle)
+    public void ToggleGrooveUI(bool toggle)
     {
-        if (lastToggle == toggle) return;
         grooveAnimator.SetBool(grooveParameterName, toggle);
-        lastToggle = toggle;
     }
 
 }

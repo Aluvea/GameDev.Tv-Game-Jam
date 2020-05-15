@@ -792,6 +792,8 @@ MonoBehaviour:
   trackB: {fileID: 8289602820401392044}
   beatMapPreviewTime: 3
   transitionFadeDuration: 3
+  beatMapPlayersShouldPlayBPMList: 0
+  useBPMAsPreviewTime: 0
   debugPlayer: 1
   beatMapToTest: {fileID: 11400000, guid: 554aec078c578124087b7b41a9aee8e9, type: 2}
 --- !u!114 &1797953483
@@ -808,11 +810,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatSampleUIManager: {fileID: 0}
   comboUIDisplay: {fileID: 0}
+  grooveController: {fileID: 0}
   maxTimeToLandPerfectSync: 0.08
   maxTimeToLandGoodSync: 0.1
   maxTimeToLandOKSync: 0.12
+  limitConsecutiveBeatQueueToOne: 0
+  optionalConsecutiveBeatQueueOffset: 0
+  limitConsecutiveBeatToTimeWindow: 0
+  limitedConsecutiveBeatTimeWindow: 1
   debugReceiver: 1
   debugInputName: Fire1
+  debugBeatsInConsole: 0
 --- !u!1 &8289602821192932053
 GameObject:
   m_ObjectHideFlags: 0
