@@ -134,7 +134,10 @@ public class PlayerController : MonoBehaviour
         // Square Root of (desiredHeigh * -2 * gravity)
         if (Input.GetButtonDown(jump))
         {
-            playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
+            if (BeatSyncReceiver.BeatReceiver.RequestInputAction())
+            {
+                playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
+            }
         }
     }
 
