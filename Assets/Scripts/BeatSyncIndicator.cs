@@ -90,8 +90,6 @@ public class BeatSyncIndicator : MonoBehaviour
             runtime = (Time.time - startTime);
             runtimeFraction = runtime / bounceAnimationDuration;
             oscillation = Mathf.Sin(runtimeFraction * Mathf.PI);
-            Debug.Log("Oscillation Runtime = " + runtime + "; Oscillation = " + oscillation);
-
             oscillatingVector.y = oscillation * bounceHeightMagnitude;
             oscillatingVector.x = bounceWidthMagnitude * runtimeFraction;
             if(runtimeFraction >= 0.5f)

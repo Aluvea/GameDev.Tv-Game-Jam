@@ -2086,7 +2086,6 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 1847
-  rotationSpeed: 0
   animator: {fileID: 2845697111291606237}
 --- !u!114 &2845697111291606233
 MonoBehaviour:
@@ -2173,13 +2172,19 @@ MonoBehaviour:
   ikSetup: {fileID: 1433830510}
   sightReference: {fileID: 1114377581}
   gunMuzzleReference: {fileID: 1250269978}
+  bulletPrefab: {fileID: 883679705, guid: 5fc48a48e16f23340b40921edb4d20fe, type: 3}
   sightReferenceMask:
     serializedVersion: 2
     m_Bits: 3639
   attackFrequency: 1
   attackFrequencyMaxRandomizedTimeModifier: 1.5
   hitChance: 0.65
+  neverMissRange: 5
+  attackRange: 65
   hitDamage: 0.5
+  projectileLayerMask:
+    serializedVersion: 2
+    m_Bits: 1809
   testTargeting: 1
   testTargetTransformRef: {fileID: 0}
 --- !u!1 &10820814655561554
