@@ -23,6 +23,24 @@ public class ComboUI : MonoBehaviour
         animationCanvasGroup.alpha = 0.0f;
     }
 
+    private void Start()
+    {
+        if(BeatSyncReceiver.BeatReceiver != null)
+        {
+            BeatSyncReceiver.BeatReceiver.OnComboCountChanged += UpdateComboCount;
+            comboCountText.text = BeatSyncReceiver.BeatReceiver.ComboCount.ToString();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (BeatSyncReceiver.BeatReceiver != null)
+        {
+            BeatSyncReceiver.BeatReceiver.OnComboCountChanged -= UpdateComboCount;
+        }
+    }
+
+
     /// <summary>
     /// Updates the combo count displayed
     /// </summary>

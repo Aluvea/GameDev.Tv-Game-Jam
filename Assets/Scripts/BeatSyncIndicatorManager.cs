@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Class used to manage beat sync indications (PERFECT, GOOD, OK, and MISS)
+/// Class used to manage beat sync indication UI (PERFECT, GOOD, OK, and MISS)
 /// </summary>
 public class BeatSyncIndicatorManager : MonoBehaviour
 {
@@ -19,27 +19,37 @@ public class BeatSyncIndicatorManager : MonoBehaviour
     /// The indicator pool queue
     /// </summary>
     Queue<BeatSyncIndicator> indicatorPool = new Queue<BeatSyncIndicator>();
-    /// <summary>
-    /// The bead indicator singleton
-    /// </summary>
-    private static BeatSyncIndicatorManager beatIndicator;
-    /// <summary>
-    /// Method called to show a beat sync UI indicator
-    /// </summary>
-    /// <param name="syncType"></param>
-    public static void IndicateBeatSyncUI(BeatInputSync syncType)
+    
+
+    private void Start()
     {
-        // If the singleton is not null, then spawn a sync indicator UI
-        if(beatIndicator != null)
+        SetupBeatSyncIndicator();
+    }
+
+    private void OnDestroy()
+    {
+        DeconstructBeatSyncIndicator();
+    }
+
+    private void SetupBeatSyncIndicator()
+    {
+        if(BeatSyncReceiver.BeatReceiver != null)
         {
-            beatIndicator.SpawnSyncIndicator(syncType);
+            BeatSyncReceiver.BeatReceiver.PlayerInputSynced += OnPlayerInputReceived;
         }
     }
 
-    private void Awake()
+    private void DeconstructBeatSyncIndicator()
     {
-        // Assign this instance of the manager to the BeatSyncIndicatorManager
-        beatIndicator = this;
+        if (BeatSyncReceiver.BeatReceiver != null)
+        {
+            BeatSyncReceiver.BeatReceiver.PlayerInputSynced -= OnPlayerInputReceived;
+        }
+    }
+
+    private void OnPlayerInputReceived(BeatSyncData beatData, BeatInputSync syncType)
+    {
+        SpawnSyncIndicator(syncType);
     }
 
 

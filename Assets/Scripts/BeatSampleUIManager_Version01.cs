@@ -95,7 +95,6 @@ public class BeatSampleUIManager_Version01 : BeatSampleUIManager
     public override void DisplayInputMissedBeat()
     {
         Debug.Log("Completely missed beat");
-        BeatSyncIndicatorManager.IndicateBeatSyncUI(BeatInputSync.MISS);
     }
     
     /// <summary>
@@ -127,7 +126,6 @@ public class BeatSampleUIManager_Version01 : BeatSampleUIManager
                         playingSample.SetBeatSampleColor(missedInnerCircleColor, missedOuterCircleColor);
                         break;
                 }
-                BeatSyncIndicatorManager.IndicateBeatSyncUI(beatInput);
                 return;
             }
         }

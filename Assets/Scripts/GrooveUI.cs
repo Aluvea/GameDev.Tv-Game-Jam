@@ -12,10 +12,23 @@ public class GrooveUI : MonoBehaviour
     private void Start()
     {
         grooveCanvasGroup.alpha = 0.0f;
+        if(GrooveController.GrooveControllerSingleton != null)
+        {
+            GrooveController.GrooveControllerSingleton.GrooveToggleChanged += ToggleGrooveUI;
+            ToggleGrooveUI(GrooveController.GrooveControllerSingleton.GrooveToggled);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GrooveController.GrooveControllerSingleton != null)
+        {
+            GrooveController.GrooveControllerSingleton.GrooveToggleChanged -= ToggleGrooveUI;
+        }
     }
 
 
-    
+
     /// <summary>
     /// Method called to toggle the groove UI
     /// </summary>

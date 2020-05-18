@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class BeatSyncReceiver : MonoBehaviour
 {
-    [Header("UI Game Objects")]
-    [SerializeField] BeatSampleUIManager beatSampleUIManager;
-    [SerializeField] ComboUI comboUIDisplay;
-    [SerializeField] GrooveController grooveController;
+
     [Header("Beat Sync Type Synchronization Settings")]
     [Range(0.0f,3.0f)]
     [SerializeField] float maxTimeToLandPerfectSync = 0.1f;
@@ -130,7 +127,6 @@ public class BeatSyncReceiver : MonoBehaviour
         // Assign the beat data's target time to the last target beat queued variable
         lastTargetBeatQueued = beatData;
         // Display the beat
-        if (beatSampleUIManager != null) beatSampleUIManager.DisplayBeat(beatData);
         RaiseBeatReceiverQueuedEvent(beatData);
         // Start a coroutine to monitor input for the beat
         StartCoroutine(MonitorBeatForCatching(beatData));
@@ -193,12 +189,12 @@ public class BeatSyncReceiver : MonoBehaviour
             catchableBeats.Remove(beat);
 
             // If the groove controller's groove mode is off, then punish the player
-            if(grooveController != null)
+            if(GrooveController.GrooveControllerSingleton != null)
             {
-                if(grooveController.GrooveToggled == false)
+                if(GrooveController.GrooveControllerSingleton.GrooveToggled == false)
                 {
                     // Tell the beat UI that the beat has been missed
-                    beatSampleUIManager.UpdateBeatSyncUIState(beat, BeatInputSync.MISS);
+                    RaisePlayerInputEvent(beat, BeatInputSync.MISS);
                     // Update the combo count to 0
                     ResetComboCount();
                 }
@@ -206,7 +202,7 @@ public class BeatSyncReceiver : MonoBehaviour
             else
             {
                 // Tell the beat UI that the beat has been missed
-                beatSampleUIManager.UpdateBeatSyncUIState(beat, BeatInputSync.MISS);
+                RaisePlayerInputEvent(beat, BeatInputSync.MISS);
                 // Update the combo count to 0
                 ResetComboCount();
             }
@@ -292,7 +288,7 @@ public class BeatSyncReceiver : MonoBehaviour
             // Reset the combo count
             ResetComboCount();
             // Display the proper state that the played completely missed the a beat
-            beatSampleUIManager.DisplayInputMissedBeat();
+            RaisePlayerInputEvent(null, BeatInputSync.MISS);
             // Return the beat missed sync type
             return BeatInputSync.MISS;
         }
@@ -320,7 +316,7 @@ public class BeatSyncReceiver : MonoBehaviour
                 syncType = BeatInputSync.OK;
             }
             lastInputActionRequestResult = syncType;
-            beatSampleUIManager.UpdateBeatSyncUIState(hitBeat, syncType);
+            RaisePlayerInputEvent(hitBeat, syncType);
             return syncType;
         }
     }
@@ -332,7 +328,7 @@ public class BeatSyncReceiver : MonoBehaviour
     private void ResetComboCount()
     {
         comboCount = 0;
-        comboUIDisplay.UpdateComboCount(comboCount);
+        RaiseComboCountChangedEvent();
     }
 
     /// <summary>
@@ -340,9 +336,9 @@ public class BeatSyncReceiver : MonoBehaviour
     /// </summary>
     private void TurnOffGrooveMode()
     {
-        if(grooveController != null)
+        if(GrooveController.GrooveControllerSingleton != null)
         {
-            grooveController.ToggleOffGrooveMode();
+            GrooveController.GrooveControllerSingleton.ToggleOffGrooveMode();
         }
     }
 
@@ -352,7 +348,7 @@ public class BeatSyncReceiver : MonoBehaviour
     private void IncrementComboCount()
     {
         comboCount++;
-        comboUIDisplay.UpdateComboCount(comboCount);
+        RaiseComboCountChangedEvent();
     }
     
 
@@ -383,6 +379,28 @@ public class BeatSyncReceiver : MonoBehaviour
     /// </summary>
     public event BeatPlayed PlayedBeatToSync;
 
+    /// <summary>
+    /// Event raised when the player input is received and synchronized. Note: Your delegate should be able to handle null BeatSyncData in the event the player tries an action when no beat is available
+    /// </summary>
+    public event BeatInputSynced PlayerInputSynced;
+
+    /// <summary>
+    /// Raises the player sync input received event
+    /// </summary>
+    /// <param name="beat">The beat sync data</param>
+    /// <param name="beatSyncType">The beat synchronization type</param>
+    private void RaisePlayerInputEvent(BeatSyncData beat, BeatInputSync beatSyncType)
+    {
+        if(PlayerInputSynced != null)
+        {
+            PlayerInputSynced.Invoke(beat, beatSyncType);
+        }
+    }
+
+    /// <summary>
+    /// Method called raise the beat queued event
+    /// </summary>
+    /// <param name="beatQueued"></param>
     private void RaiseBeatReceiverQueuedEvent(BeatSyncData beatQueued)
     {
         if(QueuedBeatToSync != null)
@@ -399,6 +417,10 @@ public class BeatSyncReceiver : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method called to raise the beat played event
+    /// </summary>
+    /// <param name="beatPlayed"></param>
     private void RaiseBeatPlayedEvent(BeatSyncData beatPlayed)
     {
         if(PlayedBeatToSync != null)
@@ -414,7 +436,24 @@ public class BeatSyncReceiver : MonoBehaviour
             
         }
     }
-    
+
+    /// <summary>
+    /// Event raised when the combo count is changed
+    /// </summary>
+    public event ComboCountChange OnComboCountChanged;
+
+    /// <summary>
+    /// Method called to raise the combo count changed e
+    /// </summary>
+    private void RaiseComboCountChangedEvent()
+    {
+        if(OnComboCountChanged != null)
+        {
+            OnComboCountChanged.Invoke(ComboCount);
+        }
+    }
+
+
 }
 /// <summary>
 /// Delegate used for handling beat queueing (this is when the player is informed about a beat to respond to)
@@ -423,11 +462,19 @@ public class BeatSyncReceiver : MonoBehaviour
 public delegate void BeatQueued (BeatSyncData beatQueued);
 
 /// <summary>
+/// Delegate used for reading combo count changes
+/// </summary>
+/// <param name="comboCount">The combo count</param>
+public delegate void ComboCountChange(int comboCount);
+
+/// <summary>
 /// Delegate used for handling beat playing (this is the first frame when a beat is audible / played)
 /// </summary>
 /// <param name="beatPlayed">The beat data played</param>
 public delegate void BeatPlayed(BeatSyncData beatPlayed);
 
+
+public delegate void BeatInputSynced(BeatSyncData beatData, BeatInputSync syncType);
 
 /// <summary>
 /// Class used to store timing data of a beat

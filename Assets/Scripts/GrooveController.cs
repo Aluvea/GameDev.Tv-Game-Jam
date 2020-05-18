@@ -4,20 +4,36 @@ using UnityEngine;
 
 public class GrooveController : MonoBehaviour
 {
-    [Header("Groove Game Object Settings / References")]
-    [SerializeField] GrooveUI grooveUIController;
     [SerializeField] bool startGameWithGrooveModeOn = true;
     [Header("Unity Input Settings")]
     [SerializeField] string grooveInputButtonName = "Fire2";
-
+    
+    /// <summary>
+    /// Whether or not Groove mode is toggled on
+    /// </summary>
     public bool GrooveToggled
     {
         private set;
         get;
-    } = false;
+    } = true;
+
+    /// <summary>
+    /// The Groove Controller singleton
+    /// </summary>
+    public static GrooveController GrooveControllerSingleton
+    {
+        private set;
+        get;
+    }
+
+    /// <summary>
+    /// Event raised when the groove mode is changed
+    /// </summary>
+    public event GrooveChanged GrooveToggleChanged;
 
     private void Awake()
     {
+        GrooveControllerSingleton = this;
         GrooveToggled = !startGameWithGrooveModeOn;
         UpdateGrooveMode(startGameWithGrooveModeOn);
     }
@@ -25,6 +41,7 @@ public class GrooveController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If the user presses the groove button, then toggle on the groove mode
         if (Input.GetButtonDown(grooveInputButtonName))
         {
             UpdateGrooveMode(true);
@@ -35,7 +52,11 @@ public class GrooveController : MonoBehaviour
     {
         if (GrooveToggled == mode) return;
         GrooveToggled = mode;
-        grooveUIController.ToggleGrooveUI(GrooveToggled);
+        if(GrooveToggleChanged != null)
+        {
+            GrooveToggleChanged.Invoke(GrooveToggled);
+        }
+
         Debug.LogWarning("Groove is " + mode.ToString());
     }
 
@@ -43,4 +64,9 @@ public class GrooveController : MonoBehaviour
     {
         UpdateGrooveMode(false);
     }
+
+    public delegate void GrooveChanged(bool toggled);
 }
+
+
+
