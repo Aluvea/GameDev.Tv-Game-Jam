@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Animations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,6 +8,9 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float chaseRange = 5f;
+    [SerializeField] CyberBugAnimationController bugAnimator;
+    [SerializeField] CyberBugAttack cyberBugAttack;
+    [SerializeField] float turnSpeed = 5f;
 
     NavMeshAgent navMeshAgent;
     float distanceToTarget = Mathf.Infinity;
@@ -41,12 +45,13 @@ public class EnemyAI : MonoBehaviour
 
     private void EngageTarget()
     {
-        if (distanceToTarget > navMeshAgent.stoppingDistance)
+        FaceTarget();
+        if (distanceToTarget > navMeshAgent.stoppingDistance + 0.5)
         {
             ChaseTarget();
         }
 
-        if (distanceToTarget <= navMeshAgent.stoppingDistance)
+        else if (distanceToTarget <= navMeshAgent.stoppingDistance + 0.5)
         {
             AttackTarget();
         }
@@ -54,20 +59,28 @@ public class EnemyAI : MonoBehaviour
 
     private void ChaseTarget()
     {
-        //We want to trigger the transition between Ilde to Move here
+        //Ensure the attack trigger is set to false
         GetComponent<Animator>().SetBool("attack", false);
-
         navMeshAgent.SetDestination(target.position);
     }
 
     private void AttackTarget()
     {
-        //We want to trigger the transition between Move and Attack here
-        GetComponent<Animator>().SetBool("attack", true);
+        //Using the Cyber Bug Animation Controller call the attack animation
+        bugAnimator.PlayAttackAnimation();
     }
 
     public void Provoke()
     {
         isProvoked = true;
+    }
+
+    private void FaceTarget()
+    {
+        // normalized (when normalized, a vector keeps the same direction but its length is 1.0) -> acknowledges direction but not distance
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        // Slerp is Spherical Interpolation and this allows to rotate smoothly between two vectors
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
     }
 }
