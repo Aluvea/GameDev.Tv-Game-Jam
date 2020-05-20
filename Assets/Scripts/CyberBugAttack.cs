@@ -25,4 +25,5 @@ public class CyberBugAttack : MonoBehaviour
         if (target == null) return;
         target.TakeDamage(damage);
     }
+
 }

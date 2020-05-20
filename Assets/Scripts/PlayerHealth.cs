@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] float hitPoints = 100f;
+    [SerializeField] HealthUI healthUI;
+    [SerializeField] float maxHealth = 100f;
+    [SerializeField] float currentHealth;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -20,12 +22,14 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (hitPoints > 0)
+
+        if (currentHealth > 0)
         {
-            hitPoints -= damage;
+            currentHealth -= damage;
+            healthUI.UpdateHealthUIMeter(currentHealth, maxHealth);
         }
 
-        else if (hitPoints <= 0)
+        else if (currentHealth <= 0)
         {
             print("Player is dead");
         }
