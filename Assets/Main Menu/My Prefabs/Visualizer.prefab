@@ -591,10 +591,11 @@ MonoBehaviour:
   maxHeight: 1400
   updateSenstivity: 0.2
   visualizerColor: {r: 1, g: 0.6039735, b: 0, a: 1}
-  audioClip: {fileID: 8300000, guid: 8a615308b95b83041a2b1f187c1c8af9, type: 3}
+  audioClip: {fileID: 8300000, guid: 01a21c71eaf602b499c506a454059052, type: 3}
   loop: 1
   visualizerSimples: 64
   visualizerObjects: []
+  m_audioSource: {fileID: 0}
 --- !u!1 &2278070299794975682
 GameObject:
   m_ObjectHideFlags: 0
