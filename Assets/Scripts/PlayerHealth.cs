@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] HealthUI healthUI;
     [SerializeField] float maxHealth = 100f;
     [SerializeField] float currentHealth;
+    [SerializeField] GameOverUI gameOverUI;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,7 @@ public class PlayerHealth : MonoBehaviour
 
         else if (currentHealth <= 0)
         {
-            print("Player is dead");
+            gameOverUI.HandleDeath();
         }
     }
 }
