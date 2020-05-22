@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] float hitPoints = 3f;
     [SerializeField] float damage;
     [SerializeField] EnemyAI enemyAIRef;
+    [SerializeField] LockableTarget lockableTargetReference;
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +28,24 @@ public class EnemyHealth : MonoBehaviour
         {
             enemyAIRef.Provoke();
             hitPoints -= damage;
+            if (lockableTargetReference != null) lockableTargetReference.OnDamageTaken();
         }
         else if (hitPoints <= 0)
         {
+            if (lockableTargetReference != null)
+            {
+                lockableTargetReference.OnDamageTaken();
+                lockableTargetReference.ToggleLockableTarget(false);
+            } 
             Destroy(gameObject);
+        }
+    }
+
+    public LockableTarget LockableTargetReference
+    {
+        get
+        {
+            return lockableTargetReference;
         }
     }
 }
