@@ -28,7 +28,10 @@ public class TargetBeatMapManager : MonoBehaviour
     {
         if (PlayerController.PlayerCamera != null)
         {
-            GetComponent<Canvas>().worldCamera = PlayerController.PlayerCamera;
+            Canvas targetCanvas = GetComponent<Canvas>();
+
+            targetCanvas.worldCamera = PlayerController.PlayerCamera;
+            targetCanvas.planeDistance = PlayerController.PlayerCamera.nearClipPlane + 0.15f;
         }
     }
 

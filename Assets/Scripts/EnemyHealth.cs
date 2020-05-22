@@ -6,7 +6,7 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] float hitPoints = 3f;
     [SerializeField] EnemyAI enemyAIRef;
-    [SerializeField] CyberBugAnimationController bugAnimator;
+    [SerializeField] Animations.AnimationController enemyAnimator;
     [SerializeField] LockableTarget lockableTargetReference;
 
     // Start is called before the first frame update
@@ -36,7 +36,13 @@ public class EnemyHealth : MonoBehaviour
                 lockableTargetReference.OnDamageTaken();
                 lockableTargetReference.ToggleLockableTarget(false);
             }
-            bugAnimator.PlayDeathAnimation();
+            if(enemyAnimator != null)
+            {
+                if (enemyAnimator is Animations.IPlayDeathAnimation)
+                {
+                    (enemyAnimator as Animations.IPlayDeathAnimation).PlayDeathAnimation();
+                }
+            }
             GetComponent<AIRoamingController>().enabled = false;
         }
     }

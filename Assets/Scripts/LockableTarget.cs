@@ -82,7 +82,11 @@ public class LockableTarget : MonoBehaviour
     /// <param name="targetLockable">Whether or not this target is lockable to a beat map UI</param>
     public void ToggleLockableTarget(bool targetLockable)
     {
-        if (TargetBeatMapManager.TargetBeatMapManagerSingleton == null) throw new System.Exception("LOCKABLE TARGET CAN'T FIND A TARGETABLE BEAT MAP MANAGER! DID YOU FORGET TO PUT THE BEAT MAP TARGET MANAGER PREFAB IN YOUR SCENE?");
+        if (TargetBeatMapManager.TargetBeatMapManagerSingleton == null)
+        {
+            Debug.LogError("LOCKABLE TARGET CAN'T FIND A TARGETABLE BEAT MAP MANAGER! DID YOU FORGET TO PUT THE BEAT MAP TARGET MANAGER PREFAB IN YOUR SCENE?");
+            return;
+        }
         if (this.targetLockable == targetLockable) return;
         // Otherwise, change whether or not this target is lockable
         this.targetLockable = targetLockable;
