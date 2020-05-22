@@ -7,6 +7,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] float hitPoints = 3f;
     [SerializeField] EnemyAI enemyAIRef;
     [SerializeField] CyberBugAnimationController bugAnimator;
+    [SerializeField] LockableTarget lockableTargetReference;
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +27,15 @@ public class EnemyHealth : MonoBehaviour
         {
             enemyAIRef.Provoke();
             hitPoints -= damage;
+            if (lockableTargetReference != null) lockableTargetReference.OnDamageTaken();
         }
         else if (hitPoints <= 0)
         {
+            if (lockableTargetReference != null)
+            {
+                lockableTargetReference.OnDamageTaken();
+                lockableTargetReference.ToggleLockableTarget(false);
+            }
             bugAnimator.PlayDeathAnimation();
             GetComponent<AIRoamingController>().enabled = false;
         }
@@ -36,6 +43,18 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (lockableTargetReference != null)
+        {
+            lockableTargetReference.ToggleLockableTarget(false);
+        }
         Destroy(gameObject);
+    }
+
+    public LockableTarget LockableTargetReference
+    {
+        get
+        {
+            return lockableTargetReference;
+        }
     }
 }

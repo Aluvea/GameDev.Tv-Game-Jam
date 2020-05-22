@@ -37,6 +37,10 @@ public class BeatSyncIndicatorManager : MonoBehaviour
         {
             BeatSyncReceiver.BeatReceiver.PlayerInputSynced += OnPlayerInputReceived;
         }
+        if(PlayerController.PlayerCamera != null)
+        {
+            GetComponent<Canvas>().worldCamera = PlayerController.PlayerCamera.transform.Find("FPS Camera").GetComponent<Camera>();
+        }
     }
 
     private void DeconstructBeatSyncIndicator()

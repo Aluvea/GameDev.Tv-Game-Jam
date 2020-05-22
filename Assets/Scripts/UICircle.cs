@@ -24,6 +24,27 @@ public class UICircle : MonoBehaviour
         UpdateCircleSize(radius);
     }
 
+    /// <summary>
+    /// The circle's color
+    /// </summary>
+    public Color CircleColor
+    {
+        get {
+            return line.color;
+        }
+    }
+
+    /// <summary>
+    /// The circle radius in pixels
+    /// </summary>
+    public float CircleRadius
+    {
+        get
+        {
+            return radius;
+        }
+    }
+
     public void UpdateCircleColor(Color color)
     {
         line.color = color;
