@@ -13,7 +13,8 @@ public class TargetBeatMapManager : MonoBehaviour
     [SerializeField] TargetableBeatMapUI targetableBeatMapB;
     [Tooltip("Layer mask applied when testing if an enemy is in the crosshair")]
     [SerializeField] LayerMask enemyRayTesterMask;
-    
+    [Tooltip("Layer mask applied when testing if obstacles are between the player and an enemy")]
+    [SerializeField] LayerMask obstacleTesterMask;
     private TargetableBeatMapUI currentlyActiveBeatMap;
     private LockableTarget currentTarget = null;
 
@@ -104,8 +105,6 @@ public class TargetBeatMapManager : MonoBehaviour
     {
         // If there are no targets to lock onto, then return null
         if (lockableTargets.Count == 0) return null;
-        // If there is only one target to lock onto, then return it
-        if (lockableTargets.Count == 1) return lockableTargets[0];
 
         // Otherwise, proceed with calculations to see which target is the closest to the crosshair / closest target
         // Cache the next target to lock onto
@@ -232,9 +231,39 @@ public class TargetBeatMapManager : MonoBehaviour
     /// <returns></returns>
     private bool IsTargetWithinCameraView(LockableTarget target)
     {
-        return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), target.TargetRenderer.bounds);
+        bool isWithinCameraFrustum = GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), target.TargetRenderer.bounds);
+        if (isWithinCameraFrustum == false) return false;
+
+        if (IsObstacleBetweenPlayerAndTarget(target)) return false;
+
+        return true;
     }
-    
+
+
+    Vector3 testPosition;
+
+    /// <summary>
+    /// Returns whether or not an obstacle exists between the player and the target
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    private bool IsObstacleBetweenPlayerAndTarget(LockableTarget target)
+    {
+        testPosition = target.TargetRenderer.transform.position;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        testPosition.y -= target.TargetRenderer.bounds.extents.y;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        testPosition.y += target.TargetRenderer.bounds.size.y;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        return true;
+    }
+
+    private bool IsObstacleBetweenPlayerAndTarget(Vector3 worldPosition)
+    {
+        return Physics.Linecast(PlayerController.PlayerCamera.transform.position, worldPosition, obstacleTesterMask.value);
+    }
+
+
 
 
 }

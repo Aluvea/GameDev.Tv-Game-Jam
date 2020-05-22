@@ -335,6 +335,9 @@ MonoBehaviour:
   enemyRayTesterMask:
     serializedVersion: 2
     m_Bits: 7169
+  obstacleTesterMask:
+    serializedVersion: 2
+    m_Bits: 1025
 --- !u!1 &3982503717383501756
 GameObject:
   m_ObjectHideFlags: 0
