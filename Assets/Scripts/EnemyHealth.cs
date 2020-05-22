@@ -44,7 +44,6 @@ public class EnemyHealth : MonoBehaviour
                     (enemyAnimator as Animations.IPlayDeathAnimation).PlayDeathAnimation();
                 }
             }
-            GetComponent<AIRoamingController>().enabled = false;
         }
     }
 

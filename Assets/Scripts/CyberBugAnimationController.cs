@@ -45,6 +45,8 @@ public class CyberBugAnimationController : AnimationController, IPlayMovementAni
     /// </summary>
     public void PlayDeathAnimation()
     {
+        GetComponent<AIRoamingController>().enabled = false;
+        GetComponent<CharacterController>().enabled = false;
         enemyAnimator.SetTrigger(deathTriggerParameter);
     }
 }
