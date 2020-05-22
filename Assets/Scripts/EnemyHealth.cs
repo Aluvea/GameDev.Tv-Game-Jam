@@ -5,7 +5,8 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] float hitPoints = 3f;
-    [SerializeField] EnemyAI enemyAIRef;
+    [Tooltip("The enemy script used to handle taking damage")]
+    [SerializeField] EnemyDamageHandler enemyDamageHandler;
     [SerializeField] Animations.AnimationController enemyAnimator;
     [SerializeField] LockableTarget lockableTargetReference;
 
@@ -25,7 +26,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (hitPoints > 0)
         {
-            enemyAIRef.Provoke();
+            enemyDamageHandler.OnDamageTaken();
             hitPoints -= damage;
             if (lockableTargetReference != null) lockableTargetReference.OnDamageTaken();
         }

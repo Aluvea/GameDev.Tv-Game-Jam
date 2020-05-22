@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : EnemyDamageHandler
 {
     [SerializeField] Transform target;
     [SerializeField] float chaseRange = 5f;
@@ -70,7 +70,7 @@ public class EnemyAI : MonoBehaviour
         bugAnimator.PlayAttackAnimation();
     }
 
-    public void Provoke()
+    public override void OnDamageTaken()
     {
         isProvoked = true;
     }

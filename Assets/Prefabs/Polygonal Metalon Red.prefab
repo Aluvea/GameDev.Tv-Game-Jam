@@ -1629,9 +1629,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 3
-  enemyAIRef: {fileID: 7869470354702628546}
-  enemyAnimator: {fileID: 0}
-  lockableTargetReference: {fileID: 0}
+  enemyDamageHandler: {fileID: 7869470354702628546}
+  enemyAnimator: {fileID: 7869470354702628558}
+  lockableTargetReference: {fileID: 6639169261391410779}
 --- !u!114 &7869470354702628548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1892,3 +1892,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3012992716171551904}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6639169261391410779 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8499239919839073019, guid: 671df71a1b1501047a588d86bbc9f564,
+    type: 3}
+  m_PrefabInstance: {fileID: 3012992716171551904}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd609513714eddf41897c779a19eebbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
