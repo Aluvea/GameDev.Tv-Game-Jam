@@ -24,7 +24,34 @@ public class WeaponShooting : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            if (BeatSyncReceiver.BeatReceiver.RequestInputAction(out BeatInputSync playerSync))
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        ProcessRayCast();
+    }
+
+    private void PlayMuzzleFlash()
+    {
+        muzzleFlash.Play();
+    }
+
+    private void ProcessRayCast()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
+        {
+            EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
+
+            if (target == null)
+            {
+                CreateHitImpact(hit);
+                PlayMuzzleFlash();
+                mAudioSource.Play();
+            }
+            else if (BeatSyncReceiver.BeatReceiver.RequestInputAction(out BeatInputSync playerSync))
             {
                 if (playerSync == BeatInputSync.PERFECT)
                 {
@@ -42,37 +69,13 @@ public class WeaponShooting : MonoBehaviour
                 {
                     damage = 0f;
                 }
-
-                Shoot();
+                target.TakeDamage(damage);
+                Debug.Log("Damage is " + damage + " on " + target.gameObject.name);
+                CreateHitImpact(hit);
+                PlayMuzzleFlash();
                 mAudioSource.Play();
             }
-        }
-    }
-
-    private void Shoot()
-    {
-        PlayMuzzleFlash();
-        ProcessRayCast();
-    }
-
-    private void PlayMuzzleFlash()
-    {
-        muzzleFlash.Play();
-    }
-
-    private void ProcessRayCast()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
-        {
-            CreateHitImpact(hit);
-
-            EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
-
-            if (target == null) return;
-
-            target.TakeDamage(damage);
-            Debug.Log("Damage is " + damage);
+            
         }
         else
         {
@@ -82,6 +85,7 @@ public class WeaponShooting : MonoBehaviour
 
     private void CreateHitImpact(RaycastHit hit)
     {
+        
         GameObject impact = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impact, 1);
     }

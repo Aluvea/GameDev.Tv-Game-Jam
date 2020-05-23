@@ -44,6 +44,8 @@ public class EnemyHealth : MonoBehaviour
                     (enemyAnimator as Animations.IPlayDeathAnimation).PlayDeathAnimation();
                 }
             }
+
+            Destroy(this);
         }
     }
 
@@ -53,7 +55,6 @@ public class EnemyHealth : MonoBehaviour
         {
             lockableTargetReference.ToggleLockableTarget(false);
         }
-        Destroy(gameObject);
     }
 
     public LockableTarget LockableTargetReference

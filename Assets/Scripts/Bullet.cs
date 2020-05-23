@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
 
     [Min(25.0f)]
     float bulletDistance = 90.0f;
-
+    [SerializeField]
     private LayerMask bulletMask;
 
     private Vector3 bulletTargetPosition;
@@ -84,6 +84,11 @@ public class Bullet : MonoBehaviour
                 // TO-DO
                 // Check if the target reference can be damaged
                 // If not, then emmit spark VFX
+                PlayerHealth healthAttached = transformRef.GetComponent<PlayerHealth>();
+                if(healthAttached != null)
+                {
+                    healthAttached.TakeDamage(damage);
+                }
             }
             // If the target transform has been destroyed for what ever reason, then proceed to move towards the bullet's destination 
             else if(transformRef == null)

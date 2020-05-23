@@ -45,6 +45,9 @@ public class MechAnimationController : AnimationController, IPlayMovementAnimati
     /// </summary>
     public void PlayDeathAnimation()
     {
+        AIRoamingController roamController = GetComponent<AIRoamingController>();
+        roamController.SetRoam(false);
+        GetComponent<MechAttackScript>().StopAttackingTarget();
         enemyAnimator.SetTrigger(deathTriggerParameter);
     }
 }

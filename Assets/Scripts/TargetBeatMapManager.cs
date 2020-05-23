@@ -124,6 +124,12 @@ public class TargetBeatMapManager : MonoBehaviour
                 i--;
                 continue;
             }
+            if (lockableTargets[i].TargetIsLockable == false)
+            {
+                lockableTargets.RemoveAt(i);
+                i--;
+                continue;
+            }
 
             // If the target is not visible, then continue checking the next lockable target
             if (IsTargetWithinCameraView(lockableTargets[i]) == false) continue;
@@ -189,7 +195,14 @@ public class TargetBeatMapManager : MonoBehaviour
                 healthFound = hitCast.transform.GetComponent<EnemyHealth>();
                 if(healthFound != null)
                 {
-                    return healthFound.LockableTargetReference;
+                    if (healthFound.LockableTargetReference.TargetIsLockable)
+                    {
+                        return healthFound.LockableTargetReference;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 // Otherwise, return null
                 else

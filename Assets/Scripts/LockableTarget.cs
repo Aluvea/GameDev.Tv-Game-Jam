@@ -20,6 +20,17 @@ public class LockableTarget : MonoBehaviour
 
     private bool targetLockable = true;
 
+    /// <summary>
+    /// Whether or not this target is lockable
+    /// </summary>
+    public bool TargetIsLockable
+    {
+        get
+        {
+            return targetLockable;
+        }
+    }
+
     private void Start()
     {
         targetLockable = !targetIsLockableOnAwake;
@@ -84,9 +95,10 @@ public class LockableTarget : MonoBehaviour
     {
         if (TargetBeatMapManager.TargetBeatMapManagerSingleton == null)
         {
-            Debug.LogError("LOCKABLE TARGET CAN'T FIND A TARGETABLE BEAT MAP MANAGER! DID YOU FORGET TO PUT THE BEAT MAP TARGET MANAGER PREFAB IN YOUR SCENE?");
+            if(targetLockable) Debug.LogError("LOCKABLE TARGET CAN'T FIND A TARGETABLE BEAT MAP MANAGER! DID YOU FORGET TO PUT THE BEAT MAP TARGET MANAGER PREFAB IN YOUR SCENE?");
             return;
         }
+
         if (this.targetLockable == targetLockable) return;
         // Otherwise, change whether or not this target is lockable
         this.targetLockable = targetLockable;
@@ -103,7 +115,7 @@ public class LockableTarget : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(targetLockable)TargetBeatMapManager.TargetBeatMapManagerSingleton.OnTargetUnlockable(this);
+        if(targetLockable && TargetBeatMapManager.TargetBeatMapManagerSingleton != null) TargetBeatMapManager.TargetBeatMapManagerSingleton.OnTargetUnlockable(this);
     }
 
 

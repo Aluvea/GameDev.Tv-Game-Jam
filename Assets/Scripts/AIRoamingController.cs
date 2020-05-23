@@ -71,6 +71,11 @@ public class AIRoamingController : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        SetRoam(false);
+    }
+
     /// <summary>
     /// Method called to make this AI start roaming
     /// </summary>
@@ -93,6 +98,7 @@ public class AIRoamingController : MonoBehaviour
             {
                 StopCoroutine(roamingCoroutine);
                 roamingCoroutine = null;
+                if(characterMovementController != null) characterMovementController.MoveCharacter(Vector2.zero);
             }
         }
     }

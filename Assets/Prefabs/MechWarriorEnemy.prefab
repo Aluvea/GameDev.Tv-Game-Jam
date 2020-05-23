@@ -1999,6 +1999,8 @@ GameObject:
   - component: {fileID: 2845697111291606232}
   - component: {fileID: 2845697111291606237}
   - component: {fileID: 1161305562}
+  - component: {fileID: 2587977538372103983}
+  - component: {fileID: 5153746370917151467}
   m_Layer: 11
   m_Name: MechWarriorEnemy
   m_TagString: Untagged
@@ -2109,13 +2111,7 @@ MonoBehaviour:
   randomizedPathRange: 25
   pathWanderDuration: 5
   navMeshLayerName: NavMesh
-  pathPositionReferences:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  pathPositionReferences: []
 --- !u!195 &2845697111291606232
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2182,12 +2178,43 @@ MonoBehaviour:
   hitChance: 0.65
   neverMissRange: 5
   attackRange: 65
-  hitDamage: 0.5
+  hitDamage: 3
   projectileLayerMask:
     serializedVersion: 2
     m_Bits: 1809
-  testTargeting: 1
+  attackTurnRadiansDela: 0.05
+  attackTurnMagnitudeDelta: 0.05
+  testTargeting: 0
   testTargetTransformRef: {fileID: 0}
+  debugMessages: 0
+--- !u!114 &2587977538372103983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10820814655561552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 10
+  enemyDamageHandler: {fileID: 5153746370917151467}
+  enemyAnimator: {fileID: 2845697111291606237}
+  lockableTargetReference: {fileID: 1456856443}
+--- !u!114 &5153746370917151467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10820814655561552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c43607eb07e969b48a2f701b51b9ba9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &10820814655561554
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,3 +3295,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8499239920664448896}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1456856443 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8499239919839073019, guid: 671df71a1b1501047a588d86bbc9f564,
+    type: 3}
+  m_PrefabInstance: {fileID: 8499239920664448896}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd609513714eddf41897c779a19eebbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
