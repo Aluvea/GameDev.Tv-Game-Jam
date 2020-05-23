@@ -265,6 +265,58 @@ MonoBehaviour:
   stareIKReference: {fileID: 1225483544}
   leftHandIKReference: {fileID: 933343212}
   rightHandIKReference: {fileID: 74177251}
+--- !u!1 &1467623934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1467623935}
+  - component: {fileID: 1467623936}
+  m_Layer: 11
+  m_Name: Line of Sight Ref Forward
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1467623935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467623934}
+  m_LocalRotation: {x: 0.45234787, y: -0.42482325, z: 0.54349, w: 0.56526566}
+  m_LocalPosition: {x: 1.7599921, y: -42.200176, z: 5.2000413}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 10820814655849260}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1467623936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467623934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4640414bef4e0024a8dd50015a5e07a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageHandler: {fileID: 5153746370917151467}
+  lineOfSightReference: {fileID: 1467623935}
+  lineOfSightDegreesRange: 40
+  lineOfSightDistance: 25
+  lineOfSightFrequencyCheck: 0.25
+  lineOfSightTestMask:
+    serializedVersion: 2
+    m_Bits: 1025
+  scoutCallDistance: 15
 --- !u!1 &10820814655561376
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +960,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e496c597152364d83283b44a9d4ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissolveEffectDuration: 6
   renderers:
   - {fileID: 10820814650282514}
   - {fileID: 10820814650282512}
@@ -1236,6 +1287,7 @@ Transform:
   - {fileID: 10820814655849238}
   - {fileID: 1225483543}
   - {fileID: 1114377581}
+  - {fileID: 1467623935}
   m_Father: {fileID: 10820814655849330}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2175,6 +2227,7 @@ MonoBehaviour:
   attackTriggerParameterName: attack
   deathTriggerParameter: die
   moveAnimationAcceleration: 3
+  changeToLayerOnDeath: DeadEnemies
   dissolveAnimationReference: {fileID: 2845697111107838354}
 --- !u!114 &1161305562
 MonoBehaviour:

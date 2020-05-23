@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class MechDamageHandler : EnemyDamageHandler
 {
-    bool attackingPlayer = false;
+    public bool AttackingPlayer
+    {
+        private set;
+        get;
+    } = false;
 
     public override void OnDamageTaken()
     {
-        if(attackingPlayer == false)
+        AttackPlayer();
+    }
+
+    public void AttackPlayer()
+    {
+        if (AttackingPlayer == false)
         {
-            attackingPlayer = true;
+            AttackingPlayer = true;
             GetComponent<MechAttackScript>().StartAttackingTarget(PlayerController.PlayerCamera.transform);
         }
     }
