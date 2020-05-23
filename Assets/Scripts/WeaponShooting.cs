@@ -11,6 +11,7 @@ public class WeaponShooting : MonoBehaviour
     private float damage;
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] GameObject hitEffect;
+    [SerializeField] LayerMask shootLayerMask;
     private AudioSource mAudioSource;
 
     // Start is called before the first frame update
@@ -41,7 +42,7 @@ public class WeaponShooting : MonoBehaviour
     private void ProcessRayCast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
+        if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range, shootLayerMask.value))
         {
             EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
 

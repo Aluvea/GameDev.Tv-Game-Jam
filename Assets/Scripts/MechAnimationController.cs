@@ -17,7 +17,9 @@ public class MechAnimationController : AnimationController, IPlayMovementAnimati
     [SerializeField] string deathTriggerParameter = "die";
     [Tooltip("How quickly movement animations should be interpolated (this is useful for smoothly transitioning stopped idle animations to moving animations)")]
     [SerializeField] float moveAnimationAcceleration = 3.0f;
-    
+    [SerializeField] string changeToLayerOnDeath = "DeadEnemies";
+    [SerializeField] Dissolve dissolveAnimationReference;
+
     /// <summary>
     /// The cached movement vector
     /// </summary>
@@ -49,5 +51,8 @@ public class MechAnimationController : AnimationController, IPlayMovementAnimati
         roamController.SetRoam(false);
         GetComponent<MechAttackScript>().StopAttackingTarget();
         enemyAnimator.SetTrigger(deathTriggerParameter);
+        this.gameObject.layer = LayerMask.NameToLayer(changeToLayerOnDeath);
+        dissolveAnimationReference.PlayDissolveAnimation(1.4f, 6.0f, this.gameObject);
     }
+
 }

@@ -265,6 +265,9 @@ MonoBehaviour:
   range: 100
   muzzleFlash: {fileID: 1878191302230059060}
   hitEffect: {fileID: 5999269673242927921}
+  shootLayerMask:
+    serializedVersion: 2
+    m_Bits: 3073
 --- !u!1 &2751066004427174995
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +335,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2359
+    m_Bits: 10551
   m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

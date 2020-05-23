@@ -766,6 +766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 10820814655849248}
   - component: {fileID: 10820814650282516}
+  - component: {fileID: 2845697111107838354}
   m_Layer: 11
   m_Name: Body1
   m_TagString: Untagged
@@ -805,7 +806,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1666fb81395f51e4293b01cca8f58481, type: 2}
+  - {fileID: 2100000, guid: 3c1b5b00cca379548a0165b74cd4978a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -895,6 +896,28 @@ SkinnedMeshRenderer:
     m_Center: {x: -31.982391, y: 2.5145874, z: 0.0000019073486}
     m_Extent: {x: 51.12609, y: 46.604404, z: 27.749142}
   m_DirtyAABB: 0
+--- !u!114 &2845697111107838354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10820814655561472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e496c597152364d83283b44a9d4ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveEffectDuration: 6
+  renderers:
+  - {fileID: 10820814650282514}
+  - {fileID: 10820814650282512}
+  - {fileID: 10820814650282518}
+  - {fileID: 10820814650282516}
+  - {fileID: 10820814650282522}
+  - {fileID: 10820814650282520}
+  dissolveMaterial: {fileID: 2100000, guid: 3c1b5b00cca379548a0165b74cd4978a, type: 2}
+  dissolveParameterName: _Cutoff
 --- !u!1 &10820814655561474
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,7 +967,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1666fb81395f51e4293b01cca8f58481, type: 2}
+  - {fileID: 2100000, guid: 3c1b5b00cca379548a0165b74cd4978a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1347,7 +1370,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1666fb81395f51e4293b01cca8f58481, type: 2}
+  - {fileID: 2100000, guid: 3c1b5b00cca379548a0165b74cd4978a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1645,7 +1668,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1666fb81395f51e4293b01cca8f58481, type: 2}
+  - {fileID: 2100000, guid: 3c1b5b00cca379548a0165b74cd4978a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2152,6 +2175,7 @@ MonoBehaviour:
   attackTriggerParameterName: attack
   deathTriggerParameter: die
   moveAnimationAcceleration: 3
+  dissolveAnimationReference: {fileID: 2845697111107838354}
 --- !u!114 &1161305562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2572,7 +2596,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1666fb81395f51e4293b01cca8f58481, type: 2}
+  - {fileID: 2100000, guid: 3c1b5b00cca379548a0165b74cd4978a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2864,7 +2888,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1666fb81395f51e4293b01cca8f58481, type: 2}
+  - {fileID: 2100000, guid: 3c1b5b00cca379548a0165b74cd4978a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
