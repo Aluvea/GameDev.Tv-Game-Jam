@@ -43,11 +43,12 @@ public class MechAttackScript : MonoBehaviour
 
     [Tooltip("The physical contact layermask applied to this mech's bullet projectiles")]
     [SerializeField] LayerMask projectileLayerMask;
-
+    [SerializeField] float attackTurnRadiansDela = 0.5f;
+    [SerializeField] float attackTurnMagnitudeDelta = 0.5f;
     [Header("Testing Settings")]
     [SerializeField] bool testTargeting;
     [SerializeField] Transform testTargetTransformRef;
-    
+    [SerializeField] bool debugMessages = false;
 
     Coroutine attackCoroutine = null;
 
@@ -71,7 +72,7 @@ public class MechAttackScript : MonoBehaviour
     {
         if(attackCoroutine != null)
         {
-            Debug.LogWarning("StartAttackingTarget was called but this mech attack script is already targeting another target!");
+            if(debugMessages) Debug.LogWarning("StartAttackingTarget was called but this mech attack script is already targeting another target!");
             StopAttackingTarget();
         }
 
@@ -95,14 +96,29 @@ public class MechAttackScript : MonoBehaviour
 
     IEnumerator AttackTargetCoroutine(Transform target)
     {
-        // Cahce a Vector3 direction to look at
-        Vector3 lookAtDirection;
-        // Setup the inverse kinematic to keep looking at the target
-        ikSetup.SetupIKTargetAnimation(target);
-        // Cache the next timestamp when the mech should attack (based on frequency)
-        float nextAttackTimestamp = Time.time + attackFrequency + Random.Range(0.0f, attackFrequencyMaxRandomizedTimeModifier);
+        // Cahce a Vector3 direction to look at the target
+        Vector3 lookAtDirection = target.position - mechRootTransformRef.position;
+        lookAtDirection.y = mechRootTransformRef.forward.y;
+        // Set the navmesh angular speed to 0 so we can control the mech's rotation
+        GetComponent<UnityEngine.AI.NavMeshAgent>().angularSpeed = 0.0f;
+        
         // Assign the current target to the target variable
         currentTarget = target;
+        // Rotate towards the target
+        while (Vector3.Angle(mechRootTransformRef.forward, lookAtDirection) > Mathf.Epsilon)
+        {
+            lookAtDirection = target.position - mechRootTransformRef.position;
+            lookAtDirection.y = mechRootTransformRef.forward.y;
+
+            mechRootTransformRef.forward = Vector3.RotateTowards(mechRootTransformRef.forward, lookAtDirection, attackTurnRadiansDela, attackTurnMagnitudeDelta);
+            yield return null;
+        }
+
+        // Cache the next timestamp when the mech should attack (based on frequency)
+        float nextAttackTimestamp = Time.time + attackFrequency + Random.Range(0.0f, attackFrequencyMaxRandomizedTimeModifier);
+        // Setup the inverse kinematic to keep looking at the target
+        ikSetup.SetupIKTargetAnimation(target);
+
         // Keep attacking indefinitely, this coroutine will be stopped if StopAttacking is called
         while (true)
         {
@@ -118,7 +134,7 @@ public class MechAttackScript : MonoBehaviour
                 // Check if we can attack the target, also get the target's distance
                 if(CanAttackTarget(target, out float targetDistance))
                 {
-                    Debug.LogWarning("Target is in line of sight!");
+                    if (debugMessages) Debug.LogWarning("Target is in line of sight!");
                     // If the target's distance is less than the never miss range, then hit the target
                     // Otherwise, set the hit target based on the hitchance assigned
                     shouldHitTarget = (targetDistance <= neverMissRange) ? true : Random.Range(0, 1.0f) < hitChance;
@@ -129,18 +145,21 @@ public class MechAttackScript : MonoBehaviour
                     // Shoot a bullet projectile towards at the bullet target position determined
                     ShootBulletProjectile(bulletTargetPosition, hitDamage);
                     // Log if the target should be hit or missed
-                    if (shouldHitTarget)
+                    if (debugMessages)
                     {
-                        Debug.LogWarning("Mech Would Have Hit Target!");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Mech Would Have Missed Target!");
+                        if (shouldHitTarget)
+                        {
+                            Debug.LogWarning("Mech Would Have Hit Target!");
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Mech Would Have Missed Target!");
+                        }
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("Target is not in line of sight!");
+                    if (debugMessages) Debug.LogWarning("Target is not in line of sight!");
                 }
 
                 // Setup the next attack timestamp

@@ -5,8 +5,10 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] float hitPoints = 3f;
-    [SerializeField] EnemyAI enemyAIRef;
-    [SerializeField] CyberBugAnimationController bugAnimator;
+    [Tooltip("The enemy script used to handle taking damage")]
+    [SerializeField] EnemyDamageHandler enemyDamageHandler;
+    [SerializeField] Animations.AnimationController enemyAnimator;
+    [SerializeField] LockableTarget lockableTargetReference;
 
     // Start is called before the first frame update
     void Start()
@@ -24,18 +26,42 @@ public class EnemyHealth : MonoBehaviour
     {
         if (hitPoints > 0)
         {
-            enemyAIRef.Provoke();
+            enemyDamageHandler.OnDamageTaken();
             hitPoints -= damage;
+            if (lockableTargetReference != null) lockableTargetReference.OnDamageTaken();
         }
         else if (hitPoints <= 0)
         {
-            bugAnimator.PlayDeathAnimation();
-            GetComponent<AIRoamingController>().enabled = false;
+            if (lockableTargetReference != null)
+            {
+                lockableTargetReference.OnDamageTaken();
+                lockableTargetReference.ToggleLockableTarget(false);
+            }
+            if(enemyAnimator != null)
+            {
+                if (enemyAnimator is Animations.IPlayDeathAnimation)
+                {
+                    (enemyAnimator as Animations.IPlayDeathAnimation).PlayDeathAnimation();
+                }
+            }
+
+            Destroy(this);
         }
     }
 
     private void OnDestroy()
     {
-        Destroy(gameObject);
+        if (lockableTargetReference != null)
+        {
+            lockableTargetReference.ToggleLockableTarget(false);
+        }
+    }
+
+    public LockableTarget LockableTargetReference
+    {
+        get
+        {
+            return lockableTargetReference;
+        }
     }
 }

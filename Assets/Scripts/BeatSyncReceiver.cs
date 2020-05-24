@@ -187,25 +187,6 @@ public class BeatSyncReceiver : MonoBehaviour
         {
             // Remove the beat from the list of catchable beats
             catchableBeats.Remove(beat);
-
-            // If the groove controller's groove mode is off, then punish the player
-            if(GrooveController.GrooveControllerSingleton != null)
-            {
-                if(GrooveController.GrooveControllerSingleton.GrooveToggled == false)
-                {
-                    // Tell the beat UI that the beat has been missed
-                    RaisePlayerInputEvent(beat, BeatInputSync.MISS);
-                    // Update the combo count to 0
-                    ResetComboCount();
-                }
-            }
-            else
-            {
-                // Tell the beat UI that the beat has been missed
-                RaisePlayerInputEvent(beat, BeatInputSync.MISS);
-                // Update the combo count to 0
-                ResetComboCount();
-            }
         }
     }
     
@@ -247,6 +228,35 @@ public class BeatSyncReceiver : MonoBehaviour
     BeatInputSync lastInputActionRequestResult;
 
     /// <summary>
+    /// The last beat sync the player hit
+    /// </summary>
+    public BeatSyncData LastBeatHit
+    {
+        private set;
+        get;
+    } = null;
+
+    /// <summary>
+    /// The input sync type of the last beat the player hit
+    /// </summary>
+    public BeatInputSync LastBeatHitSyncType
+    {
+        private set;
+        get;
+    } = BeatInputSync.MISS;
+
+    /// <summary>
+    /// The maximum amount of time allowed to hit a beat (INCLUSIVE SECONDS NOT EXCLUSIVE)
+    /// </summary>
+    public float MaxTimeToHitABeat
+    {
+        get
+        {
+            return maxTimeToLandOKSync;
+        }
+    }
+
+    /// <summary>
     /// Method called when the user requests an input action, returns the input beat synchronization type
     /// </summary>
     /// <returns></returns>
@@ -254,7 +264,6 @@ public class BeatSyncReceiver : MonoBehaviour
     {
         // If the user already requested an action in the same frame, then return the last hit sync type
         if (Time.frameCount == lastInputActionRequestTimeframe) return lastInputActionRequestResult;
-        TurnOffGrooveMode();
         // Cache the closest beat to the user's input
         BeatSyncData hitBeat = null;
         // Cache the hit beat target time difference
@@ -299,6 +308,7 @@ public class BeatSyncReceiver : MonoBehaviour
             lastInputActionRequestTimeframe = Time.frameCount;
             // Remove the hit beat from our beats to catch list
             catchableBeats.Remove(hitBeat);
+            
             // Increment the combo count
             IncrementComboCount();
             // Get the sync type based on the time difference between the beat's target time and the input
@@ -317,6 +327,8 @@ public class BeatSyncReceiver : MonoBehaviour
             }
             lastInputActionRequestResult = syncType;
             RaisePlayerInputEvent(hitBeat, syncType);
+            LastBeatHit = hitBeat;
+            LastBeatHitSyncType = syncType;
             return syncType;
         }
     }
@@ -331,16 +343,6 @@ public class BeatSyncReceiver : MonoBehaviour
         RaiseComboCountChangedEvent();
     }
 
-    /// <summary>
-    /// Turns off groove mode on the Groove Controller
-    /// </summary>
-    private void TurnOffGrooveMode()
-    {
-        if(GrooveController.GrooveControllerSingleton != null)
-        {
-            GrooveController.GrooveControllerSingleton.ToggleOffGrooveMode();
-        }
-    }
 
     /// <summary>
     /// Method called to increment the combo count

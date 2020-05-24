@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SF_Door
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - FPSHands
   - NavMesh
   - Enemy
-  - 
-  - 
+  - LockingSystem
+  - DeadEnemies
   - 
   - 
   - 

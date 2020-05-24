@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] string lookYAxis;
     [SerializeField] bool invertYAxis;
     [SerializeField] string jump;
+    [SerializeField] bool jumpCountsTowardsCombos = false;
     [SerializeField] bool lockMouseCursorToScreenOnStartup = true;
 
     /// <summary>
@@ -40,6 +41,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private bool isGrounded = false;
 
+    /// <summary>
+    /// The main player camera
+    /// </summary>
+    public static Camera PlayerCamera
+    {
+        get;
+        private set;
+    }
+
     private void Awake()
     {
         // Set the mouse curser so it's locked
@@ -49,6 +59,7 @@ public class PlayerController : MonoBehaviour
         }
         // Cache the player's initial camera rotation
         playerCameraRotation = playerCamera.transform.localEulerAngles;
+        PlayerCamera = playerCamera;
     }
 
     // Update is called once per frame
@@ -134,7 +145,14 @@ public class PlayerController : MonoBehaviour
         // Square Root of (desiredHeigh * -2 * gravity)
         if (Input.GetButtonDown(jump))
         {
-            if (BeatSyncReceiver.BeatReceiver.RequestInputAction())
+            if (jumpCountsTowardsCombos)
+            {
+                if (BeatSyncReceiver.BeatReceiver.RequestInputAction())
+                {
+                    playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
+                }
+            }
+            else
             {
                 playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
             }
