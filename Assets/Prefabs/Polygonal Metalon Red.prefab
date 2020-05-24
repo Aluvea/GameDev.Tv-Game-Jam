@@ -1427,11 +1427,11 @@ GameObject:
   - component: {fileID: 7869470354702628559}
   - component: {fileID: 7869470354702628558}
   - component: {fileID: 7869470354702628557}
-  - component: {fileID: 7869470354702628556}
   - component: {fileID: 7869470354702628555}
   - component: {fileID: 7869470354702628546}
   - component: {fileID: 7869470354702628547}
   - component: {fileID: 7869470354702628548}
+  - component: {fileID: 7118150286770742768}
   m_Layer: 11
   m_Name: Polygonal Metalon Red
   m_TagString: Untagged
@@ -1550,34 +1550,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7869470354702628556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7869470354702628554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636626f3dcf707445b9a05cf182859ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterMovementController: {fileID: 7869470354702628555}
-  agentStoppingDistance: 0.25
-  pauseDurationUponReachingDestination: 5
-  roamingMode: 0
-  startRoamingOnAwake: 1
-  roamSpeed: 0.5
-  randomizedPathRange: 15
-  pathWanderDuration: 5
-  navMeshLayerName: NavMesh
-  pathPositionReferences:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &7869470354702628555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1645,6 +1617,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
+--- !u!114 &7118150286770742768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7869470354702628554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636626f3dcf707445b9a05cf182859ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterMovementController: {fileID: 0}
+  agentStoppingDistance: 0
+  pauseDurationUponReachingDestination: 0
+  roamingMode: 0
+  startRoamingOnAwake: 1
+  roamSpeed: 0.5
+  randomizedPathRange: 15
+  pathWanderDuration: 5
+  navMeshLayerName: NavMesh
+  pathPositionReferences: []
 --- !u!1 &7869470354989254527
 GameObject:
   m_ObjectHideFlags: 0
