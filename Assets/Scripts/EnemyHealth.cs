@@ -26,7 +26,14 @@ public class EnemyHealth : MonoBehaviour
     {
         if (hitPoints > 0)
         {
-            enemyDamageHandler.OnDamageTaken();
+            if(enemyDamageHandler != null)
+            {
+                enemyDamageHandler.OnDamageTaken();
+            }
+            else
+            {
+                Debug.LogWarning("EnemyHealthScript on " + gameObject.name + " doesn't have an enemy damage handler!");
+            }
             hitPoints -= damage;
             if (lockableTargetReference != null) lockableTargetReference.OnDamageTaken();
         }
@@ -44,6 +51,8 @@ public class EnemyHealth : MonoBehaviour
                     (enemyAnimator as Animations.IPlayDeathAnimation).PlayDeathAnimation();
                 }
             }
+
+            RaiseDiedEvent();
 
             Destroy(this);
         }
@@ -64,4 +73,19 @@ public class EnemyHealth : MonoBehaviour
             return lockableTargetReference;
         }
     }
+
+    /// <summary>
+    /// Event raised when this enemy health script runs out of health
+    /// </summary>
+    public event EnemyDiedHandler Died;
+
+    private void RaiseDiedEvent()
+    {
+        if(Died != null)
+        {
+            Died.Invoke(this);
+        }
+    }
 }
+
+public delegate void EnemyDiedHandler(EnemyHealth deadEnemy);
