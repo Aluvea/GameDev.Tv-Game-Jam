@@ -36,4 +36,22 @@ public class PlayerHealth : MonoBehaviour
             gameOverUI.HandleDeath();
         }
     }
+
+    public void GiftHealth(float health)
+    {
+        currentHealth += health;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        healthUI.UpdateHealthUIMeter(currentHealth, maxHealth);
+    }
+
+    /// <summary>
+    /// Whether or not the player has full health
+    /// </summary>
+    public bool AtFullHealth
+    {
+        get
+        {
+            return maxHealth == currentHealth;
+        }
+    }
 }
