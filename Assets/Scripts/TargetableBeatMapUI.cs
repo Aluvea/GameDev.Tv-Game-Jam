@@ -98,7 +98,7 @@ public class TargetableBeatMapUI : MonoBehaviour
         // If the target is within the camera's view, then get the size of the object in screen space (pixel space)
         if (IsTargetWithinCameraView())
         {
-            Vector2 sizeInPixels = GetObjectSizeInPixels();
+            Vector2 sizeInPixels = GetObjectConstantSizeInPixels();
             // Cut the size of the object in pixels in half
             // We need to do this because the circle script is scaled by radius (half the sized of a circle)
             float suggestedRadius = sizeInPixels.magnitude / 2.0f;
@@ -168,8 +168,30 @@ public class TargetableBeatMapUI : MonoBehaviour
     Vector3 backFaceBottomLeftPos;
     Vector3 backFaceTopLeftPos;
 
+    Vector3 extents;
+
     /// <summary>
-    /// Returns the size of the target renderer in pixels on the screen
+    /// Get an object's size in pixels (irrrelative to it's rotation / constant)
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetObjectConstantSizeInPixels()
+    {
+        lockOnTargetBoundsCenter = lockOnTarget.TargetRenderer.bounds.center;
+        extents = lockOnTarget.TargetRenderer.bounds.extents;
+        extents.z = 0.0f;
+
+        frontFaceTopRightPos = lockOnTargetBoundsCenter + (PlayerController.PlayerCamera.transform.right * extents.magnitude) + (PlayerController.PlayerCamera.transform.up * extents.magnitude);
+        frontFaceBottomLeftPos = lockOnTargetBoundsCenter + ( - PlayerController.PlayerCamera.transform.right * extents.magnitude) + (- PlayerController.PlayerCamera.transform.up * extents.magnitude);
+
+        frontFaceTopRightPos = PlayerController.PlayerCamera.WorldToScreenPoint(frontFaceTopRightPos);
+        frontFaceBottomLeftPos = PlayerController.PlayerCamera.WorldToScreenPoint(frontFaceBottomLeftPos);
+        Vector3[] positions = { frontFaceTopRightPos, frontFaceBottomLeftPos };
+
+        return new Vector3(CalculateWidth(positions), CalculateHeight(positions), 0.0f);
+    }
+
+    /// <summary>
+    /// Returns the size of the target renderer in pixels on the screen (relative to its rotation / dynamic)
     /// </summary>
     /// <returns></returns>
     private Vector3 GetObjectSizeInPixels()
