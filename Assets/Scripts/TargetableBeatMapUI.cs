@@ -19,14 +19,14 @@ public class TargetableBeatMapUI : MonoBehaviour
 
     [Range(0.15f,1.0f)]
     [SerializeField] float maxCanvasSizeRatio = 0.5f;
-
+    [SerializeField] LayerMask obstacleTesterMask;
     [Header("Beat Sync Color Settings")]
     [SerializeField] Color perfectColor;
     [SerializeField] Color goodColor;
     [SerializeField] Color okColor;
     [SerializeField] Color missColor;
     [SerializeField] Color neutralColor;
-
+    
 
     private float maxRadiusSize = float.MaxValue;
     private float lastScreenSizeOnRadiusUpdate;
@@ -312,9 +312,41 @@ public class TargetableBeatMapUI : MonoBehaviour
     /// <returns></returns>
     private bool IsTargetWithinCameraView()
     {
-        return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), lockOnTarget.TargetRenderer.bounds);
+        if(TargetBeatMapManager.TargetBeatMapManagerSingleton.SwitchMode == TargetBeatMapManager.TargetSwitchMode.Automated)
+        {
+            return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), lockOnTarget.TargetRenderer.bounds);
+        }
+        else
+        {
+            if (GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), lockOnTarget.TargetRenderer.bounds) == false) return false;
+            if (IsObstacleBetweenPlayerAndTarget(lockOnTarget)) return false;
+            return true;
+        }
+        
     }
 
+    Vector3 testPosition;
+
+    /// <summary>
+    /// Returns whether or not an obstacle exists between the player and the target
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    private bool IsObstacleBetweenPlayerAndTarget(LockableTarget target)
+    {
+        testPosition = target.TargetRenderer.transform.position;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        testPosition.y -= target.TargetRenderer.bounds.extents.y;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        testPosition.y += target.TargetRenderer.bounds.size.y;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        return true;
+    }
+
+    private bool IsObstacleBetweenPlayerAndTarget(Vector3 worldPosition)
+    {
+        return Physics.Linecast(PlayerController.PlayerCamera.transform.position, worldPosition, obstacleTesterMask.value);
+    }
 
     /// <summary>
     /// Our beat sample UI object pool queue
