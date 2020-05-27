@@ -32,6 +32,7 @@ public class PlayerHealth : MonoBehaviour
 
         else if (currentHealth <= 0)
         {
+            Time.timeScale = 0;
             gameOverUI.HandleDeath();
         }
     }

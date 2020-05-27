@@ -12,6 +12,7 @@ public class EnemyAI : EnemyDamageHandler
     [SerializeField] CyberBugAttack cyberBugAttack;
     [SerializeField] float turnSpeed = 5f;
 
+
     NavMeshAgent navMeshAgent;
     float distanceToTarget = Mathf.Infinity;
     bool isProvoked = false;
@@ -73,6 +74,7 @@ public class EnemyAI : EnemyDamageHandler
     public override void OnDamageTaken()
     {
         isProvoked = true;
+        GetComponent<AIRoamingController>().SetRoam(false);
     }
 
     private void FaceTarget()
