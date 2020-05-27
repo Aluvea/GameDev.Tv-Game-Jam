@@ -15,6 +15,10 @@ public class TargetBeatMapManager : MonoBehaviour
     [SerializeField] LayerMask enemyRayTesterMask;
     [Tooltip("Layer mask applied when testing if obstacles are between the player and an enemy")]
     [SerializeField] LayerMask obstacleTesterMask;
+    [Header("Target Switch Mode Settings")]
+    [SerializeField] TargetSwitchMode targetMode = TargetSwitchMode.Manual;
+    [Tooltip("The button used to switch a target when in manual mode")]
+    [SerializeField] string changeTargetInputName ="Fire2";
     private TargetableBeatMapUI currentlyActiveBeatMap;
     private LockableTarget currentTarget = null;
 
@@ -22,7 +26,15 @@ public class TargetBeatMapManager : MonoBehaviour
     {
         TargetBeatMapManagerSingleton = this;
         currentlyActiveBeatMap = targetableBeatMapA;
-        StartCoroutine(MonitorNextVisibleTargetToLockOnto());
+        if(targetMode == TargetSwitchMode.Automated)
+        {
+            StartCoroutine(LockOntoTargetAutomatically());
+        }
+        else
+        {
+            StartCoroutine(LockOntoTargetManually());
+        }
+        
     }
 
     private void Start()
@@ -81,12 +93,25 @@ public class TargetBeatMapManager : MonoBehaviour
         {
             // Set the currently active beat map so it's locked onto nothing
             currentlyActiveBeatMap.SetLockableTarget(null);
-            // Get the next target to lock onto
-            currentTarget = GetNextTargetToLockOnto();
-            // Alternate to the next beat map UI
-            currentlyActiveBeatMap = currentlyActiveBeatMap == targetableBeatMapA ? targetableBeatMapB : targetableBeatMapA;
-            // Lock onto the current target
-            currentlyActiveBeatMap.SetLockableTarget(currentTarget);
+            if(targetMode == TargetSwitchMode.Automated)
+            {
+                // Get the next target to lock onto
+                currentTarget = GetNextTargetToLockOnto();
+                // Alternate to the next beat map UI
+                currentlyActiveBeatMap = currentlyActiveBeatMap == targetableBeatMapA ? targetableBeatMapB : targetableBeatMapA;
+                // Lock onto the current target
+                currentlyActiveBeatMap.SetLockableTarget(currentTarget);
+            }
+            else
+            {
+                // Nullify the next target to lock onto
+                currentTarget = null;
+                // Alternate to the next beat map UI
+                currentlyActiveBeatMap = currentlyActiveBeatMap == targetableBeatMapA ? targetableBeatMapB : targetableBeatMapA;
+                // Lock onto the current target
+                currentlyActiveBeatMap.SetLockableTarget(currentTarget);
+            }
+            
         }
         
     }
@@ -95,8 +120,7 @@ public class TargetBeatMapManager : MonoBehaviour
     /// The target beat map manager's list of lockable targets (visible and invisible)
     /// </summary>
     List<LockableTarget> lockableTargets = new List<LockableTarget>();
-
-
+    
     /// <summary>
     /// Returns the next target to lock onto
     /// </summary>
@@ -215,8 +239,31 @@ public class TargetBeatMapManager : MonoBehaviour
         return null;
     }
 
+    IEnumerator LockOntoTargetManually()
+    {
+        LockableTarget nextTarget = null;
+        while (true)
+        {
+            if (Input.GetButtonDown(changeTargetInputName))
+            {
+                nextTarget = GetLockableTargetFromRayCast();
 
-    IEnumerator MonitorNextVisibleTargetToLockOnto()
+                if (currentTarget != nextTarget)
+                {
+                    currentTarget = nextTarget;
+                    currentlyActiveBeatMap.SetLockableTarget(null);
+                    currentlyActiveBeatMap = currentlyActiveBeatMap == targetableBeatMapA ? targetableBeatMapB : targetableBeatMapA;
+                    currentlyActiveBeatMap.SetLockableTarget(currentTarget);
+                }
+            }
+
+
+            yield return null;
+        }
+    }
+
+
+    IEnumerator LockOntoTargetAutomatically()
     {
         LockableTarget nextTarget = null;
 
@@ -278,5 +325,10 @@ public class TargetBeatMapManager : MonoBehaviour
 
 
 
+    public enum TargetSwitchMode { Manual, Automated}
 
+    public TargetSwitchMode SwitchMode
+    {
+        get { return targetMode; }
+    }
 }

@@ -19,14 +19,14 @@ public class TargetableBeatMapUI : MonoBehaviour
 
     [Range(0.15f,1.0f)]
     [SerializeField] float maxCanvasSizeRatio = 0.5f;
-
+    [SerializeField] LayerMask obstacleTesterMask;
     [Header("Beat Sync Color Settings")]
     [SerializeField] Color perfectColor;
     [SerializeField] Color goodColor;
     [SerializeField] Color okColor;
     [SerializeField] Color missColor;
     [SerializeField] Color neutralColor;
-
+    
 
     private float maxRadiusSize = float.MaxValue;
     private float lastScreenSizeOnRadiusUpdate;
@@ -98,7 +98,7 @@ public class TargetableBeatMapUI : MonoBehaviour
         // If the target is within the camera's view, then get the size of the object in screen space (pixel space)
         if (IsTargetWithinCameraView())
         {
-            Vector2 sizeInPixels = GetObjectSizeInPixels();
+            Vector2 sizeInPixels = GetObjectConstantSizeInPixels();
             // Cut the size of the object in pixels in half
             // We need to do this because the circle script is scaled by radius (half the sized of a circle)
             float suggestedRadius = sizeInPixels.magnitude / 2.0f;
@@ -168,8 +168,30 @@ public class TargetableBeatMapUI : MonoBehaviour
     Vector3 backFaceBottomLeftPos;
     Vector3 backFaceTopLeftPos;
 
+    Vector3 extents;
+
     /// <summary>
-    /// Returns the size of the target renderer in pixels on the screen
+    /// Get an object's size in pixels (irrrelative to it's rotation / constant)
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetObjectConstantSizeInPixels()
+    {
+        lockOnTargetBoundsCenter = lockOnTarget.TargetRenderer.bounds.center;
+        extents = lockOnTarget.TargetRenderer.bounds.extents;
+        extents.z = 0.0f;
+
+        frontFaceTopRightPos = lockOnTargetBoundsCenter + (PlayerController.PlayerCamera.transform.right * extents.magnitude) + (PlayerController.PlayerCamera.transform.up * extents.magnitude);
+        frontFaceBottomLeftPos = lockOnTargetBoundsCenter + ( - PlayerController.PlayerCamera.transform.right * extents.magnitude) + (- PlayerController.PlayerCamera.transform.up * extents.magnitude);
+
+        frontFaceTopRightPos = PlayerController.PlayerCamera.WorldToScreenPoint(frontFaceTopRightPos);
+        frontFaceBottomLeftPos = PlayerController.PlayerCamera.WorldToScreenPoint(frontFaceBottomLeftPos);
+        Vector3[] positions = { frontFaceTopRightPos, frontFaceBottomLeftPos };
+
+        return new Vector3(CalculateWidth(positions), CalculateHeight(positions), 0.0f);
+    }
+
+    /// <summary>
+    /// Returns the size of the target renderer in pixels on the screen (relative to its rotation / dynamic)
     /// </summary>
     /// <returns></returns>
     private Vector3 GetObjectSizeInPixels()
@@ -290,9 +312,41 @@ public class TargetableBeatMapUI : MonoBehaviour
     /// <returns></returns>
     private bool IsTargetWithinCameraView()
     {
-        return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), lockOnTarget.TargetRenderer.bounds);
+        if(TargetBeatMapManager.TargetBeatMapManagerSingleton.SwitchMode == TargetBeatMapManager.TargetSwitchMode.Automated)
+        {
+            return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), lockOnTarget.TargetRenderer.bounds);
+        }
+        else
+        {
+            if (GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(PlayerController.PlayerCamera), lockOnTarget.TargetRenderer.bounds) == false) return false;
+            if (IsObstacleBetweenPlayerAndTarget(lockOnTarget)) return false;
+            return true;
+        }
+        
     }
 
+    Vector3 testPosition;
+
+    /// <summary>
+    /// Returns whether or not an obstacle exists between the player and the target
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    private bool IsObstacleBetweenPlayerAndTarget(LockableTarget target)
+    {
+        testPosition = target.TargetRenderer.transform.position;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        testPosition.y -= target.TargetRenderer.bounds.extents.y;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        testPosition.y += target.TargetRenderer.bounds.size.y;
+        if (IsObstacleBetweenPlayerAndTarget(testPosition) == false) return false;
+        return true;
+    }
+
+    private bool IsObstacleBetweenPlayerAndTarget(Vector3 worldPosition)
+    {
+        return Physics.Linecast(PlayerController.PlayerCamera.transform.position, worldPosition, obstacleTesterMask.value);
+    }
 
     /// <summary>
     /// Our beat sample UI object pool queue
