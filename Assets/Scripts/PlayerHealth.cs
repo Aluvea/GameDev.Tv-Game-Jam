@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] float maxHealth = 100f;
     [SerializeField] float currentHealth;
     [SerializeField] GameOverUI gameOverUI;
+    [SerializeField] WeaponShooting weaponShooting;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,14 @@ public class PlayerHealth : MonoBehaviour
 
         else if (currentHealth <= 0)
         {
+            Destroy(weaponShooting);
+            Destroy(GetComponent<PlayerController>());
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
             Time.timeScale = 0;
+
             gameOverUI.HandleDeath();
         }
     }

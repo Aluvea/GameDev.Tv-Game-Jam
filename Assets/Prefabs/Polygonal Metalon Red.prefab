@@ -1584,7 +1584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  chaseRange: 5
+  chaseRange: 8
   bugAnimator: {fileID: 7869470354702628558}
   cyberBugAttack: {fileID: 7869470354702628548}
   turnSpeed: 5

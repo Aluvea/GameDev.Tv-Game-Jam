@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameOverUI : MonoBehaviour
 {
-    [SerializeField] Canvas gameOverCanvas;
+    [SerializeField] GameObject gameOverCanvas;
     [SerializeField] Canvas beatMapCanvas;
     [SerializeField] Canvas FPSUICanvas;
     [SerializeField] GameObject beatMapPlayerManager;
@@ -12,7 +12,7 @@ public class GameOverUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameOverCanvas.enabled = false;
+        gameOverCanvas.SetActive(false);
         /*beatMapCanvas.enabled = true;
         FPSUICanvas.enabled = true;
         beatMapPlayerManager.SetActive(true);
@@ -27,18 +27,11 @@ public class GameOverUI : MonoBehaviour
 
     public void HandleDeath()
     {
-        gameOverCanvas.enabled = true;
+        gameOverCanvas.SetActive(true);
         beatMapCanvas.enabled = false;
         FPSUICanvas.enabled = false;
         beatMapPlayerManager.SetActive(false);
 
-        Time.timeScale = 0;
-
-        Destroy(GetComponent<WeaponShooting>());
-        Destroy(GetComponent<PlayerController>());
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
     /*public void PlayHandle()
     {
