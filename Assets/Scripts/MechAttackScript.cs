@@ -280,7 +280,8 @@ public class MechAttackScript : MonoBehaviour
         {
             float randomXAxisMissOffset = Random.Range(0.0f, 2f);
             float randomYAxisMissOffset = 2.0f - randomXAxisMissOffset;
-            return target.position + (gunMuzzleReference.right * randomXAxisMissOffset) + (randomYAxisMissOffset * gunMuzzleReference.up);
+            Vector3 leftOrRight = Random.Range(0.0f, 1.0f) < 0.5f ? gunMuzzleReference.right : -gunMuzzleReference.right;
+            return target.position + (leftOrRight * randomXAxisMissOffset) + (randomYAxisMissOffset * gunMuzzleReference.up);
         }
         // If the target should be hit, then offset the bullet target position down a little bit
         // It's annoying for bullets to be flying into the player's line of sight / camera

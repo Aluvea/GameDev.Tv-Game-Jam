@@ -12,10 +12,16 @@ public class BossMechBodyDecimator : Animations.AnimationController, Animations.
 
     [SerializeField] GameObject [] gameObjectsThatRequireRigidBodies;
     [SerializeField] Transform objectToDeroot;
-
-
+    [SerializeField] AudioClip[] clips;
+    [SerializeField] AudioSource audiouSource;
+    [SerializeField] ParticleSystem []destructionParticlesToEnable;
     [SerializeField] bool testDecimator;
 
+    public bool Decimated
+    {
+        private set;
+        get;
+    } = false;
 
     // Start is called before the first frame update
     void Start()
@@ -50,18 +56,32 @@ public class BossMechBodyDecimator : Animations.AnimationController, Animations.
             gameObjectsThatRequireRigidBodies[i].AddComponent<Rigidbody>().AddForce(Vector3.up * 0.1f);
         }
 
-        
-
+        Decimated = true;
+        PlayDecimationClip();
+        PlayParticleSystem();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void PlayDeathAnimation()
     {
         DecimateBodyPart();
+    }
+
+    private void PlayDecimationClip()
+    {
+        if(audiouSource != null && clips.Length > 0)
+        {
+            audiouSource.PlayOneShot(clips[Random.Range(0, clips.Length)]);
+        }
+    }
+    private void PlayParticleSystem()
+    {
+        if(destructionParticlesToEnable.Length > 0)
+        {
+            foreach (ParticleSystem particle in destructionParticlesToEnable)
+            {
+                if (particle != null) particle.Play(true);
+            }
+        }
     }
 }
