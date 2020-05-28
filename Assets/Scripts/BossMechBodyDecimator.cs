@@ -14,7 +14,7 @@ public class BossMechBodyDecimator : Animations.AnimationController, Animations.
     [SerializeField] Transform objectToDeroot;
     [SerializeField] AudioClip[] clips;
     [SerializeField] AudioSource audiouSource;
-
+    [SerializeField] ParticleSystem []destructionParticlesToEnable;
     [SerializeField] bool testDecimator;
 
     public bool Decimated
@@ -58,6 +58,7 @@ public class BossMechBodyDecimator : Animations.AnimationController, Animations.
 
         Decimated = true;
         PlayDecimationClip();
+        PlayParticleSystem();
     }
     
 
@@ -71,6 +72,16 @@ public class BossMechBodyDecimator : Animations.AnimationController, Animations.
         if(audiouSource != null && clips.Length > 0)
         {
             audiouSource.PlayOneShot(clips[Random.Range(0, clips.Length)]);
+        }
+    }
+    private void PlayParticleSystem()
+    {
+        if(destructionParticlesToEnable.Length > 0)
+        {
+            foreach (ParticleSystem particle in destructionParticlesToEnable)
+            {
+                if (particle != null) particle.Play(true);
+            }
         }
     }
 }
