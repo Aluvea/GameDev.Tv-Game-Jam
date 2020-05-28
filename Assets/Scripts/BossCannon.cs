@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossCannon : MonoBehaviour
 {
     [SerializeField] Bullet bulletPrefab;
-
+    [SerializeField] EnemyHealth canonHealth;
     [SerializeField] Transform gunMuzzle1Reference;
     [SerializeField] Transform gunMuzzle2Reference;
     [SerializeField] LayerMask projectileLayerMask;
@@ -23,10 +23,19 @@ public class BossCannon : MonoBehaviour
         {
             currentGunMuzzleUsed = gunMuzzle2Reference;
         }
-
+        canonHealth.Died += OnCannonDestroyed;
     }
 
+    public bool CanonDestroyed
+    {
+        private set;
+        get;
+    } = false;
 
+    private void OnCannonDestroyed(EnemyHealth deadEnemy)
+    {
+        CanonDestroyed = true;
+    }
 
     public void ShootPlayer(float hitDamage, bool shouldHitTarget)
     {
