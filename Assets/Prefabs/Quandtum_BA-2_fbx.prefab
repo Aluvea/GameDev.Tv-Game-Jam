@@ -2901,6 +2901,7 @@ MonoBehaviour:
   backLeftLeg: {fileID: 7781575674763008424}
   backRightLeg: {fileID: 7781575674724200677}
   legCheckFrequency: 0.1
+  bossMechManager: {fileID: 0}
 --- !u!1 &7781575674213522075
 GameObject:
   m_ObjectHideFlags: 0
@@ -3053,6 +3054,7 @@ MonoBehaviour:
   maxBulletsToHitPlayerInBarage: 4
   bulletBarageShotFrequency: 0.04
   bulletBarageShotFrequencySalt: 0.09
+  shockWaveParticles: {fileID: 0}
 --- !u!1 &7781575674285099953
 GameObject:
   m_ObjectHideFlags: 0
@@ -4672,7 +4674,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1714681308540598, guid: 5cbc537826220e04592d5a41a0dd985f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4657191099863204, guid: 5cbc537826220e04592d5a41a0dd985f, type: 3}
       propertyPath: m_LocalScale.x

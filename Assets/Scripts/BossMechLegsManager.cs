@@ -17,6 +17,8 @@ public class BossMechLegsManager : MonoBehaviour
 
     [SerializeField] float legCheckFrequency;
 
+    [SerializeField] BossMech bossMechManager;
+
     private void Start()
     {
         StartCoroutine(ManageLegs());
@@ -28,6 +30,7 @@ public class BossMechLegsManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(legCheckFrequency);
+            if (bossMechManager.EmittingShockwaveAttack) continue;
             yield return MoveLegSet(frontLeftLeg, frontLegsMovementThreshold, backRightLeg, backLegsMovementThreshold);
             yield return MoveLegSet(frontRightLeg, frontLegsMovementThreshold, backLeftLeg, backLegsMovementThreshold);
         }
@@ -60,6 +63,16 @@ public class BossMechLegsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns whether any legs are currently moving
+    /// </summary>
+    public bool AreAnyLegsMoving
+    {
+        get
+        {
+            return frontLeftLeg.IsMoving && frontRightLeg.IsMoving && backLeftLeg.IsMoving && backRightLeg.IsMoving;
+        }
+    }
     
 
 }

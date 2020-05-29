@@ -9,7 +9,7 @@ public class BeatSampleUI : MonoBehaviour
     [SerializeField] UnityEngine.UI.RawImage innerCircle;
     [SerializeField] UnityEngine.UI.RawImage outerCircle;
 
-
+    [SerializeField] bool debugBeatsInConsole = false;
 
     public bool PlayingBeat
     {
@@ -72,7 +72,7 @@ public class BeatSampleUI : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("UI Beat!");
+        if(debugBeatsInConsole) Debug.Log("UI Beat!");
 
         float fadeOutTimestamp = Time.time;
         float fadeOutDuration = endBeatAnimationTime - 0.25f - Time.time ;

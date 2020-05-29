@@ -50,6 +50,12 @@ public class PlayerController : MonoBehaviour
         private set;
     }
 
+    public static bool IsPlayerAirborne
+    {
+        private set;
+        get;
+    } = false;
+
     private void Awake()
     {
         // Set the mouse curser so it's locked
@@ -115,6 +121,7 @@ public class PlayerController : MonoBehaviour
     {
         // Cache whether or not the player is grounded
         isGrounded = IsGrounded();
+        IsPlayerAirborne = !isGrounded;
         // If the player is grounded, then allow the player the jump or reset the velocity
         if (isGrounded)
         {
@@ -150,11 +157,13 @@ public class PlayerController : MonoBehaviour
                 if (BeatSyncReceiver.BeatReceiver.RequestInputAction())
                 {
                     playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
+                    IsPlayerAirborne = true;
                 }
             }
             else
             {
                 playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
+                IsPlayerAirborne = true;
             }
         }
     }

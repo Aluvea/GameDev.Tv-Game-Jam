@@ -14,9 +14,13 @@ public class BossEyeTarget : MonoBehaviour
 
     Vector3 originalLocalEuler;
 
-    private void Start()
+    private void Awake()
     {
         originalLocalEuler = transform.localEulerAngles;
+    }
+
+    private void Start()
+    {
         if (testStare)
         {
             ToggleStare(testStare);
@@ -39,6 +43,7 @@ public class BossEyeTarget : MonoBehaviour
         while (staring)
         {
             transform.forward = GetPositionToLookAt();
+            FixRotation();
             yield return null;
         }
     }
@@ -49,20 +54,27 @@ public class BossEyeTarget : MonoBehaviour
     {
         DirectionToLookAt = PlayerController.PlayerCamera.transform.position - transform.position;
         DirectionToLookAt.Normalize();
+
+        return DirectionToLookAt;
+    }
+
+    private void FixRotation()
+    {
+        DirectionToLookAt = transform.localEulerAngles;
+
         if (freezeXRotation)
         {
-            DirectionToLookAt.x = transform.forward.x;
+            DirectionToLookAt.x = originalLocalEuler.x;
         }
         if (freezeYRotation)
         {
-            DirectionToLookAt.y = transform.forward.y;
+            DirectionToLookAt.y = originalLocalEuler.y;
         }
         if (freezeZRotation)
         {
-            DirectionToLookAt.z = transform.forward.z;
+            DirectionToLookAt.z = originalLocalEuler.z;
         }
-
-        return DirectionToLookAt;
+        transform.localEulerAngles = DirectionToLookAt;
     }
 
 

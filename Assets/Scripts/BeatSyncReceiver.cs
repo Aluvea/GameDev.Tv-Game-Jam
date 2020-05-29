@@ -134,13 +134,37 @@ public class BeatSyncReceiver : MonoBehaviour
         {
             Debug.Log("QUEUED BEAT " + beatData.ToString());
         }
+
+        if (NextAudibleBeat == null)
+        {
+            NextAudibleBeat = beatData;
+        }
+        else
+        {
+            queuedBeats.Enqueue(NextAudibleBeat);
+        }
     }
 
     /// <summary>
     /// The list of catchable beats
     /// </summary>
     List<BeatSyncData> catchableBeats = new List<BeatSyncData>();
-    
+
+    /// <summary>
+    /// Queued beats
+    /// </summary>
+    private Queue<BeatSyncData> queuedBeats = new Queue<BeatSyncData>();
+
+    /// <summary>
+    /// The next audible beat
+    /// </summary>
+    public BeatSyncData NextAudibleBeat
+    {
+        private set;
+        get;
+    }
+
+
     /// <summary>
     /// Coroutine used to monitor a beat for catching
     /// </summary>
@@ -160,24 +184,32 @@ public class BeatSyncReceiver : MonoBehaviour
         // Add the beat to the list of catchable beats
         catchableBeats.Add(beat);
 
-        if (debugBeatsInConsole || PlayedBeatToSync != null)
+        while (Time.time < beat.BeatTargetTime)
         {
-            while(Time.time < beat.BeatTargetTime)
-            {
-                yield return null;
-            }
+            yield return null;
+        }
 
-            if (debugBeatsInConsole)
-            {
-                Debug.Log("BEAT PLAYED " + beat.ToString());
-            }
+        if (debugBeatsInConsole)
+        {
+            Debug.Log("BEAT PLAYED " + beat.ToString());
+        }
 
-            RaiseBeatPlayedEvent(beat);
-            
+        RaiseBeatPlayedEvent(beat);
+
+        if(NextAudibleBeat == beat)
+        {
+            if(queuedBeats.Count > 0)
+            {
+                NextAudibleBeat = queuedBeats.Dequeue();
+            }
+            else
+            {
+                NextAudibleBeat = null;
+            }
         }
 
         // Wait until the beat is no longer catchable
-        while(Time.time <= maxCatchTime)
+        while (Time.time <= maxCatchTime)
         {
             yield return null;
         }
