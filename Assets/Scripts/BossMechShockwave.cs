@@ -5,51 +5,99 @@ using UnityEngine;
 public class BossMechShockwave : MonoBehaviour
 {
     [SerializeField] private float shockwaveDamage;
+    [SerializeField] private float shockWaveWidth = 1.0f;
+    [SerializeField] private float shockWaveHeight;
 
+    [SerializeField] Transform sphereRef;
+
+    ParticleSystem PSystem;
     private void Awake()
     {
         PSystem = GetComponent<ParticleSystem>();
-        CollisionEvents = new List<ParticleCollisionEvent>();
     }
     public void SetShockwaveDamage(float dmg)
     {
         shockwaveDamage = dmg;
-        
     }
 
-    private ParticleSystem PSystem;
-    private List<ParticleCollisionEvent> CollisionEvents;
-
-    private void OnParticleCollision(GameObject other)
+    public void PlayShockwave()
     {
-        Debug.LogWarning("OnParticleCollision in ShockWave!");
-
-        int collisionCount = ParticlePhysicsExtensions.GetCollisionEvents(PSystem, other, CollisionEvents);
-
+        StartCoroutine(MonitorPlayerHit());
+    }
 
 
-        Debug.Log("Collided with " + CollisionEvents.Count + " objects");
-        for (int i = 0; i < CollisionEvents.Count; i++)
+    IEnumerator MonitorPlayerHit()
+    {
+        PSystem.Play();
+        while(PSystem.particleCount  == 0)
         {
-            Debug.Log("Collided with " + CollisionEvents[i].colliderComponent.gameObject.name);
+            yield return null;
+        }
 
-            PlayerHealth playerHealth = CollisionEvents[i].colliderComponent.gameObject.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[PSystem.particleCount];
+
+        int particleCount = PSystem.GetParticles(particles);
+        ParticleSystem.Particle shockParticle = particles[particleCount - 1];
+        Vector3 startingPosition = shockParticle.position;
+        float radiusDistance;
+        Transform groundCheckRef = PlayerController.PlayerCamera.transform.parent.Find("Ground Check Cube");
+        PlayerHealth playerHealth = PlayerController.PlayerCamera.transform.parent.GetComponent<PlayerHealth>();
+        Vector3 playerPosition;
+        float playerDistanceFromStartingPosition;
+        Vector3 testDrawEndLinePosition;
+        Vector3 currentSize;
+        float deltaSize = 0;
+        float lastSize = 0;
+        float widthToUse = 0;
+        while (shockParticle.remainingLifetime > 0 && PSystem.particleCount > 0)
+        {
+            particleCount = PSystem.GetParticles(particles);
+            shockParticle = particles[particleCount - 1];
+            currentSize = shockParticle.GetCurrentSize3D(PSystem);
+            // Get the radius distance of the shock particle
+            radiusDistance = currentSize.x / 2.0f;
+
+            if(lastSize == 0)
             {
-                Debug.LogWarning("Shock wave hit player1");
-                if (PlayerController.IsPlayerAirborne == false)
+                lastSize = radiusDistance;
+                deltaSize = radiusDistance;
+            }
+            else
+            {
+                deltaSize = radiusDistance - lastSize;
+                lastSize = radiusDistance;
+            }
+
+            widthToUse = shockWaveWidth < deltaSize ? deltaSize : shockWaveWidth;
+
+            //Debug.LogWarning("Shockwave Size = " + currentSize +"; DeltaSize = "+ deltaSize);
+            
+            testDrawEndLinePosition = startingPosition;
+            testDrawEndLinePosition.x += radiusDistance;
+            testDrawEndLinePosition.y += 0.5f;
+            //Debug.DrawLine(startingPosition, testDrawEndLinePosition, Color.red, 1.0f);
+            playerPosition = groundCheckRef.position;
+            playerPosition.y = startingPosition.y;
+            playerDistanceFromStartingPosition = Vector3.Distance(playerPosition, startingPosition);
+            if (playerDistanceFromStartingPosition <= radiusDistance + widthToUse && playerDistanceFromStartingPosition >= radiusDistance - widthToUse)
+            {
+                Debug.LogWarning("PLAYER IS IN SHOCKWAVE RADIUS!");
+                if(PlayerController.IsPlayerAirborne == false)
                 {
-                    Debug.LogWarning("Damaging player!");
+                    Debug.LogWarning("PLAYER IS NOT AIRBORNE! TAKING DAMAGE!");
                     playerHealth.TakeDamage(shockwaveDamage);
+                    yield break;
                 }
                 else
                 {
-                    Debug.LogWarning("Player is airborne.");
-                }
-            }
-        }
 
-        
-        
+                    Debug.LogWarning("PLAYER IS AIRBORNE! NO SHOCKWAVE DAMAGE TO TAKE!");
+                }
+                
+            }
+
+            yield return null;
+        }
     }
+
 }

@@ -30,14 +30,11 @@ public class BossMech : MonoBehaviour
     [Range(0.0f, 5.0f)]
     [SerializeField] float bulletBarageShotFrequencySalt = 0.08f;
 
-    [Min(0)]
-    [SerializeField] int shockWaveAttackPrepBeatMapIndex;
-    [Range(1,5)]
-    [SerializeField] int shockWaveAttackPrepBeatMapCount;
-    [SerializeField] int shockWaveAttackBeatMapTargetIndex;
+    
 
     private void Start()
     {
+        shockWaveParticles.SetShockwaveDamage(shockWaveDamage);
         StartCoroutine(BossMechExecute());
         frontRightLegHealth.Died += OnLegDied;
         frontLeftLegHealth.Died += OnLegDied;
@@ -129,14 +126,20 @@ public class BossMech : MonoBehaviour
     [Header("Shockwave Settings")]
     [Min(3.0f)]
     [SerializeField] float distanceFromPlayerToAttackWithShockwave = 5.0f;
-    [SerializeField] ParticleSystem shockWaveParticles;
+    [SerializeField] BossMechShockwave shockWaveParticles;
+    [SerializeField] float shockWaveDamage = 1.0f;
     [SerializeField] float shockwaveJumpHeight;
     [SerializeField] float shockwaveJumpDuration;
     [SerializeField] float shockwaveWarningTime;
     [SerializeField] float shockwaveWarningLowerHeight;
     [SerializeField] AudioClip[] shockWaveAudioClips;
     [SerializeField] AudioSource shockWaveAudioSource;
-
+    [Header("Targetted Beat Map Shockwave Settings")]
+    [Min(0)]
+    [SerializeField] int shockWaveAttackPrepBeatMapIndex;
+    [Range(1, 5)]
+    [SerializeField] int shockWaveAttackPrepBeatMapCount;
+    [SerializeField] int shockWaveAttackBeatMapTargetIndex;
 
     IEnumerator ShockwaveAttack()
     {
@@ -206,7 +209,7 @@ public class BossMech : MonoBehaviour
         }
         jumpVector.y = originalYPosition;
         transform.localPosition = jumpVector;
-        shockWaveParticles.Play();
+        shockWaveParticles.PlayShockwave();
         PlayShockwaveAudioClip();
         yield return null;
         EmittingShockwaveAttack = false;
@@ -296,7 +299,7 @@ public class BossMech : MonoBehaviour
         }
         jumpVector.y = originalYPosition;
         transform.localPosition = jumpVector;
-        shockWaveParticles.Play();
+        shockWaveParticles.PlayShockwave();
         PlayShockwaveAudioClip();
         yield return null;
         EmittingShockwaveAttack = false;

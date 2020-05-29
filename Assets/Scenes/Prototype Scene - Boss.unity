@@ -18130,6 +18130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shockwaveDamage: 15
+  shockWaveWidth: 0
+  shockWaveHeight: 0
+  sphereRef: {fileID: 0}
 --- !u!1001 &644966084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19871,7 +19874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1797953483, guid: bdf84b9bc5efb774abf8ec44e520e60b, type: 3}
       propertyPath: debugBeatsInConsole
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8289602821139208809, guid: bdf84b9bc5efb774abf8ec44e520e60b,
         type: 3}
@@ -23698,6 +23701,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1314877387}
     m_Modifications:
+    - target: {fileID: 1172851387647780, guid: 5cbc537826220e04592d5a41a0dd985f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1714681308540598, guid: 5cbc537826220e04592d5a41a0dd985f, type: 3}
       propertyPath: m_Name
       value: ShockWave
@@ -23788,7 +23795,7 @@ PrefabInstance:
     - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
         type: 3}
       propertyPath: CollisionModule.enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
         type: 3}
@@ -23823,7 +23830,7 @@ PrefabInstance:
     - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
         type: 3}
       propertyPath: TriggerModule.inside
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
         type: 3}
@@ -23879,6 +23886,31 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeModule.y.maxCurve.m_Curve.Array.data[1].inWeight
       value: 0.4083499
+      objectReference: {fileID: 0}
+    - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
+        type: 3}
+      propertyPath: TriggerModule.collisionShape0
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
+        type: 3}
+      propertyPath: TriggerModule.outside
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
+        type: 3}
+      propertyPath: TriggerModule.exit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
+        type: 3}
+      propertyPath: cullingMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
+        type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cbc537826220e04592d5a41a0dd985f, type: 3}
@@ -41882,12 +41914,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 835964095}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &1459800331 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 198798914852134490, guid: 5cbc537826220e04592d5a41a0dd985f,
-    type: 3}
-  m_PrefabInstance: {fileID: 835964095}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1459800332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41901,6 +41927,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shockwaveDamage: 1
+  shockWaveWidth: 1
+  shockWaveHeight: 1
+  sphereRef: {fileID: 0}
 --- !u!4 &1460264883 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4402799294761104, guid: d64f573e69fdda34fa09e2633bd328ef,
@@ -63011,6 +63040,16 @@ PrefabInstance:
       propertyPath: freezeYRotation
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1439180824, guid: 305cf27aa821b704091b17c2f361c56a, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: b0d005a8b12488f4ebb4f6d246913387,
+        type: 2}
+    - target: {fileID: 1607703240, guid: 305cf27aa821b704091b17c2f361c56a, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: b0d005a8b12488f4ebb4f6d246913387,
+        type: 2}
     - target: {fileID: 541711733307105765, guid: 305cf27aa821b704091b17c2f361c56a,
         type: 3}
       propertyPath: clips.Array.size
@@ -63545,7 +63584,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shockWaveParticles
       value: 
-      objectReference: {fileID: 1459800331}
+      objectReference: {fileID: 1459800332}
     - target: {fileID: 7781575674213522068, guid: 305cf27aa821b704091b17c2f361c56a,
         type: 3}
       propertyPath: shockWaveAudioSource
