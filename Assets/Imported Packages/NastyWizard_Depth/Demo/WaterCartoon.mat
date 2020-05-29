@@ -40,21 +40,21 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Depth: -1
-    - _DepthThreshold: 0.08
+    - _Depth: -10
+    - _DepthThreshold: 0.1
     - _FPower: 1
-    - _FScale: 1
+    - _FScale: 2
     - _FlowCycleLength: 1
     - _FlowSpeed: 0
     - _Glossiness: 0.5
     - _Metallic: 0
-    - _NormalScale: 0
+    - _NormalScale: 1
     - _ToonShaded: 0
     - _WaveHeight: 1
-    - _WaveSpeed: 40
+    - _WaveSpeed: 30
     - _XFreq: 0
     - _ZFreq: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DepthColor: {r: 0.068574235, g: 0.34258738, b: 0.6320754, a: 1}
-    - _FColor: {r: 0.013705945, g: 0.20280315, b: 0.26415092, a: 1}
+    - _Color: {r: 0.10435208, g: 0.15476206, b: 0.3301887, a: 1}
+    - _DepthColor: {r: 0.15294118, g: 0.078431375, b: 0.09019608, a: 1}
+    - _FColor: {r: 0.047169805, g: 0.030037375, b: 0.030037375, a: 1}
