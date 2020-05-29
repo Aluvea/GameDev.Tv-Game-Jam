@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d402bc1d1dcfb2943922a62722569c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverCanvas: {fileID: 1718617616}
+  gameOverCanvas: {fileID: 1718617617}
   beatMapCanvas: {fileID: 683036889}
   FPSUICanvas: {fileID: 2106380389}
   beatMapPlayerManager: {fileID: 474644025}
@@ -2303,7 +2303,8 @@ PrefabInstance:
       propertyPath: shootLayerMask.m_Bits
       value: 3073
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 950381770, guid: 20bdb342fe5dd604c9daaee6343bb63f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 20bdb342fe5dd604c9daaee6343bb63f, type: 3}
 --- !u!4 &1610703552 stripped
 Transform:
@@ -2605,6 +2606,12 @@ Transform:
 --- !u!223 &1718617616 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 2179846161851792836, guid: 670222b22714d744dbfd7e27ac78fc92,
+    type: 3}
+  m_PrefabInstance: {fileID: 1718617614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1718617617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3118705708859688518, guid: 670222b22714d744dbfd7e27ac78fc92,
     type: 3}
   m_PrefabInstance: {fileID: 1718617614}
   m_PrefabAsset: {fileID: 0}
@@ -3029,6 +3036,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   gameOverUI: {fileID: 1970243588}
+  weaponShooting: {fileID: 0}
 --- !u!114 &1970243588
 MonoBehaviour:
   m_ObjectHideFlags: 0
