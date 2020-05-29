@@ -8,32 +8,57 @@ public class DoorExit : MonoBehaviour
 {
     [SerializeField] GameObject door;
     [SerializeField] List<EnemyHealth> enemies;
-    [SerializeField] EnemyHealth enemyToWaitToDie;
-    // Need to make a reference to a door animation
-    [SerializeField] int enemiesDied = 0;
+    [SerializeField] Animator doorAnimator;
+    private bool open = false;
+    private int enemiesDied = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemies = FindObjectsOfType<EnemyHealth>().ToList();
-        enemyToWaitToDie.Died += EnemyDead;
+        EnemyHealth MechWarrior0 = enemies[0];
+        MechWarrior0.Died += EnemyHealth_Died;
+
+        EnemyHealth MechWarrior1 = enemies[1];
+        MechWarrior1.Died += EnemyHealth_Died;
+
+        EnemyHealth MechWarrior2 = enemies[2];
+        MechWarrior2.Died += EnemyHealth_Died;
+
+        EnemyHealth MechWarrior3 = enemies[3];
+        MechWarrior3.Died += EnemyHealth_Died;
+
+        EnemyHealth MechWarrior4 = enemies[4];
+        MechWarrior4.Died += EnemyHealth_Died;
+
+        EnemyHealth CyberBug0 = enemies[5];
+        CyberBug0.Died += EnemyHealth_Died;
+
+        EnemyHealth CyberBug1 = enemies[6];
+        CyberBug1.Died += EnemyHealth_Died;
+
+        EnemyHealth CyberBug2 = enemies[7];
+        CyberBug2.Died += EnemyHealth_Died;
+
+        EnemyHealth CyberBug3 = enemies[8];
+        CyberBug3.Died += EnemyHealth_Died;
+
+        EnemyHealth CyberBug4 = enemies[9];
+        CyberBug4.Died += EnemyHealth_Died;
+
+        EnemyHealth CyberBug5 = enemies[10];
+        CyberBug5.Died += EnemyHealth_Died;
     }
 
-    private void EnemyDead(EnemyHealth deadEnemy)
+    private void EnemyHealth_Died(EnemyHealth deadEnemy)
     {
-        // This method is called whenever an enemy dies
-        // Whenever an enemy dies, I want it to add +1 to a counter
-        // When counter reaches 11 then execute the door animation
-
-        // A EnemyHealth class called deadEnemy is passed through into this method
-
         enemiesDied++;
+
         if (enemiesDied == enemies.Count)
         {
-            //Play Door animation OpenDoor();
-            door = GameObject.FindWithTag("Gen_Door_01_snaps002");
-            door.GetComponent<Animation>().Play("open");
-            Debug.Log("All enemies are dead");
+            Debug.Log("All enemies are dead" + " and Count is " + enemies.Count);
+
+            door.GetComponent<AudioSource>().Play();
+            doorAnimator.SetBool("open", true);
         }
 
     }
