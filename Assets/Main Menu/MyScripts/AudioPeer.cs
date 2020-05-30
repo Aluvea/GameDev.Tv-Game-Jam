@@ -61,7 +61,7 @@ public class AudioPeer : MonoBehaviour {
             }
             if (_frequBand[g] < _bandBuffer[g]) {
                 _bandBuffer[g] -= _bufferDecrease[g];
-                _bufferDecrease[g] *= 1.045f;
+                _bufferDecrease[g] *= 1.00f;
 
             }
 
