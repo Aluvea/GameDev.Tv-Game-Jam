@@ -14,7 +14,6 @@ public class BossMech : MonoBehaviour
     
     [SerializeField] BossCannon cannonL;
     [SerializeField] BossCannon cannonR;
-    [SerializeField] BossMechLegsManager mechLegsManager;
     [Header("Attack Settings")]
     [SerializeField] float attackFrequency = 5.0f;
     [SerializeField] float attackBulletDamage = 1.4f;
@@ -116,6 +115,8 @@ public class BossMech : MonoBehaviour
     {
         Debug.LogWarning("LEGS AND CANNON DESTROYED!");
         Debug.LogWarning("Entering Phase 2 Attack Mode!");
+        StopAllCoroutines();
+        phaseTwoRef.StartPhase2Battle();
     }
 
     public bool EmittingShockwaveAttack
@@ -140,6 +141,8 @@ public class BossMech : MonoBehaviour
     [Range(1, 5)]
     [SerializeField] int shockWaveAttackPrepBeatMapCount;
     [SerializeField] int shockWaveAttackBeatMapTargetIndex;
+    [Header("OPERATION PHASE TWO")]
+    [SerializeField] BossMechPhase2 phaseTwoRef;
 
     IEnumerator ShockwaveAttack()
     {
@@ -172,7 +175,6 @@ public class BossMech : MonoBehaviour
         movementController.enabled = false;
         yield return null;
         Debug.LogWarning("JUMPING SHOCKWAVE ATTACK!");
-        yield return new WaitForSeconds(0.48f);
 
         float jumpDuration = shockwaveWarningTime;
         
@@ -279,6 +281,16 @@ public class BossMech : MonoBehaviour
                 if (lerpAMT >= 1.0f) lerpAMT = 1.0f;
                 jumpVector.y = MathfExtensions.MathfExt.Oscillate(originalYPosition, jumpHeight, lerpAMT);
                 transform.localPosition = jumpVector;
+                yield return null;
+            }
+        }
+        else
+        {
+            
+            while (Time.time < targetTimestamp - jumpDuration)
+            {
+                agent.SetDestination(PlayerController.PlayerCamera.transform.position);
+                movementController.MoveCharacter(CharacterMovementController.AgentVelocityToVector2DInput(agent));
                 yield return null;
             }
         }

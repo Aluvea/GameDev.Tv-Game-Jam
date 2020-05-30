@@ -46,6 +46,7 @@ public class BossEyeTarget : MonoBehaviour
             FixRotation();
             yield return null;
         }
+
     }
 
     Vector3 DirectionToLookAt;

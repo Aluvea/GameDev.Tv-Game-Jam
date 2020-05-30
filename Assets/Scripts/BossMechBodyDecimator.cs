@@ -53,7 +53,8 @@ public class BossMechBodyDecimator : Animations.AnimationController, Animations.
 
         for (int i = 0; i < gameObjectsThatRequireRigidBodies.Length; i++)
         {
-            gameObjectsThatRequireRigidBodies[i].AddComponent<Rigidbody>().AddForce(Vector3.up * 0.1f);
+            GameObject bodyPart = gameObjectsThatRequireRigidBodies[i];
+            if(bodyPart != null) bodyPart.AddComponent<Rigidbody>().AddForce(Vector3.up * 0.1f);
         }
 
         Decimated = true;

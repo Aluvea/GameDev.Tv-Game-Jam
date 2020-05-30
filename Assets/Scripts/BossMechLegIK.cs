@@ -23,7 +23,7 @@ public class BossMechLegIK : MonoBehaviour
     private Vector3 restingLegLocalPosition;
 
     private Vector3 lastOffSetPosition;
-
+    float minYPosition;
     private void Awake()
     {
         // Set this transform position to the leg's reference position
@@ -32,6 +32,7 @@ public class BossMechLegIK : MonoBehaviour
         restingLegLocalPosition = mechRootReference.transform.InverseTransformPoint(mechLegReference.transform.position);
         restingLegLocalPosition.z += forwardOffset;
         lastOffSetPosition = restingLegLocalPosition;
+        minYPosition = transform.position.y;
     }
     
 
@@ -57,6 +58,7 @@ public class BossMechLegIK : MonoBehaviour
         // Cache the initial starting position relative to the root
         Vector3 initialStartLegMovementPosition = transform.position;
         Vector3 updatedRestingTargetPosition = mechRootReference.TransformPoint(restingLegLocalPosition);
+        updatedRestingTargetPosition.y = minYPosition;
         Vector3 directionInfluence = updatedRestingTargetPosition - transform.position;
 
         directionInfluence.Normalize();
@@ -73,7 +75,7 @@ public class BossMechLegIK : MonoBehaviour
             // Lerp amount is the runtime of the movement / the assign movement duration
             lerpAMT = (Time.time - startimeTimestamp) / legMovementDuration;
             updatedRestingTargetPosition = mechRootReference.TransformPoint(restingLegLocalPosition);
-
+            updatedRestingTargetPosition.y = minYPosition;
             directionInfluence = updatedRestingTargetPosition - initialStartLegMovementPosition;
             directionInfluence.Normalize();
             updatedRestingTargetPosition += directionInfluence * directionInfluenceMagnitude;

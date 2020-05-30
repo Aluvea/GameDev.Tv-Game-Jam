@@ -24,6 +24,8 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        hitPoints -= damage;
+
         if (hitPoints > 0)
         {
             if(enemyDamageHandler != null)
@@ -34,7 +36,7 @@ public class EnemyHealth : MonoBehaviour
             {
                 Debug.LogWarning("EnemyHealthScript on " + gameObject.name + " doesn't have an enemy damage handler!");
             }
-            hitPoints -= damage;
+            
             if (lockableTargetReference != null) lockableTargetReference.OnDamageTaken();
         }
         else if (hitPoints <= 0)
