@@ -74,7 +74,6 @@ public class EnemyAI : EnemyDamageHandler
     public override void OnDamageTaken()
     {
         isProvoked = true;
-        GetComponent<AIRoamingController>().SetRoam(false);
     }
 
     private void FaceTarget()
