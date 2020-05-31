@@ -6,6 +6,10 @@ public class BossMechPhase2 : MonoBehaviour
 {
     [Header("Game Object References")]
     [SerializeField] BossEyeTarget eyeTargetter;
+    [SerializeField] BoxCollider stunnedBoxCollider;
+    [SerializeField] CapsuleCollider hitBoxCollider;
+    [SerializeField] EnemyHealth healthRef;
+    [SerializeField] BossMeshMaterialManager matManager;
     [Header("Roll Build Up Settings")]
     [Tooltip("The rotation power towards the player (while the mech is targetting the player)")]
     [SerializeField] float rotateSpeed = 145;
@@ -44,6 +48,9 @@ public class BossMechPhase2 : MonoBehaviour
     [Min(3.0f)]
     [SerializeField] float stunDuration = 3.0f;
     [SerializeField] ParticleSystem [] dizzyParticles;
+    [Header("Death Game Object References")]
+    [SerializeField] SphereCollider bodySphereCollider;
+    [SerializeField] CapsuleCollider eyeCollider;
     [Header("Test Phase Settings")]
     [SerializeField] public bool testPhase2;
     [SerializeField] EnemyHealth[] EnemyHealthToDestroyUponTesting;
@@ -53,7 +60,15 @@ public class BossMechPhase2 : MonoBehaviour
     private void Awake()
     {
         bodyTransformRef = transform.Find("Body");
+        healthRef.Died += OnMechDied;
     }
+
+    private void OnMechDied(EnemyHealth deadEnemy)
+    {
+        mechDied = true;
+    }
+
+    private bool mechDied = false;
 
     private void Start()
     {
@@ -87,8 +102,15 @@ public class BossMechPhase2 : MonoBehaviour
     {
         // Remove this game object from its parent
         transform.parent = null;
+        stunnedBoxCollider.gameObject.SetActive(true);
+        stunnedBoxCollider.enabled = true;
+        hitBoxCollider.gameObject.SetActive(true);
+        hitBoxCollider.enabled = true;
+        
+
         // Enable the sphere collider on this game object
-        this.transform.GetComponent<SphereCollider>().enabled = true;
+        this.transform.GetComponent<SphereCollider>().enabled = false;
+        return;
         // Add a rigid body to this game object
         rigidBodyRef = this.transform.gameObject.AddComponent<Rigidbody>();
         // Set this rigidbody reference to is kinematic
@@ -100,8 +122,9 @@ public class BossMechPhase2 : MonoBehaviour
         // Reset the body rotation to its root
         yield return ResetBodyStareToRoot(1.0f);
 
-        while (true)
+        while (mechDied == false)
         {
+            matManager.LerpEmissionToColor(Color.red);
             // Rotate the body at player
             yield return RotateAtPlayer();
             // Build up the rotation charge
@@ -109,8 +132,24 @@ public class BossMechPhase2 : MonoBehaviour
             // Charge
             yield return Charge();
         }
+        OnBossDefeated();
+    }
+
+    private void OnBossDefeated()
+    {
+        matManager.LerpEmissionToColor(Color.black);
+        Debug.LogWarning("Boss Defeated!");
+        bodySphereCollider.enabled = true;
+        bodySphereCollider.gameObject.AddComponent<Rigidbody>().AddForce(Vector3.up * 8.0f);
+        eyeCollider.transform.parent = null;
+        eyeCollider.enabled = true;
+        eyeCollider.gameObject.AddComponent<Rigidbody>().AddForce(Vector3.up * 8.0f);
+        stunnedBoxCollider.gameObject.SetActive(false);
+        hitBoxCollider.gameObject.SetActive(false);
+        // Maybe an explosion?
 
     }
+    
 
     /// <summary>
     /// Simply rotates the mech towards the player, enumeration ends when the mech is facing the player
@@ -207,6 +246,7 @@ public class BossMechPhase2 : MonoBehaviour
                 rotateAtPlayer = Mathf.Lerp(maxRotatePowerTowardsPlayerSpeed, minRotatePowerTowardsPlayerSpeed, distanceFromStartPosition / distanceForMinRotationPower);
             }
         }
+        matManager.LerpToOriginalColor();
         PlayCrashAudioClip();
         // Simulate a collision recoil (pushback)
         StartCoroutine(PushBack(0.9f));
