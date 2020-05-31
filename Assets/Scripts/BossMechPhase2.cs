@@ -52,6 +52,9 @@ public class BossMechPhase2 : MonoBehaviour
     [SerializeField] SphereCollider bodySphereCollider;
     [SerializeField] CapsuleCollider eyeCollider;
     [SerializeField] AudioClip deathAudioClip;
+    [SerializeField] AudioClip explosionAudioClip;
+    [SerializeField] ParticleSystem[] explosionParticles;
+
     [Header("Test Phase Settings")]
     [SerializeField] public bool testPhase2;
     [SerializeField] EnemyHealth[] EnemyHealthToDestroyUponTesting;
@@ -148,8 +151,16 @@ public class BossMechPhase2 : MonoBehaviour
         eyeCollider.gameObject.AddComponent<Rigidbody>().AddForce(Vector3.up * 8.0f);
         stunnedBoxCollider.gameObject.SetActive(false);
         hitBoxCollider.gameObject.SetActive(false);
-        // Maybe an explosion?
         
+        for (int i = 0; i < explosionParticles.Length; i++)
+        {
+            if(i == 0)
+            {
+                explosionParticles[i].transform.parent.parent = null;
+            }
+            explosionParticles[i].Play();
+        }
+        audioSource.PlayOneShot(explosionAudioClip);
     }
     
 
