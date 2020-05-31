@@ -21,6 +21,8 @@ public class MechDamageHandler : EnemyDamageHandler
         {
             AttackingPlayer = true;
             GetComponent<MechAttackScript>().StartAttackingTarget(PlayerController.PlayerCamera.transform);
+            AIRoamingController AIController = GetComponent<AIRoamingController>();
+            if (AIController != null) AIController.SetRoamMode(AIRoamingController.RoamMode.RandomizedPathing);
         }
     }
 }

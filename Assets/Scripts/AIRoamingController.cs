@@ -175,6 +175,20 @@ public class AIRoamingController : MonoBehaviour
         }
     }
 
+    public void SetRoamMode(RoamMode roamMode)
+    {
+        if(roamMode == RoamMode.DefinedPathing)
+        {
+            if(pathPositionReferences.Length == 0)
+            {
+                Debug.LogError("Roam mode was set to defined pathing on " + this.gameObject.name + " but there are no path references setup in the pathPositionReferences array");
+                return;
+            }
+        }
+
+        this.roamingMode = roamMode;
+    }
+
     /// <summary>
     /// Returns a random position within a nav mesh for this citizen to roam towards
     /// </summary>
