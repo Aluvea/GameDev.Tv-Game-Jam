@@ -28,6 +28,7 @@ public class Pausebutton : MonoBehaviour
         GameOvUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Pause()
@@ -35,5 +36,6 @@ public class Pausebutton : MonoBehaviour
         GameOvUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

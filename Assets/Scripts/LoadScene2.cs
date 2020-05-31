@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadScene2 : MonoBehaviour
+public class Loadscene2 : MonoBehaviour
 {
-    public void Restartgame()
-
-
+    public void ExitMainMenu() 
     {
-
-        SceneManager.LoadScene("Playtest Scene 2 - Aluvea", LoadSceneMode.Single);
-        Time.timeScale = 1;
-
-
+        SceneManager.LoadScene("Main menu(Current)", LoadSceneMode.Single);
+        Time.timeScale = 1.0f;
     }
 
 }
