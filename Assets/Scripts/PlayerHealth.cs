@@ -40,6 +40,7 @@ public class PlayerHealth : MonoBehaviour
             Cursor.visible = true;
 
             Time.timeScale = 0;
+            GetComponent<AudioSource>().Play();
 
             gameOverUI.HandleDeath();
         }

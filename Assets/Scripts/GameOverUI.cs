@@ -31,7 +31,6 @@ public class GameOverUI : MonoBehaviour
         beatMapCanvas.enabled = false;
         FPSUICanvas.enabled = false;
         beatMapPlayerManager.SetActive(false);
-        Time.timeScale = 1;
 
     }
     /*public void PlayHandle()

@@ -32,7 +32,7 @@ EditorBuildSettings:
     path: Assets/_Archived Assets/UI Prototypes/Prototype Scene - UI Prototyping
       V5.unity
     guid: f1f9567c62ee28e4da330ffb38bedccb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Playtest Scene 1.unity
     guid: 8d51bce34dcd62547b4febf1057eb52c
   - enabled: 1

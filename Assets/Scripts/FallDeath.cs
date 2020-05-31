@@ -18,6 +18,7 @@ public class FallDeath : MonoBehaviour
         if (player.transform.position.y <= this.transform.position.y)
         {
             player.TakeDamage(float.MaxValue);
+            Time.timeScale = 1;
         }
     }
 }

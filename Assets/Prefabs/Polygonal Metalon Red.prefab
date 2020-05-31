@@ -1432,6 +1432,7 @@ GameObject:
   - component: {fileID: 7869470354702628547}
   - component: {fileID: 7869470354702628548}
   - component: {fileID: 7118150286770742768}
+  - component: {fileID: -5278395387678099985}
   m_Layer: 11
   m_Name: Polygonal Metalon Red
   m_TagString: Untagged
@@ -1629,7 +1630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636626f3dcf707445b9a05cf182859ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterMovementController: {fileID: 0}
+  characterMovementController: {fileID: 7869470354702628555}
   agentStoppingDistance: 0
   pauseDurationUponReachingDestination: 0
   roamingMode: 0
@@ -1639,6 +1640,21 @@ MonoBehaviour:
   pathWanderDuration: 5
   navMeshLayerName: NavMesh
   pathPositionReferences: []
+--- !u!114 &-5278395387678099985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7869470354702628554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e496c597152364d83283b44a9d4ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers: []
+  dissolveMaterial: {fileID: 2100000, guid: e318ecb29444643f09e7c0d3dea07387, type: 2}
+  dissolveParameterName: _Cutoff
 --- !u!1 &7869470354989254527
 GameObject:
   m_ObjectHideFlags: 0
