@@ -711,7 +711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPCamera: {fileID: 2751066004427174993}
   range: 100
-  muzzleFlash: {fileID: 3614249443009527232}
+  muzzleFlash: {fileID: 3480479502418251084}
   hitEffect: {fileID: 4870877734875511929}
   shootLayerMask:
     serializedVersion: 2
@@ -2724,7 +2724,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 961385379}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1707109532
+--- !u!1001 &172615708509150224
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2734,17 +2734,17 @@ PrefabInstance:
     - target: {fileID: 3350055855090824723, guid: 4a60d8477aafac045a1f56d3a60c7813,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.001
+      value: -0.16
       objectReference: {fileID: 0}
     - target: {fileID: 3350055855090824723, guid: 4a60d8477aafac045a1f56d3a60c7813,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.157
+      value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: 3350055855090824723, guid: 4a60d8477aafac045a1f56d3a60c7813,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.62
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3350055855090824723, guid: 4a60d8477aafac045a1f56d3a60c7813,
         type: 3}
@@ -2793,9 +2793,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a60d8477aafac045a1f56d3a60c7813, type: 3}
---- !u!198 &3614249443009527232 stripped
+--- !u!198 &3480479502418251084 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3614249443508621660, guid: 4a60d8477aafac045a1f56d3a60c7813,
     type: 3}
-  m_PrefabInstance: {fileID: 1707109532}
+  m_PrefabInstance: {fileID: 172615708509150224}
   m_PrefabAsset: {fileID: 0}
