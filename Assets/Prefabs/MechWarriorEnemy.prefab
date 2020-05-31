@@ -3412,6 +3412,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lockable Target Reference
       objectReference: {fileID: 0}
+    - target: {fileID: 8499239919839073014, guid: 671df71a1b1501047a588d86bbc9f564,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8499239919839073018, guid: 671df71a1b1501047a588d86bbc9f564,
         type: 3}
       propertyPath: m_LocalPosition.x
