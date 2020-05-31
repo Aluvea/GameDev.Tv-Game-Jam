@@ -13,7 +13,8 @@ public class WeaponShooting : MonoBehaviour
     [SerializeField] GameObject hitEffect;
     [SerializeField] LayerMask shootLayerMask;
     private AudioSource mAudioSource;
-
+    [Tooltip("Whether or not shooting always applies to the player's combo, even when an enemy target isn't hit from a bullet")]
+    [SerializeField] bool shootingAlwaysAppliesToCombo = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +49,7 @@ public class WeaponShooting : MonoBehaviour
 
             if (target == null)
             {
+                if (shootingAlwaysAppliesToCombo) BeatSyncReceiver.BeatReceiver.RequestInputAction();
                 CreateHitImpact(hit);
                 PlayMuzzleFlash();
                 mAudioSource.Play();

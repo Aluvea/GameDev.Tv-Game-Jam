@@ -154,17 +154,10 @@ public class PlayerController : MonoBehaviour
         {
             if (jumpCountsTowardsCombos)
             {
-                if (BeatSyncReceiver.BeatReceiver.RequestInputAction())
-                {
-                    playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
-                    IsPlayerAirborne = true;
-                }
+                BeatSyncReceiver.BeatReceiver.RequestInputAction();
             }
-            else
-            {
-                playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
-                IsPlayerAirborne = true;
-            }
+            playerVelocity.y = Mathf.Sqrt(playerJumpHeight * -2.0f * gravity);
+            IsPlayerAirborne = true;
         }
     }
 

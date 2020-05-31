@@ -37,11 +37,13 @@ public class BossMechPhase2 : MonoBehaviour
     [Tooltip("How much the mech should recoil after charging into an object")]
     [Min(1.0f)]
     [SerializeField] float collisionPushBack;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip[] crashAudioClips;
     [Header("Stun Settings")]
     [Tooltip("How long the mech should be stunned after it hits an object")]
     [Min(3.0f)]
     [SerializeField] float stunDuration = 3.0f;
-
+    [SerializeField] ParticleSystem [] dizzyParticles;
     [Header("Test Phase Settings")]
     [SerializeField] public bool testPhase2;
     [SerializeField] EnemyHealth[] EnemyHealthToDestroyUponTesting;
@@ -205,12 +207,15 @@ public class BossMechPhase2 : MonoBehaviour
                 rotateAtPlayer = Mathf.Lerp(maxRotatePowerTowardsPlayerSpeed, minRotatePowerTowardsPlayerSpeed, distanceFromStartPosition / distanceForMinRotationPower);
             }
         }
+        PlayCrashAudioClip();
         // Simulate a collision recoil (pushback)
         StartCoroutine(PushBack(0.9f));
+        ToggleDizzeParticles(true);
         // Reset the body stare to its native rotation
         yield return ResetBodyStareToRoot(1.0f);
         Debug.Log("Stunned!");
         yield return new WaitForSeconds(stunDuration);
+        ToggleDizzeParticles(false);
     }
 
     /// <summary>
@@ -323,6 +328,34 @@ public class BossMechPhase2 : MonoBehaviour
 
     }
 
-    
+    private void ToggleDizzeParticles(bool toggled)
+    {
+        for (int i = 0; i < dizzyParticles.Length; i++)
+        {
+            if(dizzyParticles[i] != null)
+            {
+                if (toggled)
+                {
+                    dizzyParticles[i].Play();
+                }
+                else
+                {
+                    dizzyParticles[i].Stop();
+                    if(i == 0)
+                    {
+                        dizzyParticles[i].Clear();
+                    }
+                }
+            }
+        }
+    }
 
+
+    private void PlayCrashAudioClip()
+    {
+        if(audioSource != null && crashAudioClips.Length > 0)
+        {
+            audioSource.PlayOneShot(crashAudioClips[Random.Range(0, crashAudioClips.Length)]);
+        }
+    }
 }
