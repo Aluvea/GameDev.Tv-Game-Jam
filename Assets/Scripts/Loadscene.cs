@@ -13,7 +13,7 @@ public class Loadscene : MonoBehaviour
   
     {
         
-        SceneManager.LoadScene("Playtest Scene 1", LoadSceneMode.Single);
+        SceneManager.LoadScene("Playtest Scene 2 - Aluvea", LoadSceneMode.Single);
         Time.timeScale = 1;
 
 
