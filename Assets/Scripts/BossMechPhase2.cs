@@ -51,6 +51,7 @@ public class BossMechPhase2 : MonoBehaviour
     [Header("Death Game Object References")]
     [SerializeField] SphereCollider bodySphereCollider;
     [SerializeField] CapsuleCollider eyeCollider;
+    [SerializeField] AudioClip deathAudioClip;
     [Header("Test Phase Settings")]
     [SerializeField] public bool testPhase2;
     [SerializeField] EnemyHealth[] EnemyHealthToDestroyUponTesting;
@@ -137,6 +138,7 @@ public class BossMechPhase2 : MonoBehaviour
 
     private void OnBossDefeated()
     {
+        audioSource.PlayOneShot(deathAudioClip);
         matManager.LerpEmissionToColor(Color.black);
         Debug.LogWarning("Boss Defeated!");
         bodySphereCollider.enabled = true;
@@ -147,7 +149,7 @@ public class BossMechPhase2 : MonoBehaviour
         stunnedBoxCollider.gameObject.SetActive(false);
         hitBoxCollider.gameObject.SetActive(false);
         // Maybe an explosion?
-
+        
     }
     
 

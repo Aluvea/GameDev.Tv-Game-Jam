@@ -19,7 +19,9 @@ public class MechAnimationController : AnimationController, IPlayMovementAnimati
     [SerializeField] float moveAnimationAcceleration = 3.0f;
     [SerializeField] string changeToLayerOnDeath = "DeadEnemies";
     [SerializeField] Dissolve dissolveAnimationReference;
-
+    [SerializeField] AudioSource mechWarriorAudioSource;
+    [SerializeField] AudioClip [] deathAudioClips;
+    [SerializeField] AudioClip[] shootAudioClips;
     /// <summary>
     /// The cached movement vector
     /// </summary>
@@ -40,6 +42,7 @@ public class MechAnimationController : AnimationController, IPlayMovementAnimati
     public void PlayAttackAnimation()
     {
         enemyAnimator.SetTrigger(attackTriggerParameterName);
+        PlayShootAudioClip();
     }
 
     /// <summary>
@@ -47,6 +50,7 @@ public class MechAnimationController : AnimationController, IPlayMovementAnimati
     /// </summary>
     public void PlayDeathAnimation()
     {
+        PlayRandomClipFromArray(deathAudioClips);
         AIRoamingController roamController = GetComponent<AIRoamingController>();
         roamController.SetRoam(false);
         GetComponent<MechAttackScript>().StopAttackingTarget();
@@ -55,4 +59,21 @@ public class MechAnimationController : AnimationController, IPlayMovementAnimati
         dissolveAnimationReference.PlayDissolveAnimation(1.4f, 6.0f, this.gameObject);
     }
 
+
+    private void PlayShootAudioClip()
+    {
+        PlayRandomClipFromArray(shootAudioClips);
+    }
+
+
+    private void PlayRandomClipFromArray(AudioClip [] clips)
+    {
+        if(mechWarriorAudioSource != null && clips != null)
+        {
+            if(clips.Length > 0)
+            {
+                mechWarriorAudioSource.PlayOneShot(clips[Random.Range(0, clips.Length)]);
+            }
+        }
+    }
 }

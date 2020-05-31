@@ -5607,6 +5607,7 @@ MonoBehaviour:
   - {fileID: 7582961729037083818}
   bodySphereCollider: {fileID: 838444293}
   eyeCollider: {fileID: 1619462560}
+  deathAudioClip: {fileID: 8300000, guid: dfd9ffb2701004343a1314910669e599, type: 3}
   testPhase2: 0
   EnemyHealthToDestroyUponTesting:
   - {fileID: 7781575672857452470}

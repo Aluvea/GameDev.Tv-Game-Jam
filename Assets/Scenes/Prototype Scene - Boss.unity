@@ -53212,27 +53212,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 748780122}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1843074417 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4227100771359345157, guid: 305cf27aa821b704091b17c2f361c56a,
-    type: 3}
-  m_PrefabInstance: {fileID: 7781575674119419821}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1843074420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1843074417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef98d5ae02195ca4ea957ae5613a6e20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorPropertyName: _EmissionColor
-  testMeshChangeRenderer: 0
-  colorTest: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &1843940493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4070984053497414, guid: f0a79492ccfa33543807bc41d1ffe7fa,
@@ -61945,15 +61924,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1139177815, guid: 305cf27aa821b704091b17c2f361c56a, type: 3}
-      propertyPath: matManager
-      value: 
-      objectReference: {fileID: 1843074420}
-    - target: {fileID: 4486101935189714348, guid: 305cf27aa821b704091b17c2f361c56a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
     - target: {fileID: 7781575673108042490, guid: 305cf27aa821b704091b17c2f361c56a,
         type: 3}
       propertyPath: m_LocalPosition.x
