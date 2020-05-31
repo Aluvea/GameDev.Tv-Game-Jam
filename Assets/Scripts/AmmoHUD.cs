@@ -29,10 +29,11 @@ public class AmmoHUD : MonoBehaviour
     {
         ammoText.text = "Ammo x " + ammoCount;
     }
+
     Coroutine comboBonusCoroutine = null;
     public void PlayComboBonusAnimation(int comboBonus)
     {
-        comboBonusText.text = "Combo Bonus + " + comboBonus;
+        comboBonusText.text = "Combo            Bonus         +           " + comboBonus;
         if (comboBonusCoroutine != null) StopCoroutine(comboBonusCoroutine);
         comboBonusCoroutine =  StartCoroutine(ShowComboBonusText());
     }
