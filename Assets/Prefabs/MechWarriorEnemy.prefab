@@ -2196,7 +2196,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 10820814655561552}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
@@ -2254,7 +2254,7 @@ MonoBehaviour:
   attackFrequencyMaxRandomizedTimeModifier: 1.5
   hitChance: 0.65
   neverMissRange: 5
-  attackRange: 65
+  attackRange: 40
   hitDamage: 3
   projectileLayerMask:
     serializedVersion: 2

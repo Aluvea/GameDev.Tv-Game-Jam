@@ -50,11 +50,11 @@ Material:
     - _Metallic: 0
     - _NormalScale: 1
     - _ToonShaded: 0
-    - _WaveHeight: 1
-    - _WaveSpeed: 30
+    - _WaveHeight: 2
+    - _WaveSpeed: 35
     - _XFreq: 0
     - _ZFreq: 0
     m_Colors:
     - _Color: {r: 0.10435208, g: 0.15476206, b: 0.3301887, a: 1}
-    - _DepthColor: {r: 0.15294118, g: 0.078431375, b: 0.09019608, a: 1}
+    - _DepthColor: {r: 0.078431375, g: 0.08098374, b: 0.15294118, a: 1}
     - _FColor: {r: 0.047169805, g: 0.030037375, b: 0.030037375, a: 1}
