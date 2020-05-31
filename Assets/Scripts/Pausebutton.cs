@@ -6,7 +6,7 @@ public class Pausebutton : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject PauseUIMenu;
-    [SerializeField] GameObject beatMapPlayerManager;
+    //[SerializeField] GameObject beatMapPlayerManager;
  
    
     void Update()
@@ -30,10 +30,10 @@ public class Pausebutton : MonoBehaviour
         PauseUIMenu.SetActive(false);
         Time.timeScale = 1f;
 
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        beatMapPlayerManager.SetActive(false);
+        //beatMapPlayerManager.SetActive(false);
 
     }
 
@@ -47,7 +47,7 @@ public class Pausebutton : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        beatMapPlayerManager.SetActive(true);
+        //beatMapPlayerManager.SetActive(true);
 
     }
 }
