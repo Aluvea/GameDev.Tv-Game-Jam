@@ -15,6 +15,8 @@ public class WeaponShooting : MonoBehaviour
     private AudioSource mAudioSource;
     [Tooltip("Whether or not shooting always applies to the player's combo, even when an enemy target isn't hit from a bullet")]
     [SerializeField] bool shootingAlwaysAppliesToCombo = false;
+    [SerializeField] AmmoManager ammoManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,28 @@ public class WeaponShooting : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoot();
+            // If the ammo manager isn't null, then check if we can shoot
+            if(ammoManager != null)
+            {
+                // If we can't shoot, then just reload
+                if (ammoManager.CanShoot == false)
+                {
+                    ammoManager.Reload();
+                }
+                // Otherwise, shoot a bullet
+                else
+                {
+                    Shoot();
+                }
+            }
+            // If the ammo manager is null, then just shoot
+            else
+            {
+                
+                Shoot();
+            }
+            
+            
         }
     }
 
@@ -78,7 +101,9 @@ public class WeaponShooting : MonoBehaviour
                 PlayMuzzleFlash();
                 mAudioSource.Play();
             }
-            
+            // If the ammo manager isn't null, then dispense ammo from the magazine clip
+            if(ammoManager != null) ammoManager.DispenseAmmo();
+
         }
         else
         {

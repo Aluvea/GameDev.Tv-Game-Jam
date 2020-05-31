@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 40
   enemyDamageHandler: {fileID: 0}
   enemyAnimator: {fileID: 0}
   lockableTargetReference: {fileID: 1644423370}
@@ -5588,7 +5588,7 @@ MonoBehaviour:
   maxRotatePowerTowardsPlayerSpeed: 145
   minRotatePowerTowardsPlayerSpeed: 40
   distanceForMinRotationPower: 9
-  chargeDamage: 3
+  chargeDamage: 12
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 768
@@ -7089,7 +7089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 45
   enemyDamageHandler: {fileID: 0}
   enemyAnimator: {fileID: 7781575672755318119}
   lockableTargetReference: {fileID: 7781575673748478290}
@@ -7318,7 +7318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 45
   enemyDamageHandler: {fileID: 0}
   enemyAnimator: {fileID: 7781575672857452471}
   lockableTargetReference: {fileID: 7781575673719276789}
@@ -7751,7 +7751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 50
   enemyDamageHandler: {fileID: 0}
   enemyAnimator: {fileID: 541711733307105765}
   lockableTargetReference: {fileID: 7781575674425918628}
@@ -8320,7 +8320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 50
   enemyDamageHandler: {fileID: 0}
   enemyAnimator: {fileID: 1126188040930367931}
   lockableTargetReference: {fileID: 7781575674748055286}
@@ -8633,14 +8633,14 @@ MonoBehaviour:
   cannonL: {fileID: 7781575672857452469}
   cannonR: {fileID: 7781575672755318117}
   attackFrequency: 3
-  attackBulletDamage: 0
+  attackBulletDamage: 0.8
   bulletBarageCount: 35
   maxBulletsToHitPlayerInBarage: 4
   bulletBarageShotFrequency: 0.04
   bulletBarageShotFrequencySalt: 0.09
   distanceFromPlayerToAttackWithShockwave: 5
   shockWaveParticles: {fileID: 1459800332}
-  shockWaveDamage: 1
+  shockWaveDamage: 8
   shockwaveJumpHeight: 5
   shockwaveJumpDuration: 0.9
   shockwaveWarningTime: 0.75
@@ -9013,7 +9013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 50
   enemyDamageHandler: {fileID: 0}
   enemyAnimator: {fileID: 1278226220342937200}
   lockableTargetReference: {fileID: 7781575673947527458}
@@ -9124,7 +9124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c1e1f94908a1439648a4d748dadf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 50
   enemyDamageHandler: {fileID: 0}
   enemyAnimator: {fileID: 6357476681770982691}
   lockableTargetReference: {fileID: 7781575674675144811}

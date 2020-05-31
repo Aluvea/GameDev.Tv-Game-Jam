@@ -161,6 +161,8 @@ public class BossMechPhase2 : MonoBehaviour
             explosionParticles[i].Play();
         }
         audioSource.PlayOneShot(explosionAudioClip);
+
+        // End the game?
     }
     
 

@@ -5,8 +5,8 @@ using UnityEngine;
 public class Pausebutton : MonoBehaviour
 {
     public static bool GameIsPaused = false;
-
-    public GameObject GameOvUI;
+    public GameObject PauseUIMenu;
+    //[SerializeField] GameObject beatMapPlayerManager;
  
    
     void Update()
@@ -25,17 +25,29 @@ public class Pausebutton : MonoBehaviour
 
     void Resume()
     {
-        GameOvUI.SetActive(false);
-        Time.timeScale = 1f;
         GameIsPaused = false;
+
+        PauseUIMenu.SetActive(false);
+        Time.timeScale = 1f;
+
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        //beatMapPlayerManager.SetActive(false);
+
     }
 
     void Pause()
     {
-        GameOvUI.SetActive(true);
-        Time.timeScale = 0f;
         GameIsPaused = true;
+
+        PauseUIMenu.SetActive(true);
+        Time.timeScale = 0f;
+
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        //beatMapPlayerManager.SetActive(true);
+
     }
 }
