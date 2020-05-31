@@ -9,6 +9,9 @@ public class DoorExit : MonoBehaviour
     [SerializeField] GameObject door;
     [SerializeField] List<EnemyHealth> enemies;
     [SerializeField] Animator doorAnimator;
+    [SerializeField] AudioSource doorSource;
+    [SerializeField] AudioClip doorOpenSFX;
+
     private bool open = false;
     private int enemiesDied = 0;
 
@@ -57,7 +60,8 @@ public class DoorExit : MonoBehaviour
         {
             Debug.Log("All enemies are dead" + " and Count is " + enemies.Count);
 
-            door.GetComponent<AudioSource>().Play();
+            doorSource.PlayOneShot(doorOpenSFX);
+            Debug.Log("Sound should be playing");
             doorAnimator.SetBool("open", true);
         }
 

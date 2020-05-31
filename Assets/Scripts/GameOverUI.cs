@@ -8,15 +8,13 @@ public class GameOverUI : MonoBehaviour
     [SerializeField] Canvas beatMapCanvas;
     [SerializeField] Canvas FPSUICanvas;
     [SerializeField] GameObject beatMapPlayerManager;
+    [SerializeField] GameObject pauseCanvas;
 
     // Start is called before the first frame update
     void Start()
     {
         gameOverCanvas.SetActive(false);
-        /*beatMapCanvas.enabled = true;
-        FPSUICanvas.enabled = true;
-        beatMapPlayerManager.SetActive(true);
-        */
+        pauseCanvas.SetActive(false);
     }
 
     // Update is called once per frame
@@ -31,13 +29,6 @@ public class GameOverUI : MonoBehaviour
         beatMapCanvas.enabled = false;
         FPSUICanvas.enabled = false;
         beatMapPlayerManager.SetActive(false);
-
     }
-    /*public void PlayHandle()
-    {
-        gameOverCanvas.enabled = false;
-        beatMapCanvas.enabled = true;
-        FPSUICanvas.enabled = true;
-        beatMapPlayerManager.SetActive(true);
-    }*/
+
 }

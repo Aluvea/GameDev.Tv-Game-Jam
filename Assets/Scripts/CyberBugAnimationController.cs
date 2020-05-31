@@ -17,6 +17,9 @@ public class CyberBugAnimationController : AnimationController, IPlayMovementAni
     [SerializeField] string deathTriggerParameter = "die";
     [Tooltip("How quickly movement animations should be interpolated (this is useful for smoothly transitioning stopped idle animations to moving animations)")]
     [SerializeField] float moveAnimationAcceleration = 3.0f;
+    [SerializeField] Dissolve dissolveAnimationReference;
+    [SerializeField] AudioSource cyberBugAudioSource;
+    [SerializeField] AudioClip[] deathAudioClips;
 
     /// <summary>
     /// The cached movement vector
@@ -45,10 +48,23 @@ public class CyberBugAnimationController : AnimationController, IPlayMovementAni
     /// </summary>
     public void PlayDeathAnimation()
     {
+        PlayRandomClipFromArray(deathAudioClips);
         GetComponent<AIRoamingController>().SetRoam(false);
         GetComponent<EnemyAI>().enabled = false;
         GetComponent<CharacterMovementController>().MoveCharacter(Vector2.zero);
         enemyAnimator.SetTrigger(deathTriggerParameter);
+        dissolveAnimationReference.PlayDissolveAnimation(1.4f, 6.0f, this.gameObject);
+    }
+
+    private void PlayRandomClipFromArray(AudioClip[] clips)
+    {
+        if (cyberBugAudioSource != null && clips != null)
+        {
+            if (clips.Length > 0)
+            {
+                cyberBugAudioSource.PlayOneShot(clips[Random.Range(0, clips.Length)]);
+            }
+        }
     }
 
     public void DestroyCyberBug()
