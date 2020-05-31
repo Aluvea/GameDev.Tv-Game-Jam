@@ -26,7 +26,7 @@ public class GlassDoorsMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name == "Player Prefab - CT")
+        if(other.name == "Player Prefab - Bryans Copy")
         {
             // Play animation to Close outerGlassDoor
             outerAnimator.SetBool("close", true);
