@@ -77,14 +77,22 @@ public class PlayerHealth : MonoBehaviour
             return maxHealth == currentHealth;
         }
     }
+
+    float lastTimePlayed = 0;
+    float frequency = 4.5f;
+
         private void PlayRandomClipFromArray(AudioClip[] clips)
     {
         if (playerAudioSource != null && clips != null)
         {
+            if ((Time.time - lastTimePlayed) < frequency) return;
+
             if (clips.Length > 0)
             {
                 playerAudioSource.PlayOneShot(clips[Random.Range(0, clips.Length)]);
             }
+
+            lastTimePlayed = Time.time;
         }
     }
 
