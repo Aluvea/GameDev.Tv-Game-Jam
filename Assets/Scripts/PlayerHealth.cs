@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] float currentHealth;
     [SerializeField] GameOverUI gameOverUI;
     [SerializeField] WeaponShooting weaponShooting;
+
+    [SerializeField] Canvas damgeScreen;
+    [SerializeField] Image bloodOverlay;
+    [SerializeField] Animator bloodAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +33,8 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth > 0)
         {
             currentHealth -= damage;
+            bloodAnimator.SetTrigger("damaged");
+
             healthUI.UpdateHealthUIMeter(currentHealth, maxHealth);
         }
 
@@ -49,8 +56,11 @@ public class PlayerHealth : MonoBehaviour
     public void GiftHealth(float health)
     {
         currentHealth += health;
+
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         healthUI.UpdateHealthUIMeter(currentHealth, maxHealth);
+
+
     }
 
     /// <summary>
@@ -63,4 +73,5 @@ public class PlayerHealth : MonoBehaviour
             return maxHealth == currentHealth;
         }
     }
+
 }
