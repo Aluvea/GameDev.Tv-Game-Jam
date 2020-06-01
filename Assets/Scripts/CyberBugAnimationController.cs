@@ -67,8 +67,8 @@ public class CyberBugAnimationController : AnimationController, IPlayMovementAni
         }
     }
 
-    public void DestroyCyberBug()
+    /*public void DestroyCyberBug()
     {
         Destroy(this.gameObject);
-    }
+    }*/
 }

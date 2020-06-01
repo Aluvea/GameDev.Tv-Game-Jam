@@ -1530,7 +1530,7 @@ GameObject:
   - component: {fileID: 7869470354702628547}
   - component: {fileID: 7869470354702628548}
   - component: {fileID: 7118150286770742768}
-  - component: {fileID: -5278395387678099985}
+  - component: {fileID: 1993334904594300425}
   m_Layer: 11
   m_Name: Polygonal Metalon Red
   m_TagString: Untagged
@@ -1627,7 +1627,7 @@ MonoBehaviour:
   attackTriggerParameterName: attack
   deathTriggerParameter: die
   moveAnimationAcceleration: 3
-  dissolveAnimationReference: {fileID: -5278395387678099985}
+  dissolveAnimationReference: {fileID: 1993334904594300425}
   cyberBugAudioSource: {fileID: 6609749492460308485}
   deathAudioClips:
   - {fileID: 8300000, guid: 3cc2617e2455bbd4dba063ee6748d430, type: 3}
@@ -1743,7 +1743,7 @@ MonoBehaviour:
   pathWanderDuration: 5
   navMeshLayerName: NavMesh
   pathPositionReferences: []
---- !u!114 &-5278395387678099985
+--- !u!114 &1993334904594300425
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1755,8 +1755,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e496c597152364d83283b44a9d4ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderers: []
-  dissolveMaterial: {fileID: 2100000, guid: e318ecb29444643f09e7c0d3dea07387, type: 2}
+  renderers:
+  - {fileID: 7869470352997434476}
+  dissolveMaterial: {fileID: 2100000, guid: 778ba3871fd9e314892873d3a2783585, type: 2}
   dissolveParameterName: _Cutoff
 --- !u!1 &7869470354989254527
 GameObject:
