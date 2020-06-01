@@ -72,10 +72,7 @@ public class MechScout : MonoBehaviour
             if (scout == null) continue;
             if(Vector3.Distance(lineOfSightReference.transform.position, scout.lineOfSightReference.position) <= scoutCallDistance)
             {
-                if(Physics.Linecast(lineOfSightReference.transform.position, scout.lineOfSightReference.position, lineOfSightTestMask) == false)
-                {
-                    scout.AttackPlayer();
-                }
+                scout.AttackPlayer();
             }
         }
     }

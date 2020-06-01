@@ -286,13 +286,15 @@ public class BossMech : MonoBehaviour
         }
         else
         {
-            
+            agent.enabled = true;
             while (Time.time < targetTimestamp - jumpDuration)
             {
+                
                 agent.SetDestination(PlayerController.PlayerCamera.transform.position);
                 movementController.MoveCharacter(CharacterMovementController.AgentVelocityToVector2DInput(agent));
                 yield return null;
             }
+            agent.enabled = false;
         }
 
         jumpVector.y = originalYPosition;
