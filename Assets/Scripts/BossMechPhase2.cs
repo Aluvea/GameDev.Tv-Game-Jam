@@ -377,10 +377,22 @@ public class BossMechPhase2 : MonoBehaviour
                 }
             }
         }
+        hitSomething = Physics.CheckBox(wallsCollisionRef.position, wallsCollisionRef.lossyScale / 2.0f, transform.rotation, wallsLayerMask.value);
+        if (hitSomething == false) return false;
 
+        // Iterate through all the wall colliders hit
+        Collider[] wallColliders = Physics.OverlapBox(wallsCollisionRef.position, wallsCollisionRef.lossyScale / 2.0f, transform.rotation, wallsLayerMask.value);
+        PillarScript pillarScript = null;
+        foreach (Collider collider in wallColliders)
+        {
+            pillarScript = collider.GetComponent<PillarScript>();
+            if (pillarScript != null)
+            {
+                pillarScript.DestructPillars();
+            }
+        }
         // Otherwise, just check if a wall has been hit with the wall collision check settings
-        return Physics.CheckBox(wallsCollisionRef.position, wallsCollisionRef.lossyScale / 2.0f, transform.rotation, wallsLayerMask.value);
-
+        return true;
     }
 
     private void ToggleDizzeParticles(bool toggled)
