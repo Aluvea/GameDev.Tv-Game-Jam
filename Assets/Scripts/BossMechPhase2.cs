@@ -10,6 +10,7 @@ public class BossMechPhase2 : MonoBehaviour
     [SerializeField] CapsuleCollider hitBoxCollider;
     [SerializeField] EnemyHealth healthRef;
     [SerializeField] BossMeshMaterialManager matManager;
+
     [Header("Roll Build Up Settings")]
     [Tooltip("The rotation power towards the player (while the mech is targetting the player)")]
     [SerializeField] float rotateSpeed = 145;
@@ -54,7 +55,7 @@ public class BossMechPhase2 : MonoBehaviour
     [SerializeField] AudioClip deathAudioClip;
     [SerializeField] AudioClip explosionAudioClip;
     [SerializeField] ParticleSystem[] explosionParticles;
-
+    [SerializeField] GameOverUI winScreen;
     [Header("Test Phase Settings")]
     [SerializeField] public bool testPhase2;
     [SerializeField] EnemyHealth[] EnemyHealthToDestroyUponTesting;
@@ -136,10 +137,10 @@ public class BossMechPhase2 : MonoBehaviour
             // Charge
             yield return Charge();
         }
-        OnBossDefeated();
+        yield return OnBossDefeated();
     }
 
-    private void OnBossDefeated()
+    private IEnumerator OnBossDefeated()
     {
         audioSource.PlayOneShot(deathAudioClip);
         matManager.LerpEmissionToColor(Color.black);
@@ -163,6 +164,24 @@ public class BossMechPhase2 : MonoBehaviour
         audioSource.PlayOneShot(explosionAudioClip);
 
         // End the game?
+
+        yield return new WaitForSeconds(5.0f);
+        WeaponShooting weaponShooting = FindObjectOfType<WeaponShooting>();
+        if(weaponShooting != null) Destroy(weaponShooting);
+        PlayerController playerController = FindObjectOfType<PlayerController>();
+        if (playerController != null) Destroy(playerController);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        
+        winScreen.gameObject.SetActive(true);
+        winScreen.HandleDeath();
+        yield return null;
+        yield return new WaitForEndOfFrame();
+        yield return null;
+        winScreen.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
     
 
