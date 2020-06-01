@@ -533,7 +533,7 @@ MonoBehaviour:
   gravity: -9.8
   groundLayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 1079
   horizontalMove: Horizontal
   verticalMove: Vertical
   lookXAxis: Mouse X
@@ -559,6 +559,11 @@ MonoBehaviour:
   currentHealth: 0
   gameOverUI: {fileID: 0}
   weaponShooting: {fileID: 1342347323}
+  damgeScreen: {fileID: 0}
+  bloodOverlay: {fileID: 0}
+  bloodAnimator: {fileID: 0}
+  playerAudioSource: {fileID: 0}
+  clips: []
 --- !u!95 &414982848
 Animator:
   serializedVersion: 3
