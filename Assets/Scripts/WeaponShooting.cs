@@ -12,7 +12,8 @@ public class WeaponShooting : MonoBehaviour
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] GameObject hitEffect;
     [SerializeField] LayerMask shootLayerMask;
-    private AudioSource mAudioSource;
+    [SerializeField] AudioSource mAudioSource;
+    [SerializeField] AudioClip[] clips;
     [Tooltip("Whether or not shooting always applies to the player's combo, even when an enemy target isn't hit from a bullet")]
     [SerializeField] bool shootingAlwaysAppliesToCombo = false;
     [SerializeField] AmmoManager ammoManager;
@@ -75,7 +76,7 @@ public class WeaponShooting : MonoBehaviour
                 if (shootingAlwaysAppliesToCombo) BeatSyncReceiver.BeatReceiver.RequestInputAction();
                 CreateHitImpact(hit);
                 PlayMuzzleFlash();
-                mAudioSource.Play();
+                PlayRandomClipFromArray(clips);
             }
             else if (BeatSyncReceiver.BeatReceiver.RequestInputAction(out BeatInputSync playerSync))
             {
@@ -99,7 +100,7 @@ public class WeaponShooting : MonoBehaviour
                 Debug.Log("Damage is " + damage + " on " + target.gameObject.name);
                 CreateHitImpact(hit);
                 PlayMuzzleFlash();
-                mAudioSource.Play();
+                PlayRandomClipFromArray(clips);
             }
             // If the ammo manager isn't null, then dispense ammo from the magazine clip
             if(ammoManager != null) ammoManager.DispenseAmmo();
@@ -116,5 +117,15 @@ public class WeaponShooting : MonoBehaviour
         
         GameObject impact = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impact, 1);
+    }
+    private void PlayRandomClipFromArray(AudioClip[] clips)
+    {
+        if (mAudioSource != null && clips != null)
+        {
+            if (clips.Length > 0)
+            {
+                mAudioSource.PlayOneShot(clips[UnityEngine.Random.Range(0, clips.Length)]);
+            }
+        }
     }
 }
