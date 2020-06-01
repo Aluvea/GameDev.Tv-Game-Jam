@@ -15,6 +15,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] Image bloodOverlay;
     [SerializeField] Animator bloodAnimator;
 
+    [SerializeField] AudioSource playerAudioSource;
+    [SerializeField] AudioClip[] clips;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +37,7 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth -= damage;
             bloodAnimator.SetTrigger("damaged");
+            PlayRandomClipFromArray(clips);
 
             healthUI.UpdateHealthUIMeter(currentHealth, maxHealth);
         }
@@ -71,6 +75,16 @@ public class PlayerHealth : MonoBehaviour
         get
         {
             return maxHealth == currentHealth;
+        }
+    }
+        private void PlayRandomClipFromArray(AudioClip[] clips)
+    {
+        if (playerAudioSource != null && clips != null)
+        {
+            if (clips.Length > 0)
+            {
+                playerAudioSource.PlayOneShot(clips[Random.Range(0, clips.Length)]);
+            }
         }
     }
 
